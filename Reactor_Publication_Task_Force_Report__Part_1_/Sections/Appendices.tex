@@ -1,0 +1,109 @@
+\section{Fitting Techniques}
+\label{app:fit}
+
+
+To perform a fit, a classical approach is to maximize a likelihood derived from the probability to observe the distribution to fit in the available sample, given the PDF from which it is assumed to be drawn.
+
+In the case of a binned distribution, assuming that the dataset is sufficiently large to ensure an asymptotic behavior and assuming the effect of systematic uncertainties is also gaussian, the above-mentioned probability is approximated by a multidimensional gaussian distribution, as is the likelihood:
+\begin{equation}
+\label{eq:likelihoodMultiGauss}
+	{\cal L} \equiv \mathcal{P}= \frac{1}{\sqrt{(2\pi)^N|V|}}e^{-\frac{1}{2}\left(  \boldsymbol{x-\mu(\theta,\eta)}  \right)^TV^{-1}\left(  \boldsymbol{x-\mu(\theta,\eta)}  \right)  }
+\end{equation}
+where $N$ is the number of bins, \textit{\textbf{x}} the vector containing the number of entries in each bin in the data,   $\mathbf{\mu}$  the vector containing the predictions based on the modeled PDF of the energy distribution, $\mathbf{\theta}$ the oscillation parameters, $\mathbf{\eta}$ the vector containing the nuisance parameters and $V$ the covariance matrix, made of a component accounting for statistical fluctuations and another one accounting for systematic uncertainties, $V = V_{stat}+V_{syst}$. 
+
+Replacing the maximization of ${\cal L}$ by the minimization of $-2ln\mathcal{L}$ implies to minimize:
+\begin{equation}
+	\chi^2\equiv-2ln\mathcal{L}=\left(\boldsymbol{x-\mu(\theta,\eta)}\right)^T\cdot \boldsymbol V^{-1}\cdot \left(\boldsymbol{x-\mu(\theta,\eta)}\right)+ln|V|,
+	\label{eq:chi_sq}
+\end{equation}
+
+The frameworks used to produce the results presented in this note minimize several versions of this test statistics. They differ in the way they treat $V_{stat}$ and in the way they treat the systematic uncertainties. 
+
+
+The $V_{stat}$ matrix is a diagonal matrix which elements are an evaluation of the uncertainty on the number of entries in each bin. It's equivalent to evaluate the expectation value of this number according to the Poisson statistics. In the Neyman approach, the observations \textit{\textbf{x}} are used, while the Pearson approach uses the predictions $\mathbf{\mu}(\theta,\eta)$. Both approaches neglect the dependence of $ln|V|$ on $\mathbf{\theta}$ and $\mathbf{\eta}$ , removing it from their formulation. They are both known to potentially bias the evaluation of the $\mathbf{\theta}$ parameters resulting from the fit. In~\cite{Ji_2020}, a combined Neyman Pearson test statistics was introduced, where 
+\begin{equation}
+	V_{stat} = \frac{1}{3}V_{stat}^{Neyman}+\frac{2}{3}V_{stat}^{Pearson}
+\end{equation}
+It allows, to an extent which depends on the specifics of the fit under consideration, to reduce the bias. The respective biases affecting the Pearson and Neyman approaches compensating each other. We will call this test statistic $\chi^2_{CNP}$. Some studies observed that in certain conditions a bias (particularly on $sin^2\theta_{12}$) remains when using $\chi^2_{CNP}$. It can be solved by using the Pearson approach {\it without} neglecting $ln|V|$, i.e. by being consistent with the probability law data are assumed to be drawn from. We call the corresponding test statistics $\chi^2_{Pearson+lnV}$ .
+
+
+The systematic uncertainties are accounted for either via the $V_{syst}$ part of the covariance matrix or by letting nuisance parameters vary during minimization. This variation is constrained according to prior evaluations of these parameters. Assuming for these evaluations a gaussian behavior (and therefore that gaussians multiply the right hand side of 
+Eq.~\ref{eq:likelihoodMultiGauss}) pull terms arise in the test statistics: 
+\begin{equation}
+	\chi^2 =\left(\boldsymbol{x-\mu(\theta,\eta)}\right)^T\cdot \boldsymbol V^{-1}\cdot \left(\boldsymbol{x-\mu(\theta,\eta)}\right) + ln|V| + \sum_{i}\left(\frac{\eta_{i}-\bar{\eta}_i}{\sigma_{i}}\right)^{2},
+	\label{eq:chi_sq}
+\end{equation}
+where $\bar{\eta}_i$'s are the prior preferred values of the nuisance parameters and $\sigma_i$'s
+the uncertainties on this prior knowledge and where we assume no correlations among $\eta_i$'s. Although it's possible in principle to treat all systematic effects via nuisance parameters, it's often easier or more practical to still treat some of them via $V_{syst}$.
+
+The studies presented in this note have been carried out using 4 frameworks: ORSA, GNA, IHEP and AveNue. Results from all of them are discussed in Sections~\ref{sec:LowStatMeas} and~\ref{sec:NMOwithLBL}. 
+Table~\ref{tab:Framewk_options} specifies the test statistics used by each framework and the methods adopted to incorporate statistical effects.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc|cc}
+\toprule
+Framework & $\chi^2_{CNP}$ & $\chi^2_{Pearson}$ & $\chi^2_{Pearson+lnV}$ & $V_{syst}$ & Nuisance \\
+\midrule
+ORSA      & asimov  & -      & pseudosamples & spectrum b2b  & All others \\
+AveNue    & -       & asimov & pseudosamples &    All        &  \\
+IHEP      & asimov  & -      & pseudosamples & spectrum b2b   & All others\\
+GNA       & asimov  & -      & pseudosamples &  spectrum b2b   & All others \\
+\bottomrule
+\end{tabular}
+\caption{Test statistics used by each framework and the methods adopted to incorporate statistical effects. Here,the terms "Asimov" and "pseudosamples" designate the cases where fits to an Asimov sample or to pseudosamples are performed. The right part of the table explains which systematic effects are treated via the covariance matrix and which are treated via nuisance parameters.}
+\label{tab:Framewk_options}
+\end{table}
+
+In addition to the Gaussian-based approximations discussed above, the Poisson-based test statistic is also widely used, especially when dealing with small event counts or in cases where the Gaussian approximation may not be valid. This approach starts from the exact Poisson likelihood, which reflects the probability of observing a certain number of counts in each bin given the expected value.
+For each bin $i$, the Poisson probability of observing $x_i$ events given the predicted count $\mu_i$ is
+
+$$P(x_i \mid \mu_i) = \frac{\mu_i^{x_i} e^{-\mu_i}}{x_i!}.$$
+For a binned dataset with independent Poisson-distributed entries, the log-likelihood can be written as:
+
+\begin{equation}  
+\label{eq:poisson_like}  
+\ln \mathcal{L}_{Poisson} = \sum_{i} \left( x_i \ln \mu_i(\theta, \eta) - \mu_i(\theta, \eta) - \ln x_i! \right),  
+\end{equation}
+
+where $x_i$ is the observed count in bin $i$, and $\mu_i(\theta, \eta)$ is the predicted count depending on oscillation parameters $\theta$ and nuisance parameters $\eta$.
+
+Dropping the constant term $\ln x_i!$, which does not depend on the fit parameters, and defining a test statistic based on the negative log-likelihood gives the so-called Poisson $\chi^2$:
+
+\begin{equation}  
+\chi^2_{Poisson} = 2 \sum_{i} \left( \mu_i(\theta, \eta) - x_i + x_i \ln \frac{x_i}{\mu_i(\theta, \eta)} \right),  
+\label{eq:chi2_poisson}  
+\end{equation}
+
+This test statistic does not rely on the Gaussian approximation and is particularly useful in low-statistics low exposure. When systematic uncertainties are included, they are typically handled through nuisance parameters with pull terms added in the $\chi^2$ function Eq.~\ref{eq:chi2_poisson}:
+
+\begin{equation}  
+\chi^2 = \chi^2_{Poisson} + \sum_{i}\left(\frac{\eta_{i}-\bar{\eta}_i}{\sigma_{i}}\right)^2.  
+\end{equation}
+
+This approach ensures full consistency with the Poisson probability law from which the observed data are drawn, and avoids the potential biases arising from approximating the statistical uncertainty using Gaussian distributions.
+
+At IHEP, the Poisson-based fitter has been fully developed and validated. It is now ready for application in the first physics publication based on low-exposure data.
+
+\section{Pseudo-Experiment Generation}\label{appendix:pseudoexp}
+
+Most of the analyses presented in this note are based on a large number pseudo experiments, each consisting of fitting a toy energy distribution, randomly drawn from a model of this distribution. The values of the parameters the model depends on, as well as the uncertainties up to which they are expected to be known -- that are necessary to determine the fluctuations between toy distributions -- are close to those assumed in JUNO’s recent NMO sensitivity paper~\cite{JUNO:2024jaw}. There are few updates are worth mentioning: 
+\begin{itemize}
+    \item The reference values of $\Delta m^2_{21}$, $\sin^2(\theta_{12})$ and $\sin^2(\theta_{13})$ are taken from the 2024 issue of the PDG (instead of 2020) and that for $\Delta m^2_{31}$ is set to Daya Bay 's measurement (save for AveNuE). 
+    \item  The antineutrino spectrum bin-to-bin shape uncertainty is assumed to be provided by TAO's spectrum,  scaling its statistical part according to the exposure. In particular, this replaces the combined JUNO+TAO fit presented in~\cite{JUNO:2024jaw}. 
+\end{itemize}
+
+In addition to statistical fluctuations, the pseudosamples used in the studies  presented in this document also incorporate 
+the fluctuations needed to account  for systematic uncertainties. The Avenue framework proceeds in two steps to produce a pseudosample:
+\begin{itemize}
+    \item First, it distorts the PDF computed with the nominal values of the parameters involved in this theoretical model of the energy distribution. Each component is adjusted by adding a random shift vector, $\vec{\delta \mu}$, to the prediction vector, $\vec{\mu}(\theta,\eta)$  (see section~\ref{app:fit}). The elements of this vector are drawn from an N-dimensional Gaussian distribution, whose covariance matrix is the systematic component ($V_{syst}$) of the covariance matrix used in the $\chi^2$ minimized by the fit. To simplify this problem into a series of independent one-dimensional Gaussian draws, despite the correlations among the  $\delta\mu_i$’s, a Cholesky decomposition is carried out.
+    \item Second, the toy energy distribution with statistical fluctuations is generated: the number of entries in each bin is drawn from a Poisson distribution with an expectation of  $\mu_i+\delta \mu_i$.
+\end{itemize}
+The studies based on the other frameworks proceed in three steps:
+\begin{itemize}
+    \item First, random values of the PDF’s parameters treated as nuisance parameters are drawn from the multidimensional Gaussian that encompasses the prior knowledge of them. 
+    \item Second, the PDF of the energy distribution is computed using these values.
+    \item Finally, a pseudo sample is drawn from this PDF to incorporate statistical fluctuations.
+\end{itemize}
+
+

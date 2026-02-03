@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\input{packages}
+\input{new_commands}
+
+\title{Reactor Publication Task Force Report Part 1: Challenges Involved in a Low-Statistics Measurement of the Oscillation Parameters}
+%\author{Publication Task Force}
+\input{authors.tex}
+\date{October 2025}
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+% \def\equationautorefname{Eq.}
+\def\equationautorefname#1#2\null{%
+  Eq.#1(#2\null)%
+}
+
+\setcounter{tocdepth}{4} 
+
+\maketitle
+
+\begin{abstract}
+This report explores in detail the challenges involved in measuring $\Delta m^2_{31}$ at JUNO with limited statistics, corresponding to less than one year of data. These challenges, which arise from the strong influence of statistical fluctuations on $\Delta\chi^2$ profiles, include the appearance of spurious minima, multiple disjoint confidence intervals, and inadequate coverage when relying on Wilks’ theorem. It is shown that these effects do not significantly impact the solar oscillation parameters $\Delta m^2_{21}$ and $\sin^2\theta_{12}$. Possible mitigations are also investigated, including the implementation of a Feldman–Cousins approach and the use of external constraints on $\Delta m^2_{31}$. The use of Daya Bay data to constrain the unoscillated reactor antineutrino spectrum is likewise studied, demonstrating that a precision comparable to that achievable with TAO can be maintained at low statistics. Finally, the potential implications of a low-statistics JUNO measurement of $\Delta m^2_{31}$ for ongoing long-baseline accelerator experiments are assessed, showing that it could substantially strengthen their mass ordering sensitivity depending on JUNO’s central value and precision.
+\end{abstract}
+
+\clearpage
+\tableofcontents
+
+\section{Introduction}
+\input{Sections/1_motivation}
+% Note: include a brief paragraph explaining inputs used.
+
+%\section{Inputs and Assumptions [Vanessa, Han, Dmitry]}
+
+%\section{Low-Stats Measurement of Oscillation Parameters}
+%\label{sec:LowStatMeas}
+\input{Sections/2_firstresult_lowstat}
+
+\section{Summary}
+\input{Sections/3_summary}
+
+\printbibliography[heading=bibintoc]
+
+\newpage
+
+\begin{appendices}
+\input{Sections/Appendices}
+\end{appendices}
+
+\end{document}

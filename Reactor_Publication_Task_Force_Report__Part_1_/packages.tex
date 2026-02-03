@@ -1,0 +1,47 @@
+\usepackage[natbib=true,sorting=none,backrefstyle=none, style = phys, biblabel=brackets]{biblatex}
+
+\addbibresource{bibliography.bib} 
+
+\usepackage{booktabs}
+\usepackage{amsmath,amsfonts,amsthm} % Math packages for equations
+\usepackage{caption}
+\usepackage{bm}
+\usepackage{soul}
+
+\usepackage{siunitx}
+\usepackage{xspace}
+\usepackage{amssymb}
+\usepackage{authblk}
+
+\usepackage[top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage[hidelinks]{hyperref}
+	\hypersetup{
+		colorlinks   = true, 
+        linkcolor    = blue, 
+        citecolor= blue,
+		urlcolor= blue,
+		}
+
+\usepackage{graphicx} % Required for inserting images
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage{comment}
+\usepackage{rotating}
+
+\usepackage{titlesec}
+
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries} % formatting: normal font, normal size, bold
+  {\theparagraph}                   % numbering (you can omit this or customize)
+  {1em}                             % space between number and title
+  {}                                % code before the title
+\titlespacing*{\paragraph}
+  {0pt}    % left margin
+  {1.5ex plus 1ex minus .2ex}  % space before
+  {1ex plus .2ex}  % space after
+  

@@ -1,0 +1,481 @@
+\section{Efficiency calculation and systematic uncertainty analysis}
+
+\subsection{Detection efficiency}
+The predicted IBD number is calculated as
+\begin{equation}
+    N_{IBD} = \phi_{\nu}\sigma_{\rm IBD}N_{p} \epsilon_{\mu}\epsilon_{m}\epsilon_{\rm FV}\epsilon_{ep}\epsilon_{ed}\epsilon_{dt}\epsilon_{dr}
+    \label{eq:pred_ibd_num}
+\end{equation}
+where $\phi_{\nu}$ is the reactor neutrino flux, $\sigma_{\rm IBD}$ the IBD reaction cross section, $N_{p}$ the number of target proton and $\epsilon_{i}$ the detection efficiency for the i-th cut.
+
+In this section, we present the estimation of all the detection efficiencies and their corresponding systematic uncertainties.
+
+
+\subsubsection{Target proton number}
+We take the results from DocDB-14944.
+The target proton number is estimated as $1.442 \times 10^{33}$ with the relative uncertainty 1\%.
+
+\subsubsection{Fiducial volume cut}
+In principle, the efficiency of FV cut can be calculated analytically. In this geometric calculation, we assume a perfect sphere, and the efficiency can be calculated as 
+\begin{equation}
+    \epsilon_{\rm FV} = \left(\frac{R_{\rm FV}}{R_{\rm CD}}\right)^{3} = 81.01\%
+    \label{eq:fv_eff}
+\end{equation}
+Including the efficiency of z cut, the final effiency is 80.57\%.
+Considering the bias of vertex reconstruction of 10 cm [DocDB-14862], it leads to $\sim$ 1.8\% uncertainty of the efficiency.
+
+To do a data-driven estimation of the efficiency, spatially homogeneous samples are needed.
+There are three alternative samples for the estimation: B12, SPN tagged Li9 and high-energy IBDs.
+Moreover, the systematic uncertainty can be constrained by comparing the analysis using these three kinds of samples as well.
+
+For B12 events, MC studies reveal that B12 events produced by muons with deposited energy > 0.5 GeV have nearly uniform radial vertex distribution (with the contribution from muons with energy < 0.5 GeV being negligible), as shown in Fig. \ref{fig:B12_r3_mc}.
+This conclusion is confirmed with data, as shown in Fig. \ref{fig:B12_r3_data}.
+Significant edge effect is found in data, which needs more careful investigation.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.52\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/B12_r3_mc.png}
+    \caption{}
+    \label{fig:B12_r3_mc}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.43\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/B12_r3_data.png}
+    \caption{}
+    \label{fig:B12_r3_data}
+  \end{subfigure}
+  \caption{Radial vertex distribution of B12 in (a) MC and (b) data tagged by muons with reconstructed energy > 0.5 GeV.}
+\end{figure}
+
+As shown in Fig. \ref{fig:li9_r3_mc}, Li9 events produced by muons with deposited energy > 0.5 GeV have nearly uniform radial vertex distribution as well, which can be selected with neutron tagging in data.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/li9_r3_mc_v2.png}
+    \caption{Radial vertex distribution of Li9 in MC.}
+    \label{fig:li9_r3_mc}
+\end{figure}
+
+The efficiency also can be estimated with high-energy IBD samples, which is a more reasonable way [DocDB-15101].
+To study the efficiency, FV cut is removed and high-energy cut is applied.
+As shown in Fig. \ref{fig:IBD_candidate_spectra_fvCut}, after the cut ($E_p$ > 3.5 MeV), the accidental background should be negligible.
+Additionally, SPN veto is removed to include more statistics and ensure uniform vertex distribution.
+Fig. \ref{fig:IBD_r3_ed_beforeSPN} shows the $r^3$-vertex distribution after all above cuts, indicating nearly uniform radial distribution.
+
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/IBD_candidate_spectra_fvCut.png}
+    \caption{}
+    \label{fig:IBD_candidate_spectra_fvCut}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.5\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/IBD_r3_ed_beforeSPN.png}
+    \caption{}
+    \label{fig:IBD_r3_ed_beforeSPN}
+  \end{subfigure}
+  \caption{(a) Prompt spectra of IBD candidates without (blue line) and with (red line) FV cut. (b) $r^3$-$E_d$ distribution  of IBD candidate with prompt energy > 3.5 MeV and without FV cut and SPN veto.}
+\end{figure}
+
+Subsequently, the FV cut efficiency could be estimated as
+\begin{equation}
+    \epsilon^{\rm IBD}_{\rm FV} = \frac{\text{(IBDs with FV cut)}}{\text{(IBDs without FV cut)} \times (1+\epsilon_{\text{spill-out}})} (E_p > 3.5 \text{MeV})
+    \label{eq:fv_eff_ibd}
+\end{equation}
+where $\epsilon_{\text{spill-out}}$ is the correction factor by spill-out effect where IBD neutrons could leak out LS region near the CD edge. Using 10 keV neutron MC samples provided by Peidong Yu, $\epsilon_{\text{spill-out}}$ is estimated as 2.4\%.
+Then, the efficiency is calculated as ($79.61 \pm 0.58 (\text{stat.})$)\%.
+The relative difference between geometric calculation and the estimation based on high-energy IBD sample is 1.2\%, which is consistent with each other.
+
+The uncertainty could be estimated by the variation of the number density of IBD candidates near the FV edge.
+As shown in Fig. \ref{fig:IBD_r3_density_omilrec}, the average density in FV is calculated as $d_{\text{inFV}}$ = 0.186 events/m$^3$, and the density in $r=[16, 16.5]$ m regions is $d_{r=[16, 16.5] m}$ =  0.15 events/m$^3$.
+Then the uncertainty is estimated as 
+\begin{equation}
+    \sigma_{\rm FV} = 1 - \frac{V(r<16m) \times d_{\text{inFV}} + V(16<r<16.5m) \times d_{r=[16, 16.5] m}}{V(r<16.5m) \times d_{\text{inFV}}} = 1.6\%
+    \label{eq:fv_eff_ibd}
+\end{equation}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/IBD_r3_density_omilrec.png}
+    \caption{The number density of IBD candidates along radial direction. The black dashed line represents the average density in FV.}
+    \label{fig:IBD_r3_density_omilrec}
+\end{figure}
+
+
+\subsubsection{Muon veto}
+To suppress cosmogenic backgrounds, three types of muon veto strategies are designed:
+\begin{itemize}
+    \item WP and CD muon veto: apply on delayed signals over the whole target volume.
+    \item Spallation neutron (SPN) veto: apply on delayed signals inside the sphere around spallation neutron events.
+    \item Muon track veto (not included in this note): apply on delayed signals around muon tracks.
+\end{itemize}
+
+For the first type of muon veto, the corresponding efficiency is calculated as the ratio of live time to DAQ time:
+\begin{equation}
+    \epsilon_{\mu,\text{wholeV}} = \frac{(\text{Live time after first type of veto})}{(\text{DAQ time})} = 95.55\%
+    \label{eq:muon_veto_eff_all_volume}
+\end{equation}
+The uncertainty mainly comes from the time precision ($\sim$ 8 ns), which is negligible.
+
+Since the SPN veto is just applied on specific volume, the above estimation method is not applicable any more.
+A novel grid method, named as XYZFrame, is proposed to calculate SPN veto efficiency with negligible uncertainty [DocDB-14949].
+In this method, the whole target volume is divided into cubic cells whose radius can be optimized according to the resolution of vertex reconstruction, as shown in Fig. \ref{fig:xyzframe_sketch}. 
+Then, we calculate their live time by regarding each cell as a sub-detector and integrate over all the cell to get the total live time and efficiency.
+%Fig. \ref{fig:muon_spn_veto_eff} shows the calculated results.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/xyzframe_sketch.png}
+    \caption{Sketch of XYZFrame method for the calculation of the SPN veto efficiency.}
+    \label{fig:xyzframe_sketch}
+\end{figure}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{4_efficiency/muon_spn_veto_eff.png}
+%     \caption{Time variation of calculated muon veto and SPN veto efficiency (updating).}
+%     \label{fig:muon_spn_veto_eff}
+% \end{figure}
+
+
+\subsubsection{Multiplicity cut}
+In principle, the multiplicity cut efficiency can be calculated with the single rate analytically:
+\begin{equation}
+    \epsilon_{m} = e^{-(3R_{s}+3R_{c}+R_{\mu})T_{\rm corr}} \left( \int^{T_{\rm veto}}_{0} R_{\mu} e^{-R_{\mu}t_{1}} e^{-\int^{T^{\rm veto}}_{T_{\rm veto}-t_{1}} f(t_{2})dt_{2} } dt_{1} + e^{-R_{\mu}T_{\rm veto}} \right)
+    \label{eq:multi_eff_cal}
+\end{equation}
+
+The efficiency also can be calculated with live time method with negligible uncertainty, as shown in Fig. \ref{fig:multi_eff_cal} [DocDB-14397].
+Fig. \ref{fig:multi_eff_vs_time} shows the calculated results.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\linewidth]{4_efficiency/multi_eff_cal.png}
+    \caption{Sketch for the calculation of the multiplicity cut efficiency. Green solid circles represent real events, and bule dashed circles imaginary signals.}
+    \label{fig:multi_eff_cal}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\linewidth]{4_efficiency/multi_eff_vs_time.jpg}
+    \caption{Time variation of calculated multiplicity cut efficiency.}
+    \label{fig:multi_eff_vs_time}
+\end{figure}
+
+
+\subsubsection{Prompt energy cut}
+The prompt energy of IBDs is constrained within (0.7, 12) MeV. The in-efficiency mainly comes from two parts: energy leakage and energy resolution.
+
+With the tight FV cut, the energy leakage effect is negligible, as confirmed with MC samples and shown in \ref{fig:ep_mc_all}, \ref{fig:ep_mc_169} and \ref{fig:ep_mc_165}.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/promptSpec_logy_mc_ibd_all.png}
+    \caption{}
+    \label{fig:ep_mc_all}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/promptSpec_logy_mc_ibd_169.png}
+    \caption{}
+    \label{fig:ep_mc_169}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/promptSpec_logy_mc_ibd_165.png}
+    \caption{}
+    \label{fig:ep_mc_165}
+  \end{subfigure}
+  \caption{Prompt spectra of MC IBDs with different FV cuts: (a) no FV cut, (b) FV < 16.9 m and (c) FV < 16.5 m.}
+\end{figure}
+
+To study the in-efficiency caused by the energy resolution, we use calibration data of Ge68 source with two 0.511 MeV $\gamma$s emitted, which is corresponding to the lowest energy of IBDs without energy leakage.
+As shown in the Fig. \ref{fig:Ge68_spec_x0y0z0_fit}, one single Gaussian function is used in the fitting to get the peak energy $\mu$ and resolution $\sigma$.
+Then the lowest reconstructed prompt energy is estimated as $\sim$ 0.77 MeV for OEC energy and $\sim$ 0.75 MeV for OMILREC energy, which are both higher than the energy threshold of 0.7 MeV.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/Ge68_spec_x0y0z0_fit.png}
+    \caption{Energy spectrum of $^{68}$Ge source at CD center. The full-energy peak is fitted with single Gaussian function.}
+    \label{fig:Ge68_spec_x0y0z0_fit}
+\end{figure}
+
+In summary, the in-efficiency and the corresponding uncertainty of prompt energy cut are both negligible in our selections.
+
+\subsubsection{Delayed energy cut}
+As discussed in the previous section and shown in Fig. \ref{fig:ed_mc_all}, \ref{fig:ed_mc_169} and \ref{fig:ed_mc_165}, the energy leakage effect is negligible with this tight FV cut.
+Thus, we use a single Gaussian function to fit the delayed spectrum, as shown in Fig. \ref{fig:delayedSpec_ibd}.
+Then the efficiency of delayed energy cut is calculated with the fitting function as 
+\begin{equation}
+    \epsilon_{ed} = \frac{N(2.0~{\rm MeV} < E_{d} < 2.5~{\rm MeV})}{N(\text{Without Ed cut})} = 99.99\%
+    \label{eq:ed_eff}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/delayedSpec_logy_mc_ibd_all.png}
+    \caption{}
+    \label{fig:ed_mc_all}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/delayedSpec_logy_mc_ibd_169.png}
+    \caption{}
+    \label{fig:ed_mc_169}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/delayedSpec_logy_mc_ibd_165.png}
+    \caption{}
+    \label{fig:ed_mc_165}
+  \end{subfigure}
+  \caption{Delayed spectra of MC IBDs with different FV cuts: (a) no FV cut, (b) FV < 16.9 m and (c) FV < 16.5 m. Significant energy leakage is found without any FV cut and negligible effect exists with FV < 16.9 m or FV < 16.5 m.}
+\end{figure}
+
+The analysis of the corresponding systematic uncertainty is still under way. 
+It mainly comes from the fitting strategy and energy response related uncertainty which will lead to the distortion of spectrum shape.
+Since the efficiency is high enough, the systematic uncertainty is set to 0.1\% directly.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{2_selection/h_ibd_e_d.png}
+    \caption{Delayed spectrum of IBD candidates. The data is fitted with single Gaussian function.}
+    \label{fig:delayedSpec_ibd}
+\end{figure}
+
+Noting that the efficiency estimation is based on the OEC energy, the efficiency for OMILREC reconstruction will be re-calculated once enough re-production data and fine-tuning MC samples are ready.
+
+
+\subsubsection{Time interval cut}
+The time interval between prompt and delayed signals are composed of two parts, neutron thermalization ($\sim$ 4 $\mu$s) and neutron capture on hydrogen (nH) ($\sim$ 220 $\mu$s).
+As a preliminary study, we neglect the contribution from the thermalization which is much faster compared to neutron capture and has small effect on the estimation of the efficiency.
+In this case, the time constant should be identical for AmC and IBD.
+By fitting the time interval distribution, the time constant $\tau$ can be obtained from these two samples, as shown in Fig. \ref{fig:dt_ibd} and Fig. \ref{fig:dt_AmC}. Then, the efficiency of dt cut can be calculated with the fitting function as
+\begin{equation}
+    \epsilon_{dt} = \frac{N(5~\mu s<dt<1000~\mu s)}{N(\text{Without dt cut})} = 96.80\%
+    \label{eq:dt_eff}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/dt_ibd.png}
+    \caption{}
+    \label{fig:dt_ibd}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{4_efficiency/dt_AmC_fit.png}
+    \caption{}
+    \label{fig:dt_AmC}
+  \end{subfigure}
+  \caption{Time interval distribution of (a) IBDs and (b) AmC correlated events. The data is fitted with an exponential decay function plus an constant.}
+\end{figure}
+
+The systematic uncertainty mainly comes from the time precision ($\sim$ 8 ns) and the fitting error of the time constant.
+The time precision has negligible effect on the efficiency.
+For the second factor, we compared the fitting time constant $\tau$ with AmC and IBD samples, and found the relative difference as $\sim$ 1\%. Then, it leads to the relative difference of the efficiency as $\sim$ 0.02\%, which is taken as the systematic uncertainty.
+
+
+\subsubsection{Relative distance cut}
+In this section, we use IBD candidate sample to estimate the efficiency of relative distance (dr) cut. 
+
+To make an unbiased estimation, backgrounds should be removed from the sample.
+After the standard IBD selection, the main backgrounds include Li9, geo-neutrinos, world reactor neutrinos, accidental background and so on. Geo-neutrinos and world reactor neutrinos have the same dr distribution as IBDs', which has not effect on the estimation.
+As shown in Fig. \ref{fig:dr_ibd_li9_amc_mc}, IBD and Li9 have the same distribution of relative distance within the uncertainty. Thus, it's acceptable to reserve Li9 in the sample as well. 
+However, the dr distribution of accidental background is flat, which will bias the estimation.
+To remove this background, more strict selections are applied: $E_p$ > 1.5 MeV, and $dt$ < 600 $\mu$s.
+For comparison, distributions of MC IBD [DocDB-13483] and AmC are shown in Fig. \ref{fig:dr_ibd_li9_amc_mc} as well. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/dr_ibd_li9_amc_mc.png}
+    \caption{Relative distance distribution of IBD candidates with strict selections (black points), Li9 tagged by SPN (magenta line), MC IBDs (red line) and AmC correlated events (blue line).}
+    \label{fig:dr_ibd_li9_amc_mc}
+\end{figure}
+
+With the above sample, the efficiency could be estimated as
+\begin{equation}
+    \epsilon_{dr} = \frac{N(dr<1.5~{\rm m})}{N(dr<3~{\rm m})} = 98.28\%
+    \label{eq:dr_eff}
+\end{equation}
+According to MC studies, all IBDs have the relative distance dr < 3 m. Meanwhile, larger upper limit of the denominator in Eq. \ref{eq:dr_eff} will include more backgrounds and then leads to biased results.
+
+The systematic uncertainty is estimated as the relative difference between IBD candidate and MC samples, which leads to 0.1\% uncertainty.
+
+
+\subsubsection{Hydrogen-carbon capture ratio}
+Inside LS region, IBD neutrons will be captured by hydrogens (nH) or carbons (nC), while in this technote only nH events are used.
+To figure out the hydrogen-carbon capture ratio $\epsilon_{\text{nHCap}}$, we select AmC events with larger delayed energy region extending to 6 MeV, as shown in Fig. \ref{fig:full_delayed_spec_AmC}.
+Then the ratio is estimated as
+\begin{equation}
+    \epsilon_{\text{nHCap}} = \frac{N(E_d<\text{3 MeV})}{N_{\text{total}}} = 99.32\% \pm 0.19\% (\text{stat.})
+    \label{eq:nH_cap_ratio}
+\end{equation}
+The effect on the oscillation fitting results from the capture ratio is negligible (see in the section for the oscillation analysis), so it's neglected in the first physics paper.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{4_efficiency/full_delayed_spec_AmC.png}
+    \caption{Full delayed spectrum of AmC source.}
+    \label{fig:full_delayed_spec_AmC}
+\end{figure}
+
+
+\subsubsection{Spill-in and spill-out effects}
+If IBD reaction happen outside LS but near the edge of internal surface of acrylic vessel, the $\gamma$s from this electron-positron annihilation and the corresponding neutron may enter the LS region and contribute to the signal samples. However, since we only treat LS as the target volume, this contribution is not included in the prediction and should be considered separately. In this note, we call it spill-in effect.
+
+Generally, IBD positron will deposite energy locally with only few millimeters displacement, while the $\gamma$s from this electron-positron annihilation will travel a few tens of cm. Besides, IBD neutrons take a few cm to be thermalized and the 2.2 MeV $\gamma$ from neutron capture travels a few tens of cm. Fortunately, since the edge of FV is far away from the internal surface of acrylic vessel ($\sim$ 1.2 m), these events can't reach the FV.
+In short, spill-in effect is negligible, thanks to the tight FV cut.
+
+For spill-out effect, $\gamma$s from the electron-positron annihilation and neutron go outside LS region. This effect has been included in the energy leakage effect.
+
+These effects will be re-evaluated once the fine-tuning MC samples is ready.
+
+
+\subsubsection{Summary}
+Detector related systematic uncertainties for neutrino flux are summarized in \ref{tab:DetErr}.
+
+\begin{table}[!htbp]
+    \caption{Summary of detector related systematic uncertainties for neutrino flux in JUNO only analysis.}
+    \label{tab:DetErr}
+    \centering
+    \footnotesize% fontsize
+    \setlength{\tabcolsep}{4pt}% column separation
+    \renewcommand{\arraystretch}{1.2}%row space 
+    \begin{tabular}{lcc}
+        \hline
+         & Efficiency & Relative uncertainty \\ 
+        \hline
+        Proton number & - & 1\% \\
+        Flasher cut & > 99.9\% & Negligible \\
+        FV cut & 80.57\% & 1.6\% \\ 
+        Prompt energy cut & 100\% & Negligible \\
+        Delayed energy cut & 99.99\% & 0.1\% \\
+        CD and WP muon veto & 95.55\% & Negligible \\
+        Multiplicity cut & 97.36\% & Negligible \\
+        Spallation neutron veto & 98.00\% & Negligible \\
+        Coincidence time cut  & 96.80\% & 0.02\% \\
+        Relative distance cut & 98.28\% & 0.10\% \\
+        nH-nC ratio (neglect in first physics paper) & 99.32\% & 0.19\% \\
+        \hline
+        Total & 69.88\% & 1.89\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+
+\subsection{Energy response}
+\input{energy_response} 
+
+\subsection{Reactor related uncertainty}
+The accurate prediction of the reactor antineutrino flux and spectrum depends on several reactor-related parameters, each contributing to the total systematic uncertainty. These include the precise measurement of the reactor's thermal power, the understanding of the energy released per fission, the evolving fission fractions of the four primary isotopes throughout the fuel cycle, and corrections for effects like the non-equilibrium of long-lived fission fragments and the antineutrino emission from spent nuclear fuel. Comprehensive simulations of the reactor core, validated against operational data, are used to track the complex evolution of the fuel composition. The uncertainties from these reactor physics aspects are major contributors to the overall uncertainty in the predicted antineutrino signal at the JUNO experiment.
+
+These uncertainties are kind of complicated and it is hard to define whether they are fully reactor-correlated or reactor-uncorrelated. 
+Therefore, some tests are done by defining their reactor correlation and they are used to check which treatment is more conservative. 
+
+\subsubsection{Reactor power}
+Based on the experience from Daya Bay experiment, the thermal power of the reactor cores is mainly monitored by three systems. Accounting for correlations and calibration differences, the uncertainty of the KIT/KDO system, which provides hourly thermal power data to the experiment, is estimated to be 0.5\%. 
+In this study, the reactor power uncertainties are handled core-by-core, assuming full correlation among cores within the same NPP and no correlation across different NPPs.
+
+Some configurations are set and tests are done. 
+\begin{itemize}
+        \item Config. 1: Core-by-core uncorrelated 
+        \[
+        \chi^2_{\text{RUC}} = \sum_{r} \left( \frac{\alpha_r}{\sigma_r} \right)^2
+        \]
+        \item Config. 2: Core-by-core in same NPP correlated, but NPP-by-NPP uncorrelated 
+        \[
+        \chi^2_{\text{RUC}} = \sum_{p} \left( \frac{\alpha_p}{\sigma_p} \right)^2 
+        \]
+    \end{itemize}
+    
+    \vspace{0.5em}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{50 days} & $\Delta m^2_{31}$ precision [\%] & $\sin^2\theta_{12}$ precision [\%] & $\Delta m^2_{21}$ precision [\%] \\
+        \hline
+        Config. 1 & 1.141 & 2.383 & 1.311 \\
+        \hline
+        Config. 2 & 1.141 & 2.386 & 1.311 \\
+        \hline
+    \end{tabular}
+   
+    It is found that the config. 2 produces a more conservative results. 
+
+
+\subsubsection{Fission energy}
+The energy released per fission for each isotope is defined as the energy converted to heat over a finite time, accounting for energy carried by neutrinos and captures on non-fissile materials. 
+As studied by Daya Bay experiment, the fission energy is not a fixed fundamental constant but depends on the reactor environment.
+In this study, the uncertainties of fission energy are handled assuming full correlation among cores.
+
+
+\subsubsection{Fission fraction}
+Electron antineutrinos are produced from the beta decays of fragments from four primary fission isotopes: $^{235}\rm U$, $^{238}\rm U$, $^{239}\rm{Pu}$, $^{241}\rm{Pu}$. Their relative contributions, or fission fractions change dynamically with fuel burn-up. 
+The Daya Bay nuclear power plant provides detailed simulations of this evolution using the validated SCIENCE/APOLLO2 software package. Comparisons between APOLLO2 calculations and direct measurements of spent fuel isotopic content show deviations of less than 5\%. 
+Therefore, the uncertainty for each fission fraction is conservatively estimated to be 5\%. These fractions are strongly correlated, as the consumption of uraiunm and production of plutonium isotopes are linked. A correlation matrix is used for proper uncertainty propagation.
+JUNO alaysis follows the similar strategy as the Daya Bay analysis. 
+In this study, the uncertainties of fission fractions are handled assuming full correlation among cores.
+
+
+\subsubsection{Spent fuel}
+Long-lived fission isotopes within the spent nuclear fuel(SNF) continue to beta-decay, producing an additional source of antineutrinos. The contribution from SNF is calculated by identifying isotopes with half-lives longer than 10 hours and whose decays exceed the inverse beta decay threshold. Using the refueling history and SNF inventory provided by the plant, the cumulative yield and spectrum of these isotopes are computed. 
+In this study, the rate uncertainties of SNF spectrum are handled core-by-core, assuming full correlation among cores within the same NPP and no correlation across different NPPs. The shape uncertainties are neglected.
+
+
+\subsubsection{Non-equilibrium}
+The long-lived fission fragments need some time to reach equilibrium between their production and decay rates. 
+In an operating reactor core, these fragments accumulate, and their decays contribute extra antineutrinos, known as the non-equilibrium (NonEq) contribution.
+In this study, the rate uncertainties of NonEq spectrum are handled core-by-core, assuming full correlation among cores within the same NPP and no correlation across different NPPs. The shape uncertainties are neglected.
+
+\subsubsection{Reference spectrum}
+Systematic uncertainties in the IBD yield is dominated by the reference spectrum used in this analysis, which is measured with an uncertainty of 1.2\% from the DayaBay paper~\cite{DYB:Flux2025}.
+The IBD yield,  $5.84 \pm 0.07 \times 10^{-43}$~cm$^2$/fission, includes the uncertainties from the IBD cross section, the thermal power, fission fractions and fission energy from Daya Bay and Lingao reactor power plant.
+The uncertainty of the IBD cross section is fully correlation between Daya Bay and JUNO, and thus shall not consider the cross section uncertainty in JUNO.
+Weighted by the thermal power and baseline of each reactor core or nuclear power plant, the average fission fractions in the JUNO data were 0.564, 0.076, 0.303, and 0.058 for $^{235}$U, $^{238}$U, $^{239}$Pu, and $^{241}$Pu, respectively. In comparison, the corresponding values in the Daya Bay data were 0.564, 0.076, 0.304 and 0.056~\cite{DYB:Flux2025}.
+Consequently, they shared a $>$\,99\% common reactor antineutrino spectrum, which we denote as the model-independent component shared by both the JUNO and Daya Bay datasets.
+The differences in the fission fractions between JUNO and Daya Bay resulted in a $<$0.1\% uncertainty in the flux, assuming a 10\% uncertainty in the isotopic reference spectra.
+
+
+\subsubsection{Summary}
+
+\begin{table}[!htbp]
+    \caption{Summary of the systematic uncertainties of the predicted integrated reactor antineutrino flux associated with a single reactor core.}
+    \label{tab:reactorErr}
+    \centering
+    \footnotesize% fontsize
+    \setlength{\tabcolsep}{4pt}% column separation
+    \renewcommand{\arraystretch}{1.2}%row space 
+    \begin{tabular}{lc}
+        \hline
+        Parameter & Uncertainty \\ 
+        \hline
+        power & 0.5\% \\
+        energy/fission & 0.2\% \\
+        reference spectrum & 1.2\% \\
+        different fission fraction & 0.1\% \\
+        fission fraction & 0.6\% \\
+        spent nuclear fuel & 0.3\% \\
+        non-equilibrium & 0.2\% \\
+        \hline 
+    \end{tabular}
+\end{table}
+

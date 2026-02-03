@@ -1,0 +1,52 @@
+\section{Introduction}
+
+\subsection{Dataset}
+
+This technote is based on the Good Run List v3.6 as recommended by the DQ group. We present the  results from OMILREC reconstruction (vertex+energy) based on ReProd25C for Runs 9789–11039, spanning the period from August 30 to November 2.
+
+\subsection{Reconstruction}
+A pulse finding and integral based method referred to as COTI (Continuous Over Threshold Integral) was used to reconstruct the charge and time of each PMT hit/pulse from the PMT waveforms. 
+A few key components of this method are the baseline calculation, the pulse amplitude threshold, the starting and ending points of the pulse.
+For each successfully found pulse, its charge is simply the integral of the waveform ADC values between the starting and ending points. While the hit time is obtained by fitting the rising edge of the pulse with a straight line and finding its intersection with the waveform baseline. This method was chosen in order to yield the minimal time-charge dependence. 
+After the waveform reconstruction, the charge of every pulse of each PMT is calibrated with its corresponding gain. the hit time is corrected with the timeOffSet of the corresponding PMT. Both the gain and timeOffSet of all PMTs are calibrated and validated using various calibration sources, and provided centrally by the calibration group.
+
+A likelihood-based method was developed to simultaneously reconstruct the vertex $\Vec{r}$(r,$\theta,\phi$) and energy E of each event in the MeV region. It takes the calibrated charge and time information of PMTs as inputs. 
+Another crucial ingredients of the method are the expected charge and time response of PMTs, both of which  highly depend on the event vertex and energy. They are parameterized as $\hat{\mu}(r, \theta, \theta^i_{PMT})$, P$_T(r, d_i, t_{i,res})$ respectively, where r and $\theta$ are the spherical coordinates of the event vertex, $\theta^i_{PMT}$ is the angle between $\Vec{r}$ and the i-th PMT position vector $\Vec{R}_i$,  $d_i$ is the distance between the vertex and the i-th PMT, and $t_{i,res}$ is the residual hit time of the first pulse after subtracting the time of flight for the i-th PMT.
+Both $\hat{\mu}$ and $P_T$ were extracted from $^{68}$Ge calibration source deployed at different positions along the ACU. By comparing the observed and expected charge and time of PMTs, a likelihood function listed in Eqn.~\ref{eq:EqQTMLE} was constructed and then minimized to obtain the most probable vertex and energy for each event.
+More details can be found in~\cite{Huang:2022zum, JUNO:2024fdc}.
+\begin{equation}\small
+\label{eq:EqQTMLE}
+\begin{split}
+    &\mathcal{L}(q_{1},q_{2},...,q_{N}; t_{1,r},t_{2,r},...,t_{N,r}|\mathbf{r},t_0,
+    E_{\textrm{vis}}) = \\
+      & \prod_{unfired}e^{-\mu_{j}} \prod_{fired} \left(\sum_{k=1}^{+\infty} P_{Q}(q_{i}|k)\times P(k, \mu_i)  \right)  
+      \prod_{T-\textrm{valid}~hit} \left( \frac{\sum^{K}_{k=1} P_{T}(t_{i,r}|r, d_i, \mu^{l}_i, \mu^{d}_i, k)\times P(k, \mu^{l}_i+\mu^{d}_i)} {\sum^{K}_{k=1} P(k, \mu^{l}_i+\mu^{d}_i)}\right).
+\end{split}
+\end{equation}
+
+For cosmic muons in the GeV region, the calibrated charge and time information of PMTs were used to reconstruct the muon track for both WP and CD muons. Despite the different photon production mechanism in WP and CD, one being cherenkov photons and the other being scintillation photons, similar method was used to find high density PMT charge clusters, the centroid of which were defined as the inlet and outlet of single or multiple muon tracks.
+
+\subsection{Calibration}
+The primary goal of JUNO calibration is to characterize the detector response, including PMT performance, detector non-uniformity, energy non-linearity, and energy resolution. This is achieved by deploying various calibration sources into the central detector, using four complementary sub-systems: Automatic Calibration Unit (ACU), Guide Tube System (GT), Cable Loop System (CLS), and Remotely Operated Vehicle (ROV). Among them, the ACU system can perform 1-D scans along the $z$-axis; the CLS system can access off-axis positions within a 2-D plane; however, due to hardware limitation, the CLS can't reach the detector boundary, which is assisted by the GT; the ROV serves as supplement to the aforementioned three sub-systems, and has not been employed at the present stage.
+
+Table~\ref{tab:calib_campaign} summarizes the calibration campaigns that have been carried out from LS filling finished to Nov. 3, 2025. In general, the UV laser runs are used for studies on the PMT gain and time offset, while the radioactivity sources are used to investigate the detector energy response, such as energy scale, energy non-linearity, resolution, and detector non-uniformity.
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+        \hline
+       \multirow{2}*{Source}  & \multirow{2}*{Energy [MeV] or intensity} & \multicolumn{3}{c}{System (num of positions)} \\
+       \cline{3-5}
+       ~ & ~ & Aug. & Sep. & Oct. \\
+       \hline
+       ${}^{68}\mathrm{Ge}$ & $0.511\times 2$ & ACU (41) & - & ACU(57) \\
+       ${}^{54}\mathrm{Mn}$ & 0.835 & ACU (2) & - & - \\
+       ${}^{137}\mathrm{Cs}$ & 0.662 & ACU (3) & - & - \\
+       ${}^{60}\mathrm{Co}$ & 1.17 + 1.33 & ACU (3) & - & - \\
+       ${}^{40}\mathrm{K}$ & 1.461 & ACU (1) & - & -\\
+       AmC & 2.223 & ACU (3), CLSA (40) & ACU(8) & ACU(5) \\
+       Laser266 & FP-95/88/85/73/... & ACU (1) & ACU(17) & ACU(1) \\
+       \hline
+    \end{tabular}
+    \caption{Summary of calibration campaigns from LS filling finished to Nov.3.}
+    \label{tab:calib_campaign}
+\end{table}

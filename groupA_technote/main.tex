@@ -1,0 +1,145 @@
+\documentclass[12pt]{article} 
+% \usepackage[utf8]{inputenc}  % 不需要，xelatex 原生支持 UTF-8
+\usepackage{fontspec}  % xelatex 字体支持
+% 尝试使用 Times 字体，如果不存在则使用 Latin Modern Roman
+\IfFontExistsTF{Times New Roman}{%
+  \setmainfont{Times New Roman}[Ligatures=TeX]%
+}{%
+  \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+}
+\usepackage{amsmath}  % 数学支持（需要在 fontspec 之后）
+\usepackage{authblk} 
+\usepackage{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+\usepackage{setspace}
+\setstretch{1.5}
+%\usepackage{siunitx} % 处理「数值 + 单位」的专业宏包
+% \usepackage{times}  % 与 fontspec 冲突
+% \usepackage[T1]{fontenc}  % 不需要，xelatex 使用 Unicode
+% \usepackage{mathptmx}  % 与 fontspec 冲突 
+\usepackage{hyperref} %参考文献跳转，此宏包会自动载入graphicx
+\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,urlcolor=black}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em} 
+%\usepackage{xspace} % 解决「自定义命令后空格丢失」的问题
+\usepackage{graphicx} 
+\usepackage{booktabs} 
+\usepackage{makecell} % 解决表格单元格内「换行、对齐、多行文本」的问题
+%\usepackage{gensymb} % 提供常用的「符号快捷命令」
+%\usepackage{verbatim} % 提供「原样输出文本」的环境
+%\usepackage{booktabs} % 优化表格线条的宏包
+%\usepackage{threeparttable} % 为表格添加「标题 + 注释 + 表体」三部分结构
+\usepackage{multirow}
+\usepackage{lineno}
+\usepackage{footnote}   % 
+\usepackage{graphicx}   %  
+\usepackage{subcaption} % 图片子标题
+\makesavenoteenv{table} % create footnote in table env
+\usepackage{appendix}   % 附录
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}} % 引用标记改为上标
+\bibliographystyle{unsrt} % 按引用顺序来排列参考文献顺序
+
+% \usepackage{amssymb} % 扩展 LaTeX 的数学符号库（unicode-math 已包含）
+% \usepackage{mathptmx}  % 已由 fontspec 处理，不需要
+\usepackage{bm} % 数学公式加粗宏包
+
+\usepackage{tikz}
+  \usetikzlibrary{shapes,arrows,positioning}
+
+\hyphenpenalty=5000
+\tolerance=1000
+
+\newcommand{\T}{$\sin^22\theta_{13}$}
+\newcommand{\U}{$^{238}$U}
+\newcommand{\Th}{$^{232}$Th}
+\newcommand{\Li}{$^{9}$Li/$^{8}$He\xspace}
+\newcommand{\DM}{$\Delta m^2_{32}$}
+\newcommand{\nuebar}{$\overline{\nu}_{e}$~}
+\newcommand{\td}[1]{\textcolor{red}{\textit{(#1)}}}
+
+\def\Um{{}^{238}\text{U}}
+\def\Th{{}^{232}\text{Th}}
+\def\K{{}^{40}\text{K}}
+
+
+% 选择要编译的section，缩短编译时间
+%\includeonly{introduction}
+%\includeonly{background_analysis, oscillation_analysis, efficiency_uncertainty}
+% \includeonly{background_analysis}
+%\includeonly{energy_response}
+%\includeonly{efficiency_uncertainty}
+% \includeonly{oscillation_analysis}
+%\includeonly{} % 所有include子文件都不编译
+
+\begin{document}
+\linenumbers
+
+\title{\textbf{Reactor antineutrino oscillation analysis at group A}}
+\author[1]{Zhiyuan Chen}
+\author[2]{Jie Cheng}
+\author[1]{Chenyang Cui}
+\author[1]{Xuefeng Ding}
+\author[1]{Chuanshi Dong}
+\author[1]{Xinhai He}
+\author[3]{Jianrun Hu}
+\author[4]{Yongbo Huang}
+\author[1]{Yi Jia}
+\author[1,5]{Cailian Jiang}
+\author[1]{Gaosong Li}
+\author[1]{Yichen Li}
+\author[1]{Yufeng Li}
+\author[3]{Jiajie Ling}
+\author[1]{Qishan Liu}
+\author[1]{Haoqi Lu}
+\author[1]{Wuming Luo}
+\author[1]{Zhenning Qu}
+\author[1]{Yuhan Shu}
+\author[1]{Mingxia Sun}
+\author[1]{Mingyuan Wang}
+\author[6]{Yaoguang Wang}
+\author[1]{Liangjian Wen}
+\author[3]{Bi Wu}
+\author[1]{Fei Xiao}
+\author[1]{Jingqin Xue}
+\author[3]{Chengfeng Yang}
+\author[1]{Zeyuan Yu}
+\author[1]{Chengzhuo Yuan}
+\author[1]{Liang Zhan}
+\author[1]{Han Zhang}
+\author[1]{Rongping Zhang}
+\author[1]{Jie Zhao}
+\affil[1]{\textit{Institute of High Energy Physics, Chinese Academy of Sciences, Beijing, China}}
+\affil[2]{\textit{North China Electric Power University, Beijing, China}}
+\affil[3]{\textit{Sun Yat-Sen (Zhongshan) University, Guangzhou, China}}
+\affil[4]{\textit{Guangxi University, Nanning, China}}
+\affil[5]{\textit{Nanjing University, Nanjing, China}}
+\affil[6]{\textit{Shandong University, Jinan, China}}
+\renewcommand\Authands{ and }
+\date{(Dated: \today)}
+\maketitle
+
+\begin{abstract}
+In this note, the reactor antineutrino oscillation analysis with first-stage dataset ReProd25C at group A is presented. 
+Two IBD selection methods are designed for better cross check, and give consistent results.
+Detailed background analysis is presented, including flashers, accidental background, Li9/He8, fast neutron and double neutron, B12-B12 correlated background, BiPo214, $^{13}$C($\alpha$, n)$^{16}$O, world reactor neutrinos, geo-neutrinos and atmospheric neutrinos.
+Analyses of the detection efficiency, energy response and reactor related uncertainties are included as well.
+Finally, we have a brief illustration about the fitting strategy and the oscillation results, which give $\sin^2\theta_{12} = 0.3092 \pm 0.0087$, and $\Delta m_{21}^2 = (7.50 \pm 0.12) \times 10^{-5}~\mathrm{eV}^2$ with the precision 2.81\% and 1.55\% respectively.
+\end{abstract}
+
+\newpage
+\tableofcontents
+
+\newpage
+
+\include{introduction}
+\include{ibd_selection}
+\include{background_analysis}
+\include{efficiency_uncertainty}
+\include{validation_unbiasing}
+\include{oscillation_analysis}
+
+\newpage
+
+\bibliography{ref}
+
+\end{document}

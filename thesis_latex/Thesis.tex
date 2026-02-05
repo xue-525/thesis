@@ -22,7 +22,7 @@
 %->> Document settings
 %---------------------------------------------------------------------------%
 \usepackage{caption}
-\usepackage[super,numbers, list,table,math]{Style/artratex}
+\usepackage[super,numbers, list,table,tikz,math]{Style/artratex}
 \usepackage{booktabs}
 \usepackage{siunitx}
 %- usage: \usepackage[option1,option2,...,optionN]{artratex}
@@ -73,7 +73,7 @@
 \tableofcontents% content catalog
 \intobmk*{\cleardoublepage}{图表目录}
 \pagestyle{figureheader}
-% \input{Tex/figuretable}
+\input{Tex/figuretable}
 
 }
 \thispagestyle{figureheader}

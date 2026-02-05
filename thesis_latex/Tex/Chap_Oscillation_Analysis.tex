@@ -267,45 +267,23 @@ $$M_{ij}=\sum_k \frac{\mathrm{d}\sigma(E_{\nu_j},\cos\theta_k)}{\mathrm{d}\cos\t
 \begin{algorithm}[htbp]
 \caption{生成响应矩阵 $M[i][j]$ 的伪代码}
 \begin{algorithmic}[1]
-\Require 中微子能量 bins $j$（中心能量 $E_{\nu_j}$），
-         细分 $E_\nu$ 数 $n_{\text{split}}$，
-         余弦角 bin 宽度 $\Delta\cos\theta$
+\Require 中微子能量 bins $j$（中心能量 $E_{\nu_j}$），细分 $E_\nu$ 数 $n_{\text{split}}$，余弦角 bin 宽度 $\Delta\cos\theta$
 \Ensure 响应矩阵 $M[i][j]$
 
 \ForAll{中微子能量 bin $j$}
-  \State $E_{\nu}^{\text{low}} \gets E_{\nu_j}^{\text{left}}$
-  \State $E_{\nu}^{\text{up}} \gets E_{\nu_j}^{\text{right}}$
-  \State $\Delta E_\nu \gets E_{\nu}^{\text{up}} - E_{\nu}^{\text{low}}$
-
+  \State $E_{\nu}^{\text{low}} \gets E_{\nu_j}^{\text{left}}$，$E_{\nu}^{\text{up}} \gets E_{\nu_j}^{\text{right}}$，$\Delta E_\nu \gets E_{\nu}^{\text{up}} - E_{\nu}^{\text{low}}$
   \For{$k = 0$ to $n_{\text{split}} - 1$}
-    \State $E_{\nu_k} \gets
-    E_{\nu}^{\text{low}} +
-    \left(k + \frac{1}{2}\right)
-    \frac{\Delta E_\nu}{n_{\text{split}}}$
-
+    \State $E_{\nu_k} \gets E_{\nu}^{\text{low}} + \left(k + \frac{1}{2}\right) \cdot \frac{\Delta E_\nu}{n_{\text{split}}}$
     \For{$\cos\theta = -1$ to $+1$ step $\Delta\cos\theta$}
-      \State 计算正电子动能：
-      $T_1 \gets E_e(E_{\nu_k}, \cos\theta) - m_e$
-      \State 计算沉积能量：
-      $E_{\text{dep}} \gets T_1 + 2m_e$
-      \State 查找 $i$ 使得
-      $E_{\text{dep}} \in
-      [E_{\text{dep},i}, E_{\text{dep},i+1})$
-
+      \State 计算正电子动能：$T_1 \gets E_e(E_{\nu_k}, \cos\theta) - m_e$
+      \State 计算沉积能量：$E_{\text{dep}} \gets T_1 + 2m_e$，查找 $i$ 使得 $E_{\text{dep}} \in [E_{\text{dep},i}, E_{\text{dep},i+1})$
       \If{找到合法的 $i$}
-        \State 计算微分截面：
-        $\dfrac{d\sigma(E_{\nu_k}, \cos\theta)}{d\cos\theta}$
-        \State $\text{weight} \gets
-        \dfrac{1}{n_{\text{split}}
-        } \cdot
-        \dfrac{d\sigma}{d\cos\theta}
-        \cdot \Delta\cos\theta$
-        \State $M[i][j] \gets M[i][j] + \text{weight}$
+        \State 计算微分截面：$\frac{d\sigma(E_{\nu_k}, \cos\theta)}{d\cos\theta}$
+        \State $\text{weight} \gets \frac{1}{n_{\text{split}}} \cdot \frac{d\sigma}{d\cos\theta} \cdot \Delta\cos\theta$，$M[i][j] \gets M[i][j] + \text{weight}$
       \EndIf
     \EndFor
   \EndFor
 \EndFor
-
 \end{algorithmic}
 \end{algorithm}
 

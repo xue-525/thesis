@@ -89,56 +89,7 @@
 
 
 %=====================================================================
-\chapter{反应堆拟合程序的加速（Acceleration Strategies）}
-%=====================================================================
-\textbf{目的}：详述加速方法、并行架构、代码设计与性能。
-
-\section{问题规模量化与性能目标}
-
-\begin{itemize}
-    \item bin 数、toy 数总量；
-    \item 原始运行时间 vs 加速目标。
-\end{itemize}
-
-\section{并行化策略}
-
-\begin{itemize}
-    \item block topology（x × y × z）；
-    \item embarrassingly-parallel；
-    \item MPI / 多进程 / job farm。
-\end{itemize}
-
-\section{Surrogate / ML 加速（GP / Emulator）}
-
-\begin{itemize}
-    \item GP 核心思想、训练集选取；
-    \item 在关键区做全 toy；
-    \item 误差控制。
-\end{itemize}
-
-\section{近似统计加速方法}
-
-\begin{itemize}
-    \item Profiled-FC；
-    \item Asimov；
-    \item bootstrap。
-\end{itemize}
-
-\section{性能评估与基准测试}
-
-\begin{itemize}
-    \item speed-up、CPU-hours；
-    \item strong/weak scaling；
-    \item coverage comparison。
-\end{itemize}
-
-\section{代码结构建议}
-
-\begin{itemize}
-    \item toy-generator, fitter, job-manager, result-aggregator；
-    \item config.json、单元测试、CI。
-\end{itemize}
-
+\input{Tex/Chap_Acceleration}
 %=====================================================================
 \chapter{JUNO 与大亚湾联合拟合（JUNO + DYB Joint Fit）}
 %=====================================================================
@@ -151,18 +102,19 @@
 \end{equation}  
 其中 $\boldsymbol{T}^{\rm DYB}$ 为我们用相同反应堆谱模型和 DYB 给定的响应映射（包括 IBD 截面、非线性、分辨率与 IAV 等效应）计算得到的预测谱，$\mathbf{Cov}$ 为 DYB 提供的完整协方差矩阵（包含统计与各类系统误差）。将 DYB 纳入能显著约束反应堆谱的系统不确定性并降低模型相关偏差。
 
-##### 外部约束与总目标函数
+% NOTE: Do not use markdown headings (e.g. #####) in LaTeX source.
+\subsection{外部约束与总目标函数}
 
 此外，我们还在拟合中引入来自 Daya Bay 等实验对 $\sin^2\theta_{13}$ 与 $\Delta m^2_{31}$ 的外部约束（Gaussian prior），作为额外的拉项。最终的总目标函数为  
-\begin{equation}  
-\chi^2_{\rm Total}  
-= \chi^2_{\rm JUNO} + \chi^2_{\rm DYB}
-
-* \left( \frac{\sin^2\theta_{13} - \sin^2\theta_{13}^{\rm DYB}}{\sigma(\sin^2\theta_{13}^{\rm DYB})} \right)^2
-    
-* \left( \frac{\Delta m_{31}^2 - \Delta m_{31}^{2,,\rm DYB}}{\sigma(\Delta m_{31}^{2,,\rm DYB})} \right)^2 .  
-    \label{eq:Chisq:Total}  
-    \end{equation}
+\begin{equation}
+\begin{aligned}
+\chi^2_{\rm Total}
+&= \chi^2_{\rm JUNO} + \chi^2_{\rm DYB} \\
+&\quad + \left( \frac{\sin^2\theta_{13} - \sin^2\theta_{13}^{\rm DYB}}{\sigma(\sin^2\theta_{13}^{\rm DYB})} \right)^2 \\
+&\quad + \left( \frac{\Delta m_{31}^2 - \Delta m_{31}^{2,\rm DYB}}{\sigma(\Delta m_{31}^{2,\rm DYB})} \right)^2 \, .
+\end{aligned}
+\label{eq:Chisq:Total}
+\end{equation}
     
 
 \begin{itemize}

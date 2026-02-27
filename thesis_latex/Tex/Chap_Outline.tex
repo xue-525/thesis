@@ -91,11 +91,136 @@
 %=====================================================================
 \input{Tex/Chap_Acceleration}
 %=====================================================================
-\chapter{JUNO 与大亚湾联合拟合（JUNO + DYB Joint Fit）}
+\chapter{JUNO实验能谱分bin策略}
 %=====================================================================
+在反应堆反中微子振荡分析中，能谱的分bin策略既是统计问题也是物理问题——不同的分箱尺度会改变单个 bin 的统计属性、影响谱形信息的保留程度，并进而影响振荡参数估计的偏差与精度。本部分首先明确两个必须区分的能谱概念：一是探测器层面的重建能谱（reconstructed-energy spectrum），即把沉积能量通过能量响应与重构程序得到的、用于拟合的观测直方图；二是物理层面的反应堆中微子能谱（reactor $\bar\nu_e$ spectrum），即裂变同位素在反应堆中产生的原始入射通量及其模型化表达。两类能谱的分bin选择各有侧重点：重建能谱的分bin决定了观测统计与似然近似的有效性；反应堆能谱的分段决定了模型依赖性与外场约束（如来自 Daya Bay 的近场测量）能否有效抑制谱形不确定性。
 
-\section{联合拟合}
-为了利用近堆束流对反应堆谱的约束，我们将 Daya Bay 提供的经去振荡、去 SNF/Non-Eq 修正并按每次裂变归一化的提示能谱 $\boldsymbol{M}^{\rm DYB}$ 纳入联合拟合。Daya Bay 的数据项采用带完整协方差矩阵的 χ²：  
+具体地，重建能谱在低统计量条件下如果使用过细的分箱，会导致若干边缘箱（尤其是谱尾或窄能区）内事件数过小，从而违背常用高斯近似的前提。当基于高斯近似构造 χ² 或直接套用 Wilks 定理来估计置信区间时，这类近似失效会引入系统性偏差，甚至导致置信区间的覆盖率不正确。相对地，反应堆中微子能谱的分段若过细，所定义的谱形自由度可能超出近点探测器实验（Daya Bay reactor neutrino experiment）提供的约束能力，使得拟合对反应堆模型的依赖性增强，从而在不同模型假设下产生可观的系统误差。因此，分箱策略必须在“保留谱形细节以维持灵敏度”与“避免统计近似失效及模型依赖过强”之间找到平衡点。
+
+为了解决上述矛盾并给出可操作的建议，本部分将采用定量化方法：一方面通过大量 toy-MC 实验评估在不同重建能谱分箱下（从非常细到较粗）振荡参数估计的偏差与覆盖率，比较基于高斯近似（CNP,Pearson）与基于泊松似然的统计量在低统计情形下的表现；另一方面构造两类反应堆谱情形——一个为固定反应堆模型（fiducial spectrum），另一个为包含小幅谱形扰动的变化模型（model variation），在不同反应堆能谱分段尺度下比较拟合的精度与由模型依赖引入的系统误差。通过这种“固定-扰动”对比实验，我们将量化在何种中微子能谱分段尺度下，反应堆模型依赖对关键振荡参数（如 $\Delta m^2$）的影响可被接受，从而给出实验可采纳的分bin建议。
+本章研究的成果被江门中微子实验合作组采用，并应用与第一篇物理文章的振荡分析中。本章的组织如下：第1节重建能谱的分bin策略；第二节介绍反应堆能谱的分bin策略。
+
+\section{重建能谱分bin策略与低统计量下太阳振荡参数的测量}
+本节讨论在低统计量条件下对太阳中微子振荡参数 $\Delta m^2_{21}$ 和 $\sin^2\theta_{12}$ 的测量。我们首先生成5000个伪实验数据集，振荡参数和系统学参数均取名义值，并同时包含统计涨落和系统误差涨落。然后，我们比较基于高斯近似（CNP,Pearson）与基于泊松似然的统计量在低统计情形下的表现。最后，我们给出在不同重建能谱分bin策略下，太阳振荡参数的偏差与精度。
+
+生成 toy 数据所使用的配置与 中相同。特别地，在以下结果中，我们对 Asimov 数据采用组合的 Pearson–Neyman 统计量 $\chi^2_{\mathrm{CNP}}$，而在伪实验中使用 $\chi^2_{\mathrm{P}}+\ln(|V|)$（Pearson χ² 加对数修正项）。这种选择旨在减小振荡参数估计中的偏差。
+
+\subsection{Toy MC 研究}
+
+在多个曝光时间下，生成了5000个伪实验数据集。振荡参数和系统学参数均取名义值，并同时包含统计涨落和系统误差涨落。
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_bias_dm21.pdf}
+      \caption{$\Delta m^2_{21}$ 偏差随时间的变化.}
+      \label{fig:dm2_21_bias}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_bias_s12.pdf}
+      \caption{$\sin^2\theta_{12}$ 偏差随时间的变化.}
+      \label{fig:s12_bias}
+    \end{subfigure}
+    \caption{太阳振荡参数偏差随曝光时间的演化。（a）$\Delta m^2_{21}$ 的偏差；（b）$\sin^2\theta_{12}$ 的偏差。}
+    {Evolution of the bias of solar oscillation parameters as a function of exposure time. Panel (a) shows the bias of $\Delta m^2_{21}$; panel (b) shows the bias of $\sin^2\theta_{12}$.}
+    \label{fig:solar_low_stat_bias}
+  \end{figure}
+  
+  
+  \begin{figure}[ht]
+    \centering
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_precision_dm21.pdf}
+      \caption{$\Delta m^2_{21}$ 精度随曝光时间的变化。}
+      \label{fig:dm2_21_precision}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_precision_s12.pdf}
+      \caption{$\sin^2\theta_{12}$ 精度随曝光时间的变化。}
+      \label{fig:s12_precision}
+    \end{subfigure}
+  
+    \bicaption
+    {太阳振荡参数精度随曝光时间的演化。（a）$\Delta m^2_{21}$ 的精度；（b）$\sin^2\theta_{12}$ 的精度。}
+    {Evolution of the precision of solar oscillation parameters as a function of exposure time. Panel (a) shows the precision of $\Delta m^2_{21}$; panel (b) shows the precision of $\sin^2\theta_{12}$.}
+  
+    \label{fig:solar_low_stat_precision}
+  \end{figure}
+
+\autoref{fig:dm2_21_low_stat_BFV} 展示了在 30 天、50 天和 100 天曝光条件下 $\Delta m^2_{21}$ 最佳拟合值的分布。Toy MC 结果与 Asimov 结果进行了比较。蓝色标记表示使用对称 68.27\% 积分法得到的置信区间：即将所有最佳拟合值按升序排列，然后计算分布的第 16 百分位和第 84 百分位。紫色标记与曲线来自对具有相同输入参数的 Asimov 数据集的拟合结果，其最佳拟合值及不确定度由最小化算法给出，并假设服从理想高斯分布。
+
+\autoref{fig:dm2_21_low_stat_BFV} 显示，在所有测试的曝光水平下，经验分布与理论高斯预测之间具有极好的一致性。紫色曲线紧密贴合直方图，表明即使在统计量有限的情况下，$\Delta m^2_{21}$ 的测量仍表现出良好的统计性质。
+
+\autoref{fig:s12_low_stat_BFV} 给出了在 30、50 和 100 天曝光条件下 $\sin^2\theta_{12}$ 最佳拟合值的分布。虽然 $\sin^2\theta_{12}$ 的整体行为与 $\Delta m^2_{21}$ 类似，但在 30 天曝光时出现了明显偏差。不过，在 50 天时该偏差已显著减小。此外，正如下文所讨论的，采用不同的分 bin 策略可以进一步减小这一效应。
+
+
+\subsection{偏差与精度的演化}
+
+在低统计数据条件下，谱中的某些 bin 可能只包含极少的事例，甚至没有事例。在这种情况下，χ² 检验统计量会变得不可靠，从而可能在参数估计中引入偏差。减少偏差的一种实际方法是在预期事件数较少的能区，或在整个分析范围内使用更宽的 bin。改变 bin 宽度的影响将在 \autoref{sec:binning_solar} 中进行研究。以下结果均基于名义分 bin，即 20 keV 宽度。
+
+\autoref{fig:solar_low_stat_bias} 和 \autoref{fig:solar_low_stat_precision} 分别展示了两个太阳振荡参数的偏差和精度随曝光时间的变化。
+
+每个参数的偏差定义为最佳拟合值分布的平均值与真实输入值之间的归一化差异：
+
+$$\text{Bias} = \frac{\langle\hat{\theta}\rangle - \theta_{\text{true}}}{\sigma_{\text{68\%}}},$$
+
+其中，$\langle\hat{\theta}\rangle$ 表示5000个伪实验中最佳拟合值的平均值，$\theta_{\text{true}}$ 为名义输入参数值，$\sigma_{68\%}$ 为由上述分布估计得到的不确定度。
+
+\autoref{fig:solar_low_stat_bias} 显示，两种太阳振荡参数在偏差行为上存在差异。对于 $\Delta m^2_{21}$，在所有曝光水平下偏差始终小于 $0.1\sigma$。相比之下，$\sin^2\theta_{12}$ 在 30 天曝光时表现出约 $0.8\sigma$ 的明显偏差，但随着曝光时间增加，该偏差显著减小，并在 100 天时趋于最小。
+
+\autoref{fig:solar_low_stat_precision} 表明，Toy MC 的经验结果与 Asimov 理论精度预测之间具有较好的一致性。JUNO 预期精度相较于 NuFit 6.0~\cite{Nufit:2024eli} 报告的当前全球约束具有显著提升。例如，对于 $\Delta m^2_{21}$，NuFit 给出的相对不确定度约为 2.5\%，而 JUNO 在仅 30 天曝光下即可达到约 1.6\% 的精度。同样地，对于 $\sin^2\theta_{12}$，全球拟合不确定度约为 3.9\%，而 JUNO 在相同曝光条件下预计可达到约 2.7\%。
+
+需要指出的是，上述结果是在系统误差取名义值的假设下得到的，即假设对系统学参数具有良好的控制。在实际情况下，仅凭 50 天数据难以实现对系统误差（如探测器响应、背景估计等）的如此精确控制。
+
+\subsection{分 bin 策略}\label{sec:binning_solar}
+
+为研究并减小观测到的偏差，特别是在低曝光（30 天）条件下 $\sin^2\theta_{12}$ 的偏差，开展了一项独立分析。该研究重点考察在 30 天曝光条件下，不同分 bin 配置对偏差的影响。采用 10,000 个伪实验数据集，研究三种不同的分 bin 方案：
+
+\begin{itemize}[leftmargin=*,nosep]
+    \item \textbf{560 个 bin}：范围 0.2--12 MeV，与前文名义分 bin 一致；
+    \item \textbf{80 个 bin}：范围 0.2--12 MeV，即重分 bin 因子为 7；
+    \item \textbf{56 个 bin}：范围 0.2--12 MeV，即重分 bin 因子为 10。
+\end{itemize}
+
+\autoref{fig:s12_binning} 展示了在这些不同分 bin 条件下 $\sin^2\theta_{12}$ 最佳拟合值的分布。结果表明，随着 bin 数减少（即 bin 变宽），偏差明显减小。
+
+\autoref{fig:solar_low_stat_bias_bins} 展示了偏差随重分 bin 因子的变化趋势（以 560 个 bin 为名义配置）。\autoref{fig:dm2_21_bias_bins} 表明，在 30 天曝光下，$\Delta m^2_{21}$ 基本无偏，并且不依赖于重分 bin 因子。另一方面，\autoref{fig:s12_bias_bins} 显示 $\sin^2\theta_{12}$ 对分 bin 策略具有较强依赖性：随着重分 bin 因子增大（bin 数减少），偏差显著下降。从重分 bin 因子 1（560 个 bin）时约 $0.8\sigma$，降至重分 bin 因子 10（56 个 bin）时小于 $0.2\sigma$。
+
+
+\subsection{本节结论}
+
+太阳振荡参数的测量整体上不存在显著挑战。在低曝光条件下，$\Delta m^2_{21}$ 和 $\sin^2\theta_{12}$ 均表现出良好的统计性质。主要结果如下：
+
+\begin{itemize}[leftmargin=*,nosep]
+    \item $\Delta m^2_{21}$ 在所有曝光水平下偏差极小（小于 $0.1\sigma$），且不受不同分 bin 选择的影响；
+    \item $\sin^2\theta_{12}$ 在极短曝光（30 天）时存在一定偏差，但可通过减少 bin 数（增大 bin 宽至100keV）有效控制；
+    \item 在当前研究的名义配置下，JUNO 在首月运行内即可达到优于当前全球结果的测量精度。
+\end{itemize}
+
+因此，只要通过适当的探测器刻度和背景建模（尤其是地中微子背景）对系统误差进行良好控制，JUNO 有望在运行最初几个月内实现对太阳振荡参数的世界领先测量。
+
+\section{反应堆中微子能谱分bin策略}
+
+\subsection{早期运行阶段的统计限制与Daya Bay实验约束动机}
+
+在 JUNO 早期运行阶段，反应堆中微子能谱测量面临显著的统计限制。特别是作为近探测器设计的 TAO 子实验，其主要目标是以优异的能量分辨率直接测量反应堆中微子能谱的精细结构。然而在实验启动初期，TAO 尚无法积累足够的统计量以对反应堆谱形进行高精度约束。另一方面，TAO 早期可能无法获得反应堆停堆（reactor-off）数据，这对背景估计的精确性非常重要。这意味着 JUNO 在首篇物理结果中，无法完全依赖自身或 TAO 的数据独立确定反应堆中微子能谱的不确定性。
+
+在缺乏高统计量近点能谱测量的情况下，反应堆中微子模型不确定性将直接传播至远端振荡分析中。由于 JUNO 采用前向折叠（forward-folded）能谱拟合方法，理论反应堆能谱需要经过振荡效应、IBD 截面以及探测器响应函数卷积后，与重建能谱进行比较。因此，输入反应堆能谱的形状误差会以高度相关的方式影响最终振荡参数的提取。如果不加控制，这种模型依赖可能在统计误差尚未完全主导时，就成为系统误差的主要来源。
+
+而Daya Bay 实验已积累了超过 550 万个电子反微中子事件的高统计数据。这些高统计数据可为 JUNO 提供对初始反应堆反中微子能谱的有力约束，从而显著降低远场振荡分析中由谱形不确定性引入的系统误差。
+
+基于上述考虑，JUNO 首篇物理结果计划采用与大亚湾实验（Daya Bay, DYB）的联合分析策略。大亚湾近探测器具有极高统计量的反应堆中微子能谱测量结果，可为反应堆谱形提供外部约束。然而，由于 DYB 探测器能量分辨率相对有限，其对谱形细结构的约束能力存在固有尺度限制。因此，在将 DYB 数据引入联合拟合框架时，必须对反应堆能谱的自由度进行合理参数化，使其既能有效吸收模型不确定性，又不超出 DYB 实验的约束能力。
+
+这一本质上的统计与系统误差之间的张力，构成了反应堆能谱分段（segmentation）策略设计的出发点。下一节将介绍联合分析框架及其数学形式化描述。
+
+
+为了利用近点探测器对反应堆能谱的约束，我们将 Daya Bay实验提供的经过去振荡、去 SNF/Non-Eq 修正并按每次裂变归一化的提示能谱 $\boldsymbol{M}^{\rm DYB}$ 纳入联合拟合。Daya Bay 的数据项采用带完整协方差矩阵的 χ²：  
 \begin{equation}  
 \chi^2_{\rm DYB} = (\boldsymbol{M}^{\rm DYB} - \boldsymbol{T}^{\rm DYB})^\top \mathbf{Cov}^{-1} (\boldsymbol{M}^{\rm DYB} - \boldsymbol{T}^{\rm DYB}),  
 \label{eq:Chisq:DYB}  
@@ -117,38 +242,109 @@
 \end{equation}
     
 
-\begin{itemize}
-    \item 不同 baseline 与 systematics；
-    \item 统计挑战：。
-\end{itemize}
 
-\section{segment 分 bin 策略}
+* 解释两类分 bin 问题：反应堆谱（对 model-dependence 敏感）与重建能谱（对统计近似与偏差敏感）。  
+    1.2 研究方法与指标
+    
+* 描述采用的方法：构建两类反应堆模型（固定模型 vs 变化模型），并基于大量 toy-MC 进行比较；JUNO 重构能谱下以不同 bin 宽研究偏差与覆盖率。
+    
+* 列出评估指标：参数偏差（bias）、精度（precision）、覆盖率（coverage）、系统误差幅度（relative systematic error）、拟合收敛性与计算成本。  
+    1.3 数据源与联合约束
+    
+* 说明联合使用大亚湾（Daya Bay）数据的思路：写明 $\chi^2_{\rm DYB}$ 与 $\chi^2_{\rm JUNO}$ 的合并形式（即式 (Chisq:Total)），解释外部约束（$\sin^2\theta_{13}$, $\Delta m^2_{31}$）在联合拟合中的角色。
+    
 
-\begin{itemize}
-    \item segment 定义（反应堆能谱）；
-    \item 如何减少 model bias。
-\end{itemize}
+* * *
 
-\section{反应堆模型系统误差}
+\subsection*{2. 反应堆中微子能谱的分 bin 优化（Reactor-spectrum binning）}
 
-\begin{itemize}
-    \item flux model、bump、SNF、noneq；
-\end{itemize}
+2.1 物理与统计背景
 
-\section{联合拟合实现细节}
+* 说明反应堆谱的物理特征（细结构、summation spectrum vs conversion model），以及为何分段尺度会影响 model-dependence。  
+    2.2 模型与实验设置
+    
+* 描述两套模型：
+    
+    * 固定反应堆模型（baseline/fiducial spectrum）；
+        
+    * 变化反应堆模型（引入小振幅细结构 / shape perturbations / model variations）。
+        
+* 说明如何生成 toy-MC（抽样方案、包含哪些系统误差：SNF、NonEq、fission fraction 等），以及如何在每个分段策略下进行拟合与统计总结。  
+    2.3 分段策略扫描设计
+    
+* 介绍要比较的分段尺度（如 50 keV、100 keV、200 keV、300 keV、500 keV 等）；说明分段如何对应到 fission-spectrum segmentation（或“segment”划分）。  
+    2.4 结果：固定模型下的灵敏度与精度
+    
+* 展示固定模型条件下，不同 segment 对振荡参数（例如 $\Delta m^2_{31}$, $\Delta m^2_{21}$, $\sin^2\theta_{12}$）精度的影响。
+    
+* 图表建议：精度随 bin 宽/segment 大小变化图（线图或条图），并给出数值表。  
+    2.5 结果：模型扰动下的稳健性（model-variation test）
+    
+* 展示当引入模型变化（fine structure perturbations）后，各分段下振荡参数的偏移与系统误差评估。
+    
+* 给出关键结论：在某一分段尺度（实测为 300 keV）下，反应堆模型依赖引入的系统误差 < 0.3%（数值化说明）。  
+    2.6 讨论与建议
+    
+* 解释为什么 300 keV 是折中选择（统计—系统误差权衡）；讨论对联合 DYB 约束的敏感性与采用该尺度对 FC 构造/发布策略的影响。
+    
+* 提供对不同实验情景（高统计/低统计、是否有 TAO/ DYB 约束）下的可调整建议。
+    
 
-\begin{itemize}
-    \item 参数共享与独立参数；
-    \item 联合 likelihood；
-    \item 资源需求。
-\end{itemize}
+* * *
 
-\section{对实验结果的影响评估}
+\subsection*{3. JUNO 重建能谱的分 bin 策略（Reconstructed-energy binning）}
 
-\begin{itemize}
-    \item segment 策略前后的对比；
-    \item 对 dmsq 精度影响。
-\end{itemize}
+3.1 背景与问题来源
+
+* 解释重建能谱分 bin 导致的两个主要问题：低统计量下单个 bin 统计近似不成立（高斯近似失效），以及 bin 过粗导致谱形信息丢失（降低灵敏度）。  
+    3.2 实验设计与 toy-MC 测试框架
+    
+* 固定观测区间（如 [0.8,12] MeV），在多组 bin 数（或 bin 宽）下重复生成 toy-MC 数据并拟合。说明统计方法的比较：Gaussian χ²（含 CNP 或 Pearson 混合方差）与 Poisson （精确似然或 CNP）统计量。  
+    3.3 结果：偏差与分布特性
+    
+* 展示不同 bin 宽条件下拟合参数的偏差（bias）随 bin 宽的变化曲线。
+    
+* 给出阈值行为：当 bin 宽 ≥ 100 keV 时偏差趋于稳定且最小；bin 更细时偏差显著上升（由单 bin 统计稀少导致）。  
+    3.4 结果：不同统计量比较（Gaussian vs Poisson）
+    
+* 展示使用 Gaussian 近似会产生系统性偏差的情况（在极细 bin 与低统计量下），而 Poisson 统计量在相同条件下结果分布与真实值一致（无显著偏差）。
+    
+* 建议在极细分箱情形或低统计量阶段采用 Poisson 统计量以避免偏差；对已证实满足 Wilks 条件的参数可继续用 Gaussian 近似以节省计算。  
+    3.5 讨论与建议
+    
+* 给出对 JUNO 重建能谱分 bin 的推荐：**建议 bin 宽 ≥ 100 keV** 以避免偏差，同时在需要极细谱结构研究时结合 Poisson 统计或加大采样（toy 数）以保持频率学覆盖。
+    
+* 讨论对 FC 构造与最终结果发布的实践影响（例如何时报告某参数、何时仅给出上限或不报告）。
+    
+
+* * *
+
+\subsection*{4. 联合分析（JUNO–DYB / JUNO–TAO）下的分 bin 策略考量}
+
+4.1 联合约束如何改变分 bin 的需求（DYB 提供近场谱约束、TAO 提供高分辨近堆谱）  
+4.2 对于联合分析的推荐策略：在何种情况下可以放宽反应堆谱分段（因 DYB/TAO 限制了模型依赖）；以及联合分析对重构 bin 的影响  
+4.3 实际应用示例（可附表/图）：展示在引入 DYB 约束后，反应堆谱模型依赖误差如何下降，以及对分 bin 推荐的修正
+
+* * *
+
+\subsection*{5. 方法学细节、基准与稳健性检验}
+
+5.1 toy-MC 生成的详细配置（事件率、系统误差模型、随机种子、重复次数）  
+5.2 拟合流程与最小化器配置（iminuit / SGD 混合策略等）以及并行/加速实现说明  
+5.3 统计检验：覆盖率（coverage）测试、Wilks 条件检验、双峰/多峰情形处理方法  
+5.4 敏感性分析：对 SNF、NonEq、fission fraction 不确定性进行扫描并展示对分 bin 选择的影响
+
+* * *
+
+\subsection*{6. 小结与最终建议（Recommendations）}
+
+* 归纳两部分的核心结论：
+    
+    * 反应堆谱分段推荐 ~**300 keV**（在本工作定义的 model-variation 范围内，systematic < 0.3%）；
+        
+    * JUNO 重建能谱分箱推荐 ≥ **100 keV**（以减少低统计偏差），同时在需要使用极细 bin 时优先采用 Poisson 统计量或增加 toy 数/观测时间。
+        
+* 对未来工作的建议：在实际数据分析中将这些建议与实际系统不确定性、TAO/DYB 联合结果与实验运行期望相结合，必要时做在线微调（adaptive binning）。
 
 \chapter{介绍ToyMC, solar parameter, 重建能谱分bin，以及不同的统计方法之间的比较（bias的比较）}
 我介绍完统计方法之后（包括卡方函数以及各个pull的高斯项）。我想把以下内容加到里面，如何加入。主要是想讲解高斯型卡方以及poisson型统计方法的区别以及推导。因为

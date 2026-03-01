@@ -14,7 +14,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{"Img/accelerational importance.png"}
-    \caption{加速重要性示意图}
+    \bicaption{加速重要性示意图}{Schematic illustration of the motivation for acceleration.}
     \label{fig:accelerational_importance}
 \end{figure}
 
@@ -50,7 +50,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.55\textwidth]{Img/time_distribution_in_one_fit.png}
-  \caption{单次拟合中各主要处理阶段的时间占比。谱计算（绿色）主导总耗时，而最小化器（紫色）仅占少量比例。}
+  \bicaption{单次拟合中各主要处理阶段的时间占比。谱计算（绿色）主导总耗时，而最小化器（紫色）仅占少量比例。}{Relative contributions of major processing stages in one fit. The signal spectrum calculation (green) dominates the runtime, whereas the minimizer (purple) accounts for only a minor share.}
   \label{fig:acc_time_distribution_in_one_fit}
 \end{figure}
 
@@ -59,7 +59,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.55\textwidth]{Img/time_distribution_in_signal_spectrum_calculation.png}
-  \caption{能谱计算内部的时间构成。探测器响应矩阵的计算（绿色）占多数，其次是沉积能量谱的生成（橙色），其余任务占比很小（蓝色）。}
+  \bicaption{能谱计算内部的时间构成。探测器响应矩阵的计算（绿色）占多数，其次是沉积能量谱的生成（橙色），其余任务占比很小（蓝色）。}{Internal decomposition of the signal spectrum calculation. Most of the time is spent on the detector response matrix calculation (green), with additional contributions from the generation of the deposited energy spectrum (orange) and other minor tasks (blue).}
   \label{fig:acc_time_distribution_in_signal_spectrum_calculation}
 \end{figure}
 
@@ -112,7 +112,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]  
     \centering  
     \includegraphics[width=0.55\textwidth]{Img/IBD_cross_matrix.png}  
-    \caption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar\nu})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar\nu}$（MeV）；颜色越暖表示差分截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}  
+    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar\nu})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar\nu}$（MeV）；颜色越暖表示差分截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\overline{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\overline{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
     \label{fig:sparse_cross_section}  
 \end{figure}
 
@@ -135,6 +135,7 @@ $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 
 \begin{algorithm}[htbp]
 \caption{分块构造探测器响应矩阵 $R[i,j]$ 的伪代码}
+\caption*{Pseudocode for blocked construction of the detector response matrix $R[i,j]$.}
 \begin{algorithmic}[1]
 \Require 沉积能量网格 $E_{\rm dep}[j]$（$j=0,\dots,N_{\rm dep}-1$），重构能量 bin 边界 $E_{\rm rec}^{\rm edge}[k]$（$k=0,\dots,N_{\rm rec}$），分块宽度 $B$
 \Ensure 响应矩阵 $R[i,j]$（$i=0,\dots,N_{\rm rec}-1$；$j=0,\dots,N_{\rm dep}-1$）
@@ -169,7 +170,7 @@ $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 \begin{figure}[htbp]  
 \centering  
 \includegraphics[width=0.6\textwidth]{Img/fitting_time_under_different_optimization_strategies.png}  
-\caption{不同优化策略下单次拟合平均耗时比较。横坐标依次为：未经优化的基线实现（\textit{Origin}）、仅启用缓存（\textit{opt1}）、缓存 + 差分截面稀疏表示（\textit{opt2}）、缓存 + 稀疏表示 + 分块乘法（\textit{opt3}）。纵坐标为单次拟合的平均壁钟时间（秒）。柱状图展示了随着逐步应用优化策略，运行时间的逐级下降；其中 \textit{opt3} 达到最短的拟合时间。}  
+\bicaption{不同优化策略下单次拟合平均耗时比较。横坐标依次为：未经优化的基线实现（\textit{Origin}）、仅启用缓存（\textit{opt1}）、缓存 + 差分截面稀疏表示（\textit{opt2}）、缓存 + 稀疏表示 + 分块乘法（\textit{opt3}）。纵坐标为单次拟合的平均壁钟时间（秒）。柱状图展示了随着逐步应用优化策略，运行时间的逐级下降；其中 \textit{opt3} 达到最短的拟合时间。}{Comparison of average fitting time per fit under different optimization strategies. The horizontal axis lists the tested strategies: the baseline without optimization (\textit{Origin}), caching only (\textit{opt1}), caching with sparse matrix representation (\textit{opt2}), and caching with sparse matrix representation plus block multiplication (\textit{opt3}). The vertical axis shows the average wall-clock time in seconds required for a single fit. The bars illustrate the progressive reduction in runtime as successive optimizations are applied, with \textit{opt3} achieving the shortest fitting time.}  
 \label{fig:fit_per_t_opt}  
 \end{figure}
 
@@ -178,7 +179,7 @@ $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 \begin{figure}[htbp]  
 \centering  
 \includegraphics[width=0.6\textwidth]{Img/computation_time_comparison_before_after_acceleration.png}  
-\caption{主要模块在应用加速技术前后的计算时间对比。图中显示探测器响应矩阵与沉积能量谱计算这两项主导性任务在加速后均获得显著缩短，从而推动整体拟合耗时的大幅下降。}  
+\bicaption{主要模块在应用加速技术前后的计算时间对比。图中显示探测器响应矩阵与沉积能量谱计算这两项主导性任务在加速后均获得显著缩短，从而推动整体拟合耗时的大幅下降。}{Computation-time comparison of major modules before and after acceleration. The dominant tasks—detector response matrix construction and deposited-energy spectrum calculation—are significantly reduced after optimization, leading to a large decrease in the overall fit time.}  
 \label{fig:computation_time_comparison_before_after_acceleration}  
 \end{figure}
 
@@ -210,7 +211,7 @@ $$T_{\text{full}}=\mathcal{O}(M\cdot N).$$
 \begin{figure}[htbp]  
 \centering  
 \includegraphics[width=0.6\textwidth]{Img/fitting_time_vs_bin_width.png}  
-\caption{单次完整拟合耗时随重建能量能谱 bin 宽的变化。横轴为重建能量能谱直方图的 bin 宽（MeV）；纵轴为单次完整拟合的时间（秒）。曲线对应不同的优化配置：绿色 — 基线（无优化）；红色 — 仅缓存；蓝色 — 缓存 + 稀疏（CSR）存储；品红色 — 缓存 + 稀疏 + 分块（tiled）乘法。每个点均在相同的能量区间 $[0.8,\,12.0]$ MeV 下通过不同等距箱数计算得到。}  
+\bicaption{单次完整拟合耗时随重建能量能谱 bin 宽的变化。横轴为重建能量能谱直方图的 bin 宽（MeV）；纵轴为单次完整拟合的时间（秒）。曲线对应不同的优化配置：绿色 — 基线（无优化）；红色 — 仅缓存；蓝色 — 缓存 + 稀疏（CSR）存储；品红色 — 缓存 + 稀疏 + 分块（tiled）乘法。每个点均在相同的能量区间 $[0.8,\,12.0]$ MeV 下通过不同等距箱数计算得到。}{Fitting time as a function of reconstruction-bin width. The horizontal axis shows the bin width of the reconstructed-energy histogram (MeV); the vertical axis gives the total wall-clock fitting time (s) for a single full fit. Curves correspond to different optimization configurations: green — baseline (no optimization); red — caching only; blue — caching + sparse (CSR) matrix storage; magenta — caching + sparse matrix + block (tiled) matrix multiplication. Each point was obtained for the same reconstructed-energy interval ([0.8, 12.0] MeV) but with different numbers of uniform bins (equivalently different bin widths).}  
 \label{fig:fit_time_per_bins}  
 \end{figure}
 
@@ -229,26 +230,4 @@ $$T_{\text{full}}=\mathcal{O}(M\cdot N).$$
 
 总体而言，本工作所采用的缓存、稀疏化与分块等互补性优化措施，大幅降低了重建能量能谱拟合的计算代价，构建了一个高效且可扩展的前向折叠（forward-folding）加速框架。该方法对当前与未来的中微子实验（例如 JUNO、Hyper-Kamiokande、DUNE 等）具有广泛适用性，有助于开启更大规模的 toy-MC 研究、更快速的参数扫描以及更可行的频率学置信带（Feldman–Cousins）构造。
 
-\section{近似统计加速方法}
-
-\begin{itemize}
-    \item Profiled-FC；
-    \item Asimov；
-    \item bootstrap。
-\end{itemize}
-
-\section{性能评估与基准测试}
-
-\begin{itemize}
-    \item speed-up、CPU-hours；
-    \item strong/weak scaling；
-    \item coverage comparison。
-\end{itemize}
-
-\section{代码结构建议}
-
-\begin{itemize}
-    \item toy-generator, fitter, job-manager, result-aggregator；
-    \item config.json、单元测试、CI。
-\end{itemize}
 

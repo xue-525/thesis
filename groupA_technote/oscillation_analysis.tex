@@ -236,8 +236,9 @@ enter only for JUNO-specific corrections (different cores, SNF, equilibrium adju
 
 Represent DYB spectrum as:
 \begin{equation}
-  S_{\text{DYB}}(E) = S_0(E) + \sum_{i=1}^{N} \alpha_i B_i(E)
+  S_{\text{DYB}}(E) = S_0(E) + \sum_{i=1}^{N} \alpha_i B_i(E)\,,
 \end{equation}
+where \(S_0(E)\) denotes the initial (nominal) reactor spectrum.
 
 \begin{itemize}
   \item $S_0(E)$: Nominal Huber-Mueller (HM) prediction based on short-irradiation ILL data
@@ -380,14 +381,14 @@ leading to \textbf{biased oscillation parameters}. Must avoid this regime.
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
-    \includegraphics[width=\linewidth]{5_oscillation/segment_dmsq21.png}
+    \includegraphics[width=\linewidth]{Img/binning strategy/segment_dmsq21.png}
     \caption{}
     \label{fig:segment_dmsq21}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
-    \includegraphics[width=\linewidth]{5_oscillation/segment_sinsq12.png}
+    \includegraphics[width=\linewidth]{Img/binning strategy/segment_sinsq12.png}
     \caption{}
     \label{fig:segment_sinsq12}
   \end{subfigure}

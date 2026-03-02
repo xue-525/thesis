@@ -1,21 +1,27 @@
 \chapter{中微子振荡分析方法（Oscillation Analysis Methods）}
 %=====================================================================
-
-\section{江门中微子实验与中微子振荡}
-
-\section{能谱计算}
-\subsection{反应堆中微子的探测}
+\section{反应堆中微子的探测}
 \label{sec:theory}
+在商用轻水反应堆中释放的电子反中微子 $\bar{\nu}_e$ 主要来自轻水反应堆中四种主要裂变产物：$^{235}$U、$^{238}$U、$^{239}$Pu 和 $^{241}$Pu。以 JUNO 实验为例，其周围核电站提供超过 99.7\% 的中微子通量来源于上述四种核素。反应堆中微子被认为是能量在数 MeV 量级的低能中微子，其出射谱由上述各同位素的裂变率与每次裂变产生的谱形共同决定。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{Img/Figure-2.pdf}
+\bicaption[通过 IBD 测得的反应堆中微子能谱与四种核素产生的中微子流强构成]{图中红线为通过逆贝塔衰变（IBD）测量得到的预期反应堆中微子预期总能谱，蓝线为 IBD 反应截面随中微子能量的变化，彩色实线分别表示四种主要裂变核素（$^{235}\mathrm{U}$、$^{239}\mathrm{Pu}$、$^{238}\mathrm{U}$、$^{241}\mathrm{Pu}$）产生的中微子谱流强。顶部示意图给出 IBD 事件的关联事例（正电子与湮灭 $\gamma$）与延迟（中子俘获 $\gamma$）的偶然符合。图来自文献\citep{Vogel2015NeutrinoOscillation}}{Expected reactor antineutrino energy spectrum measured by the IBD reaction and component contributions. The red curve shows the expected total reactor antineutrino spectrum as measured via the inverse beta decay (IBD) channel (antineutrino energy per MeV per fission). The blue curve (right axis) gives the energy-dependent IBD cross section (cm$^2$). Colored solid lines denote the antineutrino fluxes produced by the four main fissile isotopes ($^{235}\mathrm{U}$, $^{239}\mathrm{Pu}$, $^{238}\mathrm{U}$, $^{241}\mathrm{Pu}$). The schematic above illustrates the typical prompt (positron and annihilation $\gamma$) and delayed (neutron capture $\gamma$) signals of an IBD event. The figure emphasizes the IBD sensitivity in the few-MeV region and the isotope-dependent spectral features relevant for reactor neutrino spectroscopy and oscillation analyses (figure from Ref\citep{Vogel2015NeutrinoOscillation}).}
+\label{fig:reactor_ibd_spectrum}
+\end{figure}
+
+图~\ref{fig:reactor_ibd_spectrum} 展示了通过 IBD 反应测得的反应堆中微子能谱（红线）、IBD 截面（蓝线）与四种主要裂变核素的通量贡献（彩色曲线）；该图说明了不同核素对谱形的差异性以及IBD反应示意，因而精确的能量重建与谱学系统误差控制对振荡参数与质量顺序的测定至关重要。JUNO 探测器正是通过探测这些反应堆中微子与 LS 中自由质子的 IBD 相互作用，从而获取反应堆中微子通量和能谱信息，为中微子振荡参数的精确测定提供重要数据支撑。
 
 在基于反应堆的中微子实验中，能量在数兆电子伏特（MeV）范围内的电子反中微子（$\bar{\nu}_e$）主要通过反贝塔衰变（Inverse Beta Decay，IBD）过程进行探测，即：
 
-$$\bar{\nu}_e + p \rightarrow e^+ + n $$
+\begin{equation}
+\bar{\nu}_e + p \rightarrow e^+ + n 
+\end{equation}
 
-该过程通常在液体闪烁体（Liquid Scintillator, LS）探测器中发生，得益于 IBD 相对较大的反应截面，这种探测方式具有优异的灵敏度和背景抑制能力。在这一反应中，反中微子与探测介质中的自由质子相互作用，产生一个正电子和一个中子。正电子在极短时间内将其动能通过电离损失沉积于探测器中，并与电子发生湮灭反应，释放出两个 511 keV 的伽马光子，形成“快信号”（prompt signal）；而中子经过热化过程后被周围的原子核俘获，随后释放出特征性的伽马光子，形成数百微秒尺度的“慢信号”（delayed signal）。快慢信号在时间和空间上的关联性可有效抑制自然放射背景和宇生粒子等非关联事例，因而 IBD 通道在实际实验中被广泛采用，尤其适用于反应堆中微子的精准测量与振荡研究。
+该过程通常在液体闪烁体（Liquid Scintillator, LS）探测器中发生，得益于 IBD 相对较大的反应截面，这种探测方式具有优异的灵敏度和背景抑制能力。在这一反应中，反中微子与探测介质中的自由质子相互作用，产生一个正电子和一个中子。正电子在极短时间内将其动能通过电离损失沉积于探测器中，并与电子发生湮灭反应，释放出两个 511 keV 的伽马光子，形成“快信号”（prompt signal）；而中子经过热化过程后被周围的原子核俘获，随后释放出特征性的伽马光子，形成数百微秒尺度的“慢信号”（delayed signal）。快慢信号在时间和空间上的关联性可有效抑制自然放射本底和宇生粒子等非关联事例，因而 IBD 通道在实际实验中被广泛采用，尤其适用于反应堆中微子的精准测量与振荡研究。
 
-反应堆中产生的电子反中微子主要来自轻水反应堆中四种主要裂变产物：$^{235}$U、$^{238}$U、$^{239}$Pu 和 $^{241}$Pu。这些核素裂变所释放的中微子总数中，$^{235}$U 占主导地位。以 JUNO 实验为例，其周围核电站提供超过 99.7\% 的中微子通量来源于上述四种核素。JUNO 探测器正是通过探测这些反应堆中微子与 LS 中自由质子的 IBD 相互作用，从而获取反应堆中微子通量和能谱信息，为中微子振荡参数的精确测定提供重要数据支撑。
-
-在 IBD 相互作用中，正电子携带了绝大部分反中微子的能量。其动能通过在闪烁体中的沉积和湮灭产生闪烁光，进而被光电倍增管（PMTs）收集转换为光电子（photoelectrons, PE），再由电子学系统记录。由于正电子能量和入射中微子能量之间存在线性关系，且快信号具有良好的时间分辨，正电子能谱可作为反中微子能谱的有效代理量。然而，探测系统的非线性响应效应（nonlinearity, NL），包括闪烁体的非线性发光、光子传播过程的损耗以及电子学系统的增益不均等，会引起实际可见能量 $E^{\text{vis}}$ 与真实能量 $E_{\bar{\nu}_e}$ 之间的偏离。因此，实验中通常采用标定源（如 $\gamma$、$e^-$ 或 $\alpha$）进行能量响应刻度，并建立非线性修正模型。
+在 IBD 相互作用中，正电子携带了绝大部分反中微子的能量。其动能通过在闪烁体中的沉积和湮灭产生闪烁光，进而被光电倍增管（PMTs）收集转换为光电子（photoelectrons, PE），再由电子学系统记录。由于正电子能量和入射中微子能量之间存在线性关系，且快信号具有良好的时间分辨，正电子能谱可作为反中微子能谱的有效代理量。然而，探测系统的非线性响应效应（nonlinearity, NL），包括闪烁体的非线性发光、切伦科夫光的贡献，光子传播过程的损耗以及电子学系统的增益不均等，会引起实际可见能量 $E^{\text{vis}}$ 与真实能量 $E_{\bar{\nu}_e}$ 之间的偏离。因此，实验中通常采用标定源（如 $\gamma$、$e^-$ 或 $\alpha$）进行能量响应刻度，并建立非线性修正模型。
 
 以 JUNO 为例，其液体闪烁体的组分与大亚湾实验极为相似，实验利用精细的刻度系统和基于大亚湾经验的非线性模型，对能量响应进行了全面刻画。此外，JUNO 采用优化的能量重建算法和统计方法，实现了优异的能量分辨能力。这使得其能够高精度测量正电子的沉积能量谱，进而反推出反应堆中微子能谱，在中微子质量有序、混合角精确测量等物理目标上具有显著优势。
 
@@ -96,18 +102,30 @@ $$\phi_r^{\rm tot}(E_{\bar\nu},t)
 其中 $\phi_r^{\rm base}$ 通常采用 Huber–Müller 或求和法得到的基准谱，$\phi_r^{\rm NonEq}$ 由对堆内长寿命产物的累积计算得到，$\phi_r^{\rm SNF}$ 则由冷却池中各 SNF 批次的残余放射性与几何-时间积分得到。上述两项修正既可作为谱的确定性修正项直接加入 $\phi_r^{\rm tot}$，也可在不确定度评估中作为可变项（例如通过生成一组扰动谱进行 toy-MC）来量化它们对振荡参数拟合结果的影响。
 
 \subsubsection{反应堆相关输入不确定度处理}
-在不确定度处理上，本研究采用与现有实验一致的保守方案：对 Non-Eq 与 SNF 的不确定性赋予较大的置信区间（本分析采用 30\% 作为速率不确定度的参考值），而对其谱形不确定性（shape uncertainty）在主分析中暂予以忽略（即假定谱形修正的能量依赖可由基线模型近似覆盖）。在相关性方面，将 Non-Eq 与 SNF 的速率不确定性在同一核电站（NPP）内部的各堆芯之间视为完全相关，而不同核电站之间视为不相关；远场贡献较小的核电站可作为光滑背景项处理，并在协方差矩阵中加入相应的不确定度分量。对于裂变能，每次裂变释放的能量 $e_i$ 被定义为在有限时间尺度内转化为热功的那部分能量，已扣除由中微子带走的能量及被非裂变材料俘获的能量。需要指出的是，裂变能并非一个严格的基础常数，而是会随反应堆工况（诸如燃料组成、温度和中子谱）略有变化。实验上，Daya Bay 等实验研究表明裂变能的微小波动确实存在，因此在通量归一化与不确定度评估中应予以考虑。在通量计算式（见式 (2-15)）中，裂变能 $e_i$ 出现在归一化因子 $\sum_i f_{ir}(t)\,e_i$ 中，用于将堆芯的热功率 $W_r(t)$ 转化为对应的裂变率。为反映裂变能的不确定性，本研究对各同位素的裂变能采用保守处理：在构建总协方差矩阵时将裂变能的速率不确定性按“堆芯内部完全相关”的假设加入，对于${}^{235}$U、${}^{238}$U、${}^{239}$Pu、${}^{241}$Pu 的近似平均裂变能分别为 202.36、205.99、211.12、214.26 MeV），并对其赋予与 Daya Bay 一致的相对不确定度处理。对于裂变份额（Fission fraction），电子反中微子的源强度不仅依赖于每次裂变产生的谱形$s_i(E_\nu)$还受各裂变同位素在堆芯内的相对贡献——即裂变份额$f_{ir}(t)$的时间演化影响。随着燃料燃耗（burn-up）的进行，铀的消耗与钚等产生成比例变化，使得$f_{ir}(t)$随时间显著改变。为获得堆芯随时间的裂变份额分布，通常利用经过验证的堆芯燃料演化计算工具（如 SCIENCE/APOLLO2）结合堆内运行与换料历史进行模拟；Daya Bay 的研究表明，APOLLO2 对乏核燃料同位素含量的预测与直接测量之间的偏差小于约 5\%。基于上述经验与仿真结果，本研究对每一个堆芯的裂变份额采用保守的不确定度假设：单个同位素裂变份额的不确定度取5\%（相对值），并通过构建相关矩阵充分反映同位素间以及堆芯间的相关性。在堆芯间的相关性处理上，本文沿用了与裂变能相同的保守策略：将裂变份额的不确定度在各堆芯间假定完全相关，而不同核电站之间视为不相关。
+在本研究中，我们对来自反应堆输入（Non-Eq、SNF、裂变能 $e_i$、裂变份额 $f_{ir}$ 等）的不确定度采取较为保守的处理方案。
 
-除基准的 Huber–Müller 模型外，基于核数据库的求和法（summation method）能生成包含更多细结构信息的能谱，这类谱对于评估反应堆模型依赖引入的系统误差尤为重要。因此，在后续的不确定度量化与分 bin 策略研究中，将同时使用 Huber–Müller 基准谱与由 summation 法产生的一组扰动谱作为输入，比较拟合偏差并据此构建反应堆模型相关的协方差项，或作为 toy-MC 的生成输入以直接评估对振荡参数拟合的影响。
+1. \textbf{Non-Eq 与 SNF 的产额不确定度}
 
-数值实现上，上述连续能谱在能量格点上离散化后供 IBD 微分截面映射与探测器响应矩阵使用；有关谱的时间演化、燃料构成随时间变化的处理、以及 Non-Eq 与 SNF 的具体计算步骤将在第附录与实现章节中详细给出。下一节将以 IBD 反应的微分截面为出发点，说明从到达通量到沉积能量谱 $N(E_{\rm dep})$ 的数值映射与矩阵化实现方法。
+非平衡态（Non-Eq）与乏核燃料（SNF）对瞬时通量的相对影响本就处于亚百分比量级，但由于其估计具有较大模型与历史依赖性，本研究对这两类产额项采用保守置信区间：产额不确定度取 $30\%$（作为参考值并与文献/合作组当前实践一致）。在相关性处理上，Non-Eq 与 SNF 的产额不确定度在同一核电站（NPP）内部的各堆芯之间视为\textbf{完全相关}（即堆芯间该项同符号、同幅度浮动），而不同核电站之间视为\textbf{不相关}。对远场（contribution small）核电站，可将其作为平滑背景项处理，并在协方差矩阵中加入相应的方差分量。
+
+2. \textbf{裂变能 $e_i$ 的不确定度}
+
+裂变能 $e_i$ 定义为每次裂变最终以热功形式释放出来（已扣除中微子所带走的能量与被非裂变材料俘获的能量）。裂变能并非绝对常数，会随燃料组成、温度与中子谱出现微小变化。本文采用的近似平均值为（单位 MeV）：${}^{235}\mathrm{U}:202.36,\; {}^{238}\mathrm{U}:205.99,\; {}^{239}\mathrm{Pu}:211.12,\; {}^{241}\mathrm{Pu}:214.26$。为反映其不确定性，我们在构建总协方差矩阵时将裂变能的不确定度按“堆芯内部完全相关”的假设加入协方差（即在同一 NPP 内各堆芯归一化因子受同一裂变能波动影响）；不同 NPP 之间则视为不相关。裂变能对通量的作用主要通过归一化因子 $\sum_i f_{ir}(t)\,e_i$ 将热功 $W_r(t)$ 转换为裂变率，因此其不确定度可直接映射为谱的整体归一化不确定度。
+
+3. \textbf{裂变份额 $f_{ir}(t)$ 的不确定度与相关性}
+
+裂变份额随燃耗（burn-up）演化而显著变化，决定了各同位素对源谱的相对贡献。堆芯演化通常通过经过验证的燃料演化代码（如 APOLLO2/SCIENCE）结合运行与换料历史进行预测；Daya Bay 等实验证实这些预测与测量之间的偏差通常小于 $\sim 5\%$。基于此与合作组常用的经验，本文对单个同位素裂变份额取\textbf{相对不确定度 5\%}。在相关性处理上，裂变份额的不确定度在同一堆芯内部的不同同位素之间通过构造适当的相关矩阵反映（negative-correlation 等约束可强制总和守恒）；在堆芯间我们同样沿用保守策略：把裂变份额的不确定度在同一 NPP 内假定\textbf{完全相关}，不同 NPP 之间视为不相关。
+
+除基准的 Huber–Müller 模型外，基于核数据库的求和法（summation method）能生成包含更多精细结构信息的能谱，这类谱对于评估反应堆模型依赖引入的系统误差尤为重要。因此，在后续的不确定度量化与分 bin 策略研究中，将同时使用 Huber–Müller 基准谱与由 summation 法产生的一组扰动谱作为输入，评估对振荡参数拟合的影响。
 
 
-\begin{table}[htbp]
-  \centering
-  \caption{JUNO 主要反应堆堆芯信息（功率、基线与裂变份额）}
+\begin{table}[!htbp]
+  \bicaption[JUNO 主要反应堆堆芯信息（功率、基线与裂变份额）]{本表列出用于本文分析的主要反应堆堆芯信息，包括堆芯标识（CoreName）、所属核电站（NPP）、额定热功率（GW）、到 JUNO 的基线距离（km），以及四种主要裂变同位素 $^{235}\mathrm{U}$、$^{238}\mathrm{U}$、$^{239}\mathrm{Pu}$ 和 $^{241}\mathrm{Pu}$ 的裂变份额 $f_{235}$, $f_{238}$, $f_{239}$, $f_{241}$。裂变份额 $f_i$ 表示在给定时刻该堆芯裂变中由同位素 $i$ 贡献的相对比例，其数值随燃料燃耗演化而变化，本表给出为某一参考时刻的代表性取值。DYB（Daya Bay）与 FangChengGang（防城港）为远场反应堆群，其基线较远，对 JUNO 的贡献在本文中作为次要成分处理。}{This table lists the main reactor core information used in this analysis, including core identifier (CoreName), nuclear power plant (NPP), rated thermal power (GW), baseline distance to JUNO (km), and the fission fractions $f_{235}$, $f_{238}$, $f_{239}$, $f_{241}$ of the four main fission isotopes $^{235}\mathrm{U}$, $^{238}\mathrm{U}$, $^{239}\mathrm{Pu}$, and $^{241}\mathrm{Pu}$. The fission fraction $f_i$ denotes the relative contribution of isotope $i$ to fissions in that core at a given time; it evolves with fuel burn-up, and the values given here are representative at a reference time. DYB (Daya Bay) and FangChengGang are distant reactor groups; their baselines are large and their contributions to JUNO are treated as secondary in this analysis.}
   \label{tab:reactor_cores}
-  \small
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.2}
   \begin{tabular}{@{}l l r r r r r r@{}}
     \toprule
     CoreName & NPP & Power (GW) & Baseline (km) & $f_{235}$ & $f_{238}$ & $f_{239}$ & $f_{241}$ \\
@@ -124,103 +142,43 @@ $$\phi_r^{\rm tot}(E_{\bar\nu},t)
     FCG\_4Cs & FangChengGang & 9.28 & 411.00 & 0.58 & 0.07 & 0.30 & 0.05 \\
     \bottomrule
   \end{tabular}
-
-  \vspace{0.8em}
-  \begin{minipage}{0.95\textwidth}
-    \footnotesize
-    \textbf{表格说明：}
-    表~\ref{tab:reactor_cores} 列出了用于本文分析的主要反应堆堆芯信息，包括堆芯标识（CoreName）、所属核电站（NPP）、额定热功率（GW）、到 JUNO 的基线距离（km），以及四种主要裂变同位素
-    $^{235}$U、$^{238}$U、$^{239}$Pu 和 $^{241}$Pu 的裂变份额
-    ($f_{235}, f_{238}, f_{239}, f_{241}$)。
-    裂变份额 $f_i$ 表示在给定时刻该堆芯裂变中由同位素 $i$ 贡献的相对比例，
-    其数值随燃料燃耗演化而变化，本表给出为某一参考时刻的代表性取值。
-    DYB（Daya Bay）与 FangChengGang（防城港）为远场反应堆群，
-    其基线较远，对 JUNO 的贡献在本文中作为次要本底成分处理。
-  \end{minipage}
 \end{table}
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{Img/reactor_nu_arrival_non_osc.png}
-\caption{修正后的反中微子能谱 $\phi_r'(E_\nu, t)$（Corrected reactor antineutrino energy spectrum $\phi_r'(E_\nu, t)$）}
-\label{fig:reactor_nu_spectrum}
-\end{figure}
 
-
-
-为了获得到达探测器处的反中微子能谱，需将修正后的发射谱与反中微子在传播过程中发生振荡的存活概率 $P_{ee}(E_\nu, L_{dr})$ 相乘，其中 $L_{dr}$ 为反应堆 $r$ 到探测器 $d$ 的基线长度：
+为了获得到达探测器处的反中微子能谱，需将修正后的反应堆发射谱与反中微子在传播过程中发生振荡的存活概率 $P_{ee}(E_\nu, L_{dr})$ 相乘，其中 $L_{dr}$ 为反应堆 $r$ 到探测器 $d$ 的基线长度：
 
 $$\phi_{r}(E_\nu, t) = \phi_r'(E_\nu,t) \cdot P_{ee}(E_\nu, L_{r})$$
 
 此处中微子在物质中的传播将受到物质效应的影响，这由 Wolfenstein 最早提出~\cite{Wolfenstein1978}，并由 Mikheyev 和 Smirnov 进一步发展~\cite{Mikheyev1985}。因此$P_{ee}$ 包含了由中微子与地壳电子相互作用所引起的物质效应~\cite{Akhmedov2004}。
 
 
-为了获得到达探测器处的反中微子能谱，需要将原始反应堆发射谱与包含真空振荡和由地壳中电子引起的物质效应的存活概率 \(P_{ee}(E_{\nu},\,L)\) 相乘。在 JUNO 中，典型的反应堆到探测器基线所经历的地壳平均密度约为 \(\rho \simeq 2.6~\mathrm{g/cm^3}\)。在恒定密度近似下，电子反中微子存活概率可以用物质中的有效混合参数表示：
-
-\[
-\phi_{r}(E_{\nu},\,t) \;=\; \phi_r^{\prime}(E_{\nu},\,t)\,\times\,P_{ee}(E_{\nu},\,L_{r})\,,
-\]
-
-其中 \(L_{r}\) 为反应堆 \(r\) 到探测器 \(d\) 的基线长度。量 \(P_{ee}(E_{\nu},\,L_{r})\) 是在距离 \(L_{r}\) 内通过恒定密度物质传播后，能量为 \(E_{\nu}\) 的 \(\bar{\nu}_e\) 保持为电子反中微子的概率。定义通常的真空相位为
-
-\[
-\Delta_{ij} \;\equiv\; \frac{\Delta m^2_{ij}\,L_{r}}{4\,E_{\nu}}\,,\qquad
-A \;\equiv\; -\,\frac{2\,\sqrt{2}\,G_{F}\,N_{e}\,E_{\nu}}{\Delta m^2_{31}}\quad(\text{反中微子取负号})\,,
-\]
-
-其中 \(G_{F}\) 是费米常数，\(N_{e}\) 是地壳中电子密度。可以在物质中引入有效混合角 \(\widetilde{\theta}_{ij}\) 和有效相位 \(\widetilde{\Delta}_{ij}\)。利用这些量，存活概率表达式为~\cite{Zaglauer1988, Nunokawa2007}：
-
-\begin{align}
-P_{ee}(E_{\nu},\,L_{r}) \;=&\;
-1 \;-\; \sin^2 2\widetilde{\theta}_{12}\,\cos^4\!\widetilde{\theta}_{13}\,
-\sin^2\widetilde{\Delta}_{21}
-\;-\; \sin^2 2\widetilde{\theta}_{13}\,\Bigl(\cos^2\!\widetilde{\theta}_{12}\,\sin^2\widetilde{\Delta}_{31}
-\;+\;\sin^2\!\widetilde{\theta}_{12}\,\sin^2\widetilde{\Delta}_{32}\Bigr) \nonumber\\
-&\;-\;\tfrac{1}{2}\,\cos2\widetilde{\theta}_{12}\,\sin^22\widetilde{\theta}_{13}\,
-\sin\widetilde{\Delta}_{21}\,\sin\bigl(\widetilde{\Delta}_{31} + \widetilde{\Delta}_{32}\bigr)\,,
-\label{eq:存活概率}
-\end{align}
-
-其中
-
-\[
-\sin^2 2\widetilde{\theta}_{13} \;=\; \frac{\sin^2 2\theta_{13}}
-{\bigl(\,1 - A\,\bigr)^{2} + \sin^2 2\theta_{13}}\,, 
-\quad
-\cos^2\!\widetilde{\theta}_{13} \;=\; \frac{1 - A}{\sqrt{\,\bigl(1 - A\bigr)^{2} + \sin^2 2\theta_{13}\,}}\,,
-\]
-
-\[
-\widetilde{\Delta}_{31} \;=\; \Delta_{31}\,\sqrt{\bigl(1 - A\bigr)^{2} + \sin^2 2\theta_{13}}\,, 
-\quad 
-\widetilde{\Delta}_{32} \;=\; \widetilde{\Delta}_{31} - \widetilde{\Delta}_{21}\,,
-\]
-
-和
-
-\[
-\sin^2 2\widetilde{\theta}_{12} \;=\; \frac{\sin^2 2\theta_{12}}{\bigl(\cos2\theta_{12}\bigr)^{2}\,\Bigl(\dfrac{\Delta_{21}}{\widetilde{\Delta}_{21}}\Bigr)^{2} \;+\; \sin^2 2\theta_{12}}\,, 
-\qquad
-\widetilde{\Delta}_{21} \;=\; \Delta_{21}\,\sqrt{\Bigl(\cos2\theta_{12} - A'\Bigr)^{2} \;+\; \sin^2 2\theta_{12}}\,,
-\]
-当反中微子在基线 $L_{dr}$ 上传播至探测器 $d$ 时，其味态成分根据上式中三种轻子味的振荡公式发生演化。通过此表达式，即可计算出到达探测器处的反中微子存活概率，用于后续沉积能量谱与重建能量谱的计算。 带有物质效应的反中微子存活概率见图~\ref{fig:osc_prob}。
+当反中微子在基线 $L_{dr}$ 上传播至探测器 $d$ 时，其味态成分根据上式中三种轻子味的振荡公式发生演化 带有物质效应的反中微子存活概率见图~\ref{fig:osc_prob}。
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{Img/osc_prob.png}
+\includegraphics[width=0.6\textwidth]{Img/spectrum_cal/Oscillation_probability.pdf}
 \caption{反中微子存活几率（Electron antineutrino survival probability）}
 \label{fig:osc_prob}
 \end{figure}
 
-综上所述，通过引入乏燃料效应、非平衡修正及大亚湾经验修正因子，得到了更加精确的反应堆发射反中微子能谱 $\phi_r'(E_\nu,t)$；进而结合恒定密度近似下的三味中微子振荡概率 $P_{ee}(E_\nu, L_r)$，可以计算得到到达探测器处的反中微子能谱 $\phi_{r}(E_\nu,t)$。  
-如图~\ref{fig:reactor_nu_arrival} 所示，加入振荡效应后，能谱中出现了随能量变化的振荡结构，反映了中微子质量本征态与味态之间的混合及传播演化行为。
+综上所述，通过引入乏燃料效应、非平衡修正及大亚湾经验修正因子，得到了更加精确的反应堆发射反中微子能谱 $\phi_r'(E_\nu,t)$。如图~\ref{fig:reactor_nu_arrival}，显示了核反应堆在裂变产物加权下的出射反中微子能谱（未考虑振荡），它作为后续到达谱与振荡折算的基准输入；进而结合恒定密度近似下的三味中微子振荡概率 $P_{ee}(E_\nu, L_r)$，可以计算得到到达探测器处的反中微子能谱 $\phi_{r}(E_\nu,t)$。  
+如图~\ref{fig:reactor_nu_spectrum} 所示，将图~\ref{fig:reactor_nu_arrival}的出射谱与图~\ref{fig:osc_prob}中振荡概率以及几何衰减 $1/4\pi L^2$ 相乘后得到的实际到达探测器的能谱；加入振荡效应后，能谱中出现了随能量变化的振荡结构，反映了中微子质量本征态与味态之间的混合及传播演化行为。
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{Img/reactor_nu_arrival.png}
-\caption{到达探测器的反中微子能谱（Reactor antineutrino energy spectrum at the detector）}
-\label{fig:reactor_nu_arrival}
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[t]{0.47\textwidth}
+    \includegraphics[width=\textwidth]{Img/spectrum_cal/Neutrino_arriving_at_detector.pdf}
+    \caption{反应堆发射谱（未加振荡）}
+    \label{fig:reactor_nu_arrival}
+  \end{subfigure}%
+  ~% add desired spacing
+  \begin{subfigure}[t]{0.47\textwidth}
+    \includegraphics[width=\textwidth]{Img/spectrum_cal/Neutrino_energy_spectrum.pdf}
+    \caption{中微子能谱}
+    \label{fig:reactor_nu_spectrum}
+  \end{subfigure}
+  \bicaption{(a) 反应堆发射谱（未加振荡）：按裂变同位素加权并经归一化的电子反中微子能量分布；(b) 加入振荡与几何衰减后的探测器处预期能谱：将发射谱与存活概率以及 $1/4\pi L^2$ 因子相乘并按能量分bin得到的结果（单位为每 cm$^2$ 每年每能量bin计数）。}{(a) Reactor neutrino emission spectrum (no oscillation): the energy-dependent antineutrino yield per fission summed over fissile isotopes and normalized to reactor thermal power. (b) Predicted neutrino spectrum at the detector after oscillation and geometric attenuation: product of the emitted spectrum, oscillation probability and $1/4\pi L^2$ factors, shown here in units of counts per cm$^2$ per year per energy bin.}
 \end{figure}
 
 

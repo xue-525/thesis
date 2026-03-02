@@ -243,13 +243,14 @@ JUNO 设计同样适用于探测来自地球内部放射性元素衰变产生的
 具体地，重建能谱在低统计量条件下如果使用过细的分箱，会导致若干边缘箱（尤其是谱尾或窄能区）内事件数过小，从而违背常用高斯近似的前提。当基于高斯近似构造 χ² 或直接套用 Wilks 定理来估计置信区间时，这类近似失效会引入系统性偏差，甚至导致置信区间的覆盖率不正确。相对地，反应堆中微子能谱的分段若过细，所定义的谱形自由度可能超出近点探测器实验（Daya Bay reactor neutrino experiment）提供的约束能力，使得拟合对反应堆模型的依赖性增强，从而在不同模型假设下产生可观的系统误差。因此，分箱策略必须在“保留谱形细节以维持灵敏度”与“避免统计近似失效及模型依赖过强”之间找到平衡点。
 
 为了解决上述矛盾并给出可操作的建议，本部分将采用定量化方法：一方面通过大量 toy-MC 实验评估在不同重建能谱分箱下（从非常细到较粗）振荡参数估计的偏差与覆盖率，比较基于高斯近似（CNP,Pearson）与基于泊松似然的统计量在低统计情形下的表现；另一方面构造两类反应堆谱情形——一个为固定反应堆模型（fiducial spectrum），另一个为包含小幅谱形扰动的变化模型（model variation），在不同反应堆能谱分段尺度下比较拟合的精度与由模型依赖引入的系统误差。通过这种“固定-扰动”对比实验，我们将量化在何种中微子能谱分段尺度下，反应堆模型依赖对关键振荡参数（如 $\Delta m^2$）的影响可被接受，从而给出实验可采纳的分bin建议。
-本章研究的成果被江门中微子实验合作组采用，并应用与第一篇物理文章的振荡分析中。本章的组织如下：第1节重建能谱的分bin策略；第二节介绍反应堆能谱的分bin策略。
+本章研究的成果被江门中微子实验合作组采用，并应用与第一篇物理文章的振荡分析中。本章的组织如下：第1节介绍重建能谱的分bin策略；第二节介绍反应堆能谱的分bin策略。
 
 \section{重建能谱分bin策略与低统计量下太阳振荡参数的测量}
 本节讨论在低统计量条件下对太阳中微子振荡参数 $\Delta m^2_{21}$ 和 $\sin^2\theta_{12}$ 的测量。我们首先生成5000个伪实验数据集，振荡参数和系统学参数均取名义值，并同时包含统计涨落和系统误差涨落。然后，我们比较基于高斯近似（CNP,Pearson）与基于泊松似然的统计量在低统计情形下的表现。最后，我们给出在不同重建能谱分bin策略下，太阳振荡参数的偏差与精度。
 
-生成 toy 数据所使用的配置与 中相同。特别地，在以下结果中，我们对 Asimov 数据采用组合的 Pearson–Neyman 统计量 $\chi^2_{\mathrm{CNP}}$，而在伪实验中使用 $\chi^2_{\mathrm{P}}+\ln(|V|)$（Pearson χ² 加对数修正项）。这种选择旨在减小振荡参数估计中的偏差。
+生成 toy 数据所使用的配置与~\ref{sec:Arrived neutrino spectrum}中相同。特别地，在以下结果中，我们对 Asimov 数据以及伪实验均采用组合的 Pearson–Neyman 统计量 $\chi^2_{\mathrm{CNP}}$，这种选择旨在减小振荡参数估计中的偏差。
 
+最后，在相同的伪实验集合下，我们考察了不同重建能谱分 bin 策略对太阳振荡参数偏差（bias）与测量精度（precision）的影响。通过比较各分 bin 方案下的拟合输出分布、均值偏差与置信区间宽度，能够定量判断在早期低统计阶段采用何种分 bin 策略可在保持统计灵敏度的同时尽量抑制由高斯近似失效或低统计量引起的系统性偏差。
 \subsection{Toy MC 研究}
 
 在多个曝光时间下，生成了5000个伪实验数据集。振荡参数和系统学参数均取名义值，并同时包含统计涨落和系统误差涨落。
@@ -258,14 +259,14 @@ JUNO 设计同样适用于探测来自地球内部放射性元素衰变产生的
     \centering
     \begin{subfigure}[t]{0.47\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_bias_dm21.pdf}
+      \includegraphics[width=\linewidth]{Img/binning strategy/Bias_of_dm21_vs_exposure.pdf}
       \caption{$\Delta m^2_{21}$ 偏差随时间的变化.}
       \label{fig:dm2_21_bias}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.47\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_bias_s12.pdf}
+      \includegraphics[width=\linewidth]{Img/binning strategy/Bias_of_sin2theta12_vs_exposure.pdf}
       \caption{$\sin^2\theta_{12}$ 偏差随时间的变化.}
       \label{fig:s12_bias}
     \end{subfigure}
@@ -274,42 +275,12 @@ JUNO 设计同样适用于探测来自地球内部放射性元素衰变产生的
     \label{fig:solar_low_stat_bias}
   \end{figure}
   
-  
-  \begin{figure}[ht]
-    \centering
-    \begin{subfigure}[t]{0.47\textwidth}
-      \centering
-      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_precision_dm21.pdf}
-      \caption{$\Delta m^2_{21}$ 精度随曝光时间的变化。}
-      \label{fig:dm2_21_precision}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.47\textwidth}
-      \centering
-      \includegraphics[width=\linewidth]{Img/binning strategy/vanessa_precision_s12.pdf}
-      \caption{$\sin^2\theta_{12}$ 精度随曝光时间的变化。}
-      \label{fig:s12_precision}
-    \end{subfigure}
-  
-    \bicaption
-    {太阳振荡参数精度随曝光时间的演化。（a）$\Delta m^2_{21}$ 的精度；（b）$\sin^2\theta_{12}$ 的精度。}
-    {Evolution of the precision of solar oscillation parameters as a function of exposure time. Panel (a) shows the precision of $\Delta m^2_{21}$; panel (b) shows the precision of $\sin^2\theta_{12}$.}
-  
-    \label{fig:solar_low_stat_precision}
-  \end{figure}
-
-\autoref{fig:dm2_21_low_stat_BFV} 展示了在 30 天、50 天和 100 天曝光条件下 $\Delta m^2_{21}$ 最佳拟合值的分布。Toy MC 结果与 Asimov 结果进行了比较。蓝色标记表示使用对称 68.27\% 积分法得到的置信区间：即将所有最佳拟合值按升序排列，然后计算分布的第 16 百分位和第 84 百分位。紫色标记与曲线来自对具有相同输入参数的 Asimov 数据集的拟合结果，其最佳拟合值及不确定度由最小化算法给出，并假设服从理想高斯分布。
-
-\autoref{fig:dm2_21_low_stat_BFV} 显示，在所有测试的曝光水平下，经验分布与理论高斯预测之间具有极好的一致性。紫色曲线紧密贴合直方图，表明即使在统计量有限的情况下，$\Delta m^2_{21}$ 的测量仍表现出良好的统计性质。
-
-\autoref{fig:s12_low_stat_BFV} 给出了在 30、50 和 100 天曝光条件下 $\sin^2\theta_{12}$ 最佳拟合值的分布。虽然 $\sin^2\theta_{12}$ 的整体行为与 $\Delta m^2_{21}$ 类似，但在 30 天曝光时出现了明显偏差。不过，在 50 天时该偏差已显著减小。此外，正如下文所讨论的，采用不同的分 bin 策略可以进一步减小这一效应。
+图~\ref{fig:solar_low_stat_bias} 给出了两类太阳振荡参数随暴露时间演化的偏差行为：\autoref{fig:dm2_21_bias} 展示了在 30 天、50 天和 100 天曝光条件下 $\Delta m^2_{21}$ 偏差随时间的变化；\autoref{fig:s12_bias} 展示了在 30 天、50 天和 100 天曝光条件下 $\sin^2\theta_{12}$ 偏差随时间的变化。Toy MC 结果与 Asimov 结果进行了比较。蓝色标记表示使用对称 68.27\% 积分法得到的置信区间：即将所有最佳拟合值按升序排列，然后计算分布的第 16 百分位和第 84 百分位。紫色标记与曲线来自对具有相同输入参数的 Asimov 数据集的拟合结果，其最佳拟合值及不确定度由最小化算法给出，并假设服从理想高斯分布。可以看出低统计量下太阳振荡参数存在显著偏差，但随着取数时间增加，偏差明显变小。此外，正如下文所讨论的，采用不同的分 bin 策略可以进一步减小这一效应。
 
 
 \subsection{偏差与精度的演化}
 
 在低统计数据条件下，谱中的某些 bin 可能只包含极少的事例，甚至没有事例。在这种情况下，χ² 检验统计量会变得不可靠，从而可能在参数估计中引入偏差。减少偏差的一种实际方法是在预期事件数较少的能区，或在整个分析范围内使用更宽的 bin。改变 bin 宽度的影响将在 \autoref{sec:binning_solar} 中进行研究。以下结果均基于名义分 bin，即 20 keV 宽度。
-
-\autoref{fig:solar_low_stat_bias} 和 \autoref{fig:solar_low_stat_precision} 分别展示了两个太阳振荡参数的偏差和精度随曝光时间的变化。
 
 每个参数的偏差定义为最佳拟合值分布的平均值与真实输入值之间的归一化差异：
 
@@ -317,13 +288,40 @@ $$\text{Bias} = \frac{\langle\hat{\theta}\rangle - \theta_{\text{true}}}{\sigma_
 
 其中，$\langle\hat{\theta}\rangle$ 表示5000个伪实验中最佳拟合值的平均值，$\theta_{\text{true}}$ 为名义输入参数值，$\sigma_{68\%}$ 为由上述分布估计得到的不确定度。
 
-\autoref{fig:solar_low_stat_bias} 显示，两种太阳振荡参数在偏差行为上存在差异。对于 $\Delta m^2_{21}$，在所有曝光水平下偏差始终小于 $0.1\sigma$。相比之下，$\sin^2\theta_{12}$ 在 30 天曝光时表现出约 $0.8\sigma$ 的明显偏差，但随着曝光时间增加，该偏差显著减小，并在 100 天时趋于最小。
+\autoref{fig:solar_low_stat_bias} 显示，两种太阳振荡参数在偏差行为上存在差异。对于 $\Delta m^2_{21}$，在所有曝光水平下偏差始终小于 $0.1\sigma$。相比之下，$\sin^2\theta_{12}$ 在 30 天曝光时表现出约 $0.8\sigma$ 的明显偏差，但随着取数时间增加，该偏差显著减小。
 
-\autoref{fig:solar_low_stat_precision} 表明，Toy MC 的经验结果与 Asimov 理论精度预测之间具有较好的一致性。JUNO 预期精度相较于 NuFit 6.0~\cite{Nufit:2024eli} 报告的当前全球约束具有显著提升。例如，对于 $\Delta m^2_{21}$，NuFit 给出的相对不确定度约为 2.5\%，而 JUNO 在仅 30 天曝光下即可达到约 1.6\% 的精度。同样地，对于 $\sin^2\theta_{12}$，全球拟合不确定度约为 3.9\%，而 JUNO 在相同曝光条件下预计可达到约 2.7\%。
 
 需要指出的是，上述结果是在系统误差取名义值的假设下得到的，即假设对系统学参数具有良好的控制。在实际情况下，仅凭 50 天数据难以实现对系统误差（如探测器响应、背景估计等）的如此精确控制。
 
 \subsection{分 bin 策略}\label{sec:binning_solar}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/Jingqin_sinsq12_bias_560bins.png}
+      \caption{560 bins.}
+      \label{fig:s12_binning_nominal}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/Jingqin_sinsq12_bias_80bins.png}
+      \caption{80 bins.}
+      \label{fig:s12_binning_factor7}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/Jingqin_sinsq12_bias_56bins.png}
+      \caption{56 bins.}
+      \label{fig:s12_binning_factor10}
+    \end{subfigure}
+    \bicaption
+    {在 30 天曝光条件下，不同重建能谱分 bin 数目下 $\sin^2\theta_{12}$ 最佳拟合值在 10,000 个伪实验中的分布。}
+    {Distribution of the best-fit values of $\sin^2\theta_{12}$ from 10,000 pseudo-experiments at 30 days exposure with different numbers of reconstructed energy bins.}
+    \label{fig:s12_binning}
+  \end{figure}
 
 为研究并减小观测到的偏差，特别是在低曝光（30 天）条件下 $\sin^2\theta_{12}$ 的偏差，开展了一项独立分析。该研究重点考察在 30 天曝光条件下，不同分 bin 配置对偏差的影响。采用 10,000 个伪实验数据集，研究三种不同的分 bin 方案：
 
@@ -335,7 +333,28 @@ $$\text{Bias} = \frac{\langle\hat{\theta}\rangle - \theta_{\text{true}}}{\sigma_
 
 \autoref{fig:s12_binning} 展示了在这些不同分 bin 条件下 $\sin^2\theta_{12}$ 最佳拟合值的分布。结果表明，随着 bin 数减少（即 bin 变宽），偏差明显减小。
 
-\autoref{fig:solar_low_stat_bias_bins} 展示了偏差随重分 bin 因子的变化趋势（以 560 个 bin 为名义配置）。\autoref{fig:dm2_21_bias_bins} 表明，在 30 天曝光下，$\Delta m^2_{21}$ 基本无偏，并且不依赖于重分 bin 因子。另一方面，\autoref{fig:s12_bias_bins} 显示 $\sin^2\theta_{12}$ 对分 bin 策略具有较强依赖性：随着重分 bin 因子增大（bin 数减少），偏差显著下降。从重分 bin 因子 1（560 个 bin）时约 $0.8\sigma$，降至重分 bin 因子 10（56 个 bin）时小于 $0.2\sigma$。
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/Jingqin_dmsq21_bias_dif_bins.pdf}
+      \caption{$\Delta m^2_{21}$ 偏差随重分 bin 因子的变化。}
+      \label{fig:dm2_21_bias_bins}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.47\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{Img/binning strategy/Jingqin_sinsq12_bias_dif_bins.pdf}
+      \caption{$\sin^2\theta_{12}$ 偏差随重分 bin 因子的变化。}
+      \label{fig:s12_bias_bins}
+    \end{subfigure}
+    \bicaption
+    {太阳振荡参数偏差随重分 bin 因子的演化。（a）$\Delta m^2_{21}$ 的偏差；（b）$\sin^2\theta_{12}$ 的偏差。}
+    {Evolution of the bias of solar oscillation parameters as a function of the rebin factor. Panel (a) shows the bias of $\Delta m^2_{21}$; panel (b) shows the bias of $\sin^2\theta_{12}$.}
+    \label{fig:solar_low_stat_bias_bins}
+  \end{figure}
+
+\autoref{fig:solar_low_stat_bias_bins} 展示了偏差随重分 bin 因子的变化趋势（以 560 个 bin 为名义配置）。\autoref{fig:dm2_21_bias_bins} 表明，在 30 天曝光下，$\Delta m^2_{21}$ 基本无偏，并且不依赖于重分 bin 因子。另一方面，\autoref{fig:s12_bias_bins} 显示 $\sin^2\theta_{12}$ 对分 bin 策略具有较强依赖性：随着重分 bin 因子增大（bin 数减少），偏差显著下降。从重分 bin 因子 1（560 个 bin，20keV）时约 $0.8\sigma$，降至重分 bin 因子 10（56 个 bin，100keV）时小于 $0.2\sigma$。
 
 
 \subsection{本节结论}

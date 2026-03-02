@@ -20,35 +20,79 @@
 
 \section{中微子振荡理论}
 
-\paragraph*{物理动因：味态与质量态的不一致}
 标准模型初始假设中微子无质量且产生时具有确定的味态（电子、缪子、陶子），味道在传播中不会改变。如果中微子具有非零质量，则不同味态的中微子是质量本征态的叠加。这可表示为
-$|\nu_\alpha\rangle=\sum_{k}U^*_{\alpha k}\,|\nu_k\rangle\qquad(\alpha=e,\mu,\tau;\ k=1,2,3)$，
+\begin{equation}
+|\nu_\alpha\rangle=\sum_{k}U^*_{\alpha k}\,|\nu_k\rangle\qquad(\alpha=e,\mu,\tau;\ k=1,2,3).
+\label{eq:flavor-mass-superposition}
+\end{equation}
+
 其中 $|\nu_\alpha\rangle$ 为味本征态，$|\nu_k\rangle$ 为质量本征态，$U$ 为中微子混合矩阵。由于质量本征态随时间演化时累积相位不同，初始的味态叠加会随距离变化而干涉，导致味态周期性转换，即中微子振荡现象。这一现象的观测证明了中微子具有非零质量，是第一个超出标准模型预测的直接证据。
 
-\paragraph*{中微子混合矩阵（PMNS 矩阵）}
-中微子混合矩阵 $U_{\mathrm{PMNS}}$ 将味态和质量态联系起来，是一个 $3\times3$ 酉矩阵。一般可用三个混合角 $(\theta_{12},\theta_{23},\theta_{13})$ 和一个狄拉克 CP 破坏相位 $\delta$ 来参数化（如果中微子是马约拉纳粒子，还可多出两个马约拉纳相位 $\alpha_{21},\alpha_{31}$）。一种常见的表示形式为：
-\[
-U_{\mathrm{PMNS}}=
-\begin{pmatrix}
-c_{12}c_{13} & s_{12}c_{13} & s_{13}e^{-i\delta}\\
--s_{12}c_{23}-c_{12}s_{23}s_{13}e^{i\delta} & c_{12}c_{23}-s_{12}s_{23}s_{13}e^{i\delta} & s_{23}c_{13}\\
-s_{12}s_{23}-c_{12}c_{23}s_{13}e^{i\delta} & -c_{12}s_{23}-s_{12}c_{23}s_{13}e^{i\delta} & c_{23}c_{13}
-\end{pmatrix}
-\times \mathrm{diag}(1,\,e^{i\alpha_{21}/2},\,e^{i\alpha_{31}/2})\,.
-\]
+由公式~\ref{eq:flavor-mass-superposition} 可以推导出能量为 $E$ 的中微子传播距离 $L$ 以后的概率为：
+
+\begin{equation}
+    P(\bar{\nu}_e \rightarrow \bar{\nu}_e)
+    =
+    1-
+    \frac{4}{\left(\sum_i |U_{ei}|^2 \right)^2}
+    \sum_{i<j}
+    \left(
+    |U_{ei}|^2 |U_{ej}|^2
+    \sin^2 \frac{\Delta m_{ij}^2 L}{4E}
+    \right).
+\label{eq:formula_prob}
+\end{equation} 
+
+其中，$\Delta m_{ij}^2$为中微子的质量平方差。
+
+对于中微子混合矩阵（PMNS 矩阵），中微子混合矩阵 $U_{\mathrm{PMNS}}$ 将味态和质量态联系起来，是一个 $3\times3$ 酉矩阵。一般可用三个混合角 $(\theta_{12},\theta_{23},\theta_{13})$ 和一个狄拉克 CP 破坏相位 $\delta$ 来参数化（如果中微子是马约拉纳粒子，还可多出两个马约拉纳相位 $\alpha_{21},\alpha_{31}$）。一种常见的表示形式为：
+$$
+\begin{aligned}
+U & =\left(\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & c_{23} & s_{23} \\
+0 & -s_{23} & c_{23}
+\end{array}\right)\left(\begin{array}{ccc}
+c_{13} & 0 & s_{13} e^{-\mathrm{i} \delta} \\
+0 & 1 & 0 \\
+-s_{13} e^{\mathrm{i} \delta} & 0 & c_{13}
+\end{array}\right)\left(\begin{array}{ccc}
+c_{12} & s_{12} & 0 \\
+-s_{12} & c_{12} & 0 \\
+0 & 0 & 1
+\end{array}\right) P_v \\
+& =\left(\begin{array}{ccc}
+c_{12} c_{13} & s_{12} c_{13} & s_{13} e^{-\mathrm{i} \delta} \\
+-s_{12} c_{23}-c_{12} s_{13} s_{23} e^{\mathrm{i} \delta} & c_{12} c_{23}-s_{12} s_{13} s_{23} e^{\mathrm{i} \delta} & c_{13} s_{23} \\
+s_{12} s_{23}-c_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & -c_{12} s_{23}-s_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & c_{13} c_{23}
+\end{array}\right) P_v
+\end{aligned}
+$$
 式中 $c_{ij}=\cos\theta_{ij}$，$s_{ij}=\sin\theta_{ij}$。混合角 $\theta_{ij}$ 描述不同质量本征态间的混合幅度，$\delta$ 是 CP 破坏相位（$\delta\neq0$ 时振荡过程在中微子与反中微子间不对称），马约拉纳相位仅影响无中微子双 $\beta$ 衰变过程，不出现在振荡概率中。
 
-\paragraph*{真空中的中微子振荡机制}
-将某味态初始中微子 $|\nu_\alpha\rangle$ 分解为质量本征态叠加后，按薛定谔方程演化：$|\nu_k(t)\rangle=e^{-iE_k t}|\nu_k\rangle$（近似 $E_k\approx E + m_k^2/(2E)$）。到达距离 $L\simeq t$ 后，用混合矩阵再次转换到味基，得到转换概率：
-\[
-P_{\alpha\to\beta}(L)=\big|\langle\nu_\beta|\nu_\alpha(L)\rangle\big|^2
-=\Big|\sum_{k=1}^3 U^*_{\alpha k}U_{\beta k}\exp\Big(-i\frac{m_k^2L}{2E}\Big)\Big|^2\,.
-\]
-展开可得到常用的振荡公式，其中涉及所有质量平方差 $\Delta m^2_{kj}=m_k^2-m_j^2$ 和混合矩阵元的实部、虚部组合（含 CP 项）。特别地，在两味道近似下（仅考虑两个质量本征态的混合）有简洁形式：例如电子中微子的存活概率
-\[
-P_{\nu_e\to\nu_e}(L)=1-\sin^2(2\theta)\sin^2\Big(\frac{\Delta m^2 L}{4E}\Big)\,.
-\]
-其中 $\theta$ 是对应的混合角，$\Delta m^2$ 为参与振荡的两态间质量平方差。这一周期性函数表明转换振荡幅度由 $\sin^2(2\theta)$ 决定，振荡长度由 $\Delta m^2/E$ 控制。在一般的三味道情形中，多频率叠加导致更复杂的振荡图形。
+由公式~\ref{eq:flavor-mass-superposition} 以及 PMNS 矩阵~\ref{eq:formula_prob} 可知，描述中微子振荡的参数有 6 个，分别是混合角 $\theta_{13}$、$\theta_{12}$、$\theta_{23}$，质量平方差 $\Delta m_{21}^2$ 和 $\Delta m_{32}^2$，CP 破坏相角 $\delta$。而 JUNO 实验将给出振荡参数的精确测量 $(\theta_{12},\Delta m_{21}^2)$ 以及 $\Delta m_{32}^2$ 的正负号（质量顺序）。
+
+
+\begin{equation}
+    \begin{aligned}
+    P(\bar{\nu}_e \rightarrow \bar{\nu}_e)
+    = \; & 1
+    - \sin^2 2\theta_{12}\, c_{13}^4
+    \sin^2 \frac{\Delta m_{21}^2 L}{4E} \\
+    & - \sin^2 2\theta_{13}
+    \left[
+    c_{12}^2
+    \sin^2 \frac{\Delta m_{31}^2 L}{4E}
+    +
+    s_{12}^2
+    \sin^2 \frac{\Delta m_{32}^2 L}{4E}
+    \right].
+    \end{aligned}
+    \end{equation}
+    其中
+    \[
+    \Delta m_{32}^2 = \Delta m_{31}^2 - \Delta m_{21}^2.
+    \]
 
 \paragraph*{物质中的中微子振荡（MSW 效应）}
 中微子通过弱相互作用与物质中的电子、中子等发生相干前向散射。电子中微子与电子还可发生带电流相互作用，引入额外的有效势能项 $V_e=\sqrt{2}G_FN_e$（$N_e$ 为电子密度，$G_F$ 为费米常数），而缪子和陶子中微子仅有中性流贡献，相位项相同可省去。这使得在介质中有效哈密顿量的 $\nu_e$--$\nu_{\mu,\tau}$ 子空间出现附加项，导致有效混合角 $\theta_m$ 和有效质量差 $\Delta m^2_m$ 与真空值不同。可导出：

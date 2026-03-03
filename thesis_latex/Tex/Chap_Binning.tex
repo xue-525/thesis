@@ -147,7 +147,7 @@ $$\text{Bias} = \frac{\langle\hat{\theta}\rangle - \theta_{\text{true}}}{\sigma_
 
 \subsection{联合分析框架}
 
-为了在联合拟合中把近场高统计信息形式化地纳入，我们采用对大亚湾数据的 χ² 约束。具体地，我们将大亚湾测得的 prompt 能谱 $\boldsymbol{M}^{\rm DYB}$（经归一化并去除振荡与乏燃料/非平衡修正）与模型预测 $\boldsymbol{T}^{\rm DYB}$ 进行比较，得到如式~(\ref{eq:Chisq:DYB}) 所示的 $\chi^2_{\mathrm{DYB}}$。其中协方差矩阵 $\mathbf{Cov}$ 包含了统计不确定度以及探测、背景和反应堆相关的系统误差分量，模型预测 $\boldsymbol{T}^{\rm DYB}$ 在构造时包含 IBD 截面、液体闪烁体非线性、能量分辨以及 IAV 等探测器效应（均按文献~\cite{DYB:Flux2025} 的响应模型处理）。在联合最小化时，我们将 JUNO 的 χ² 与上述 $\chi^2_{\mathrm{DYB}}$ 相加，再加上来自大亚湾对 $\sin^2\theta_{13}$ 与 $\Delta m^2_{31}$ 的外部高精度先验项，得到总目标函数式~(\ref{eq:Chisq:Total})。
+为了在联合拟合中把近场高统计信息形式化地纳入，我们采用对大亚湾数据的 χ² 约束。具体地，我们将大亚湾测得的 prompt 能谱 $\boldsymbol{M}^{\rm DYB}$（经归一化并去除振荡与乏燃料/非平衡修正）与模型预测 $\boldsymbol{T}^{\rm DYB}$ 进行比较，得到如式~(\ref{eq:Chisq:DYB}) 所示的 $\chi^2_{\mathrm{DYB}}$。其中协方差矩阵 $\mathbf{Cov}$ 包含了统计不确定度以及探测、背景和反应堆相关的系统误差分量，模型预测 $\boldsymbol{T}^{\rm DYB}$ 在构造时包含 IBD 截面、液体闪烁体非线性、能量分辨以及 IAV 等探测器效应（均按文献~\cite{PhysRevLett.134.201802} 的响应模型处理）。在联合最小化时，我们将 JUNO 的 χ² 与上述 $\chi^2_{\mathrm{DYB}}$ 相加，再加上来自大亚湾对 $\sin^2\theta_{13}$ 与 $\Delta m^2_{31}$ 的外部高精度先验项，得到总目标函数式~(\ref{eq:Chisq:Total})。
 
 （注：式~(\ref{eq:Chisq:Total}) 中的 $\chi^2_{\rm JUNO}$ 包含 JUNO 观测谱、背景项、探测器响应与其它拉项约束；在实现时我们按段级参数 $\{\alpha_i\}$ 将 DYB 的约束映射到 JUNO 的谱预测中。）
 

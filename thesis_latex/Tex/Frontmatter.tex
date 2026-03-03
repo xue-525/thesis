@@ -18,18 +18,35 @@
 \setcounter{page}{1}% 开始页码
 \pagenumbering{Roman}% 页码符号
 
-中文摘要、英文摘要、目录、论文正文、参考文献、附录、致谢、攻读学位期间发表的学术论文与其他相关学术成果等均须由另页右页（奇数页）开始。
+中微子作为连接粒子物理与宇宙学的关键“信使”，其非零质量与振荡现象提供了超越标准模型的新物理证据。当前，中微子研究已从现象发现迈向精密测量时代，虽然多数振荡参数已得到较好约束，但判定中微子质量顺序（MO）与测量 CP 破坏相位仍是核心挑战。解决这些关键问题不仅有助于完善大统一理论，更是揭示宇宙物质-反物质不对称性及演化奥秘的关键突破口。
 
-\keywords{中国科学院大学，学位论文，模板}% 中文关键词
+江门中微子实验（JUNO）依托地下 700 米处的 20 千吨液体闪烁体探测器，通过对 52.5 公里基线处的反应堆反中微子进行测量，旨在判定中微子质量序并实现振荡参数的亚百分比量级测量。早期仅 59.1 天的运行数据便将太阳振荡参数的测量精度较全球既有结果提升了 1.6 倍，有力验证了探测器卓越的能量分辨率与大规模工程设计的可行性。然而在实验运行早期，如何在低统计量条件下减少拟合偏差、降低对反应堆模型依赖性并确保统计推断的稳健性，是JUNO实验物理分析的关键挑战。本文围绕反应堆中微子振荡分析中的物理链条，从数值算法优化、能谱分段策略与严格统计方法三个维度开展了深入研究。
+
+首先，针对大规模伪实验分析对计算能力的极高要求，本文设计并实现了一个基于张量化思想的高性能前向折叠反应堆能谱计算与拟合框架。通过将反应堆能谱生成、截面计算、沉积能谱转换及探测器响应建模统一构建为张量运算链，并引入带状稀疏表示，分块构造响应矩阵与结果缓存机制，该框架在保持高数值精度的同时，较传统实现获得了约一个数量级的加速。该拟合器已成为 JUNO 合作组 GroupA 内部的基础振荡分析工具，为后续大规模参数扫描与基于海量伪实验的研究提供了可行的计算平台。
+
+其次，本文系统评估了重建能谱的分 bin 策略及反应堆能谱的分段（segment）方案。研究发现，在低统计量阶段，100 keV 以上的重建能谱 bin 宽能有效抑制由非高斯统计涨落引入的参数偏差。在 JUNO–大亚湾联合分析中，本文提出将反应堆能谱 segment 宽度设为 300 keV，这一策略成功在抑制模型依赖（系统误差贡献低于 0.3\%）与保留物理灵敏度之间取得了平衡。该方案已被 JUNO 首篇物理结果论文采纳。
+
+最后，针对 Wilks 定理在特定物理参数测量中的局限性，本文利用 Feldman–Cousins（FC）方法开展了大规模频率学覆盖性检验。结果显示，对于 $\Delta m^2_{31}$ 的测量，Wilks 近似在低统计量下存在明显的覆盖不足风险（1$\sigma$ 经验临界值为 1.57，显著高于标准值 1.0）。基于 FC 方法，本文给出了 JUNO 早期运行（50天）下 $\Delta m^2_{31}$ 约 1.4\% 的测量精度。
+
+
+
+\keywords{江门中微子实验（JUNO）；反应堆中微子；中微子振荡；高性能拟合；Feldman-Cousins 方法；分 bin 策略}% 中文关键词
 %-
 %-> 英文摘要
 %-
 \intobmk\chapter*{Abstract}% 显示在书签但不显示在目录
 
-Chinese abstracts, English abstracts, table of contents, the main contents, references, appendix, acknowledgments, author's resume and academic papers published during the degree study and other relevant academic achievements must start with another right page (odd-numbered page).
-    %- the current style, comment all the lines in plain style definition.
+As crucial "messengers" connecting particle physics and cosmology, neutrinos, with their non-zero mass and oscillation phenomena, provide evidence for new physics beyond the Standard Model. Neutrino research has transitioned from the era of discovery to an era of precision measurement. While most oscillation parameters are now well-constrained, determining the Neutrino Mass Ordering (MO) and measuring the CP-violating phase remain core challenges. Resolving these issues is fundamental to refining Grand Unified Theories and uncovering the mysteries of the universe's evolution and its matter-antimatter asymmetry.
 
-\KEYWORDS{University of Chinese Academy of Sciences, Thesis, LaTeX Template}% 英文关键词
+The Jiangmen Underground Neutrino Observatory (JUNO), featuring a 20-kiloton liquid scintillator detector situated 700 meters underground, is designed to determine the MO and achieve sub-percent precision in oscillation parameter measurements by detecting reactor antineutrinos at a 52.5 km baseline. With only 59.1 days of early operation data, JUNO has already improved the precision of solar oscillation parameters by a factor of 1.6 compared to existing global results, successfully validating the detector’s superior energy resolution and the feasibility of its large-scale engineering design. However, reducing fitting biases under low-statistics conditions, minimizing reactor model dependence, and ensuring the robustness of statistical inference remain critical challenges for JUNO’s early-stage physical analysis. This thesis conducts an in-depth study along the reactor neutrino oscillation analysis chain, focusing on three dimensions: numerical algorithm optimization, energy binning strategies, and rigorous statistical methods.
+
+Firstly, to address the immense computational demands of large-scale pseudo-experiment analysis, this thesis designed and implemented a high-performance, forward-folding reactor neutrino spectrum calculation and fitting framework based on tensorization. By constructing the reactor spectrum generation, cross-section calculation, deposited energy conversion, and detector response modeling into a unified tensor operation chain—while incorporating banded sparse representation, blocked matrix construction, and result-caching mechanisms—the framework achieves an order-of-magnitude speedup over traditional implementations while maintaining high numerical precision. This fitter has been adopted as a foundational oscillation analysis tool within JUNO Collaboration Group A, providing a viable computational platform for large-scale parameter scans and studies based on massive pseudo-experiments.
+
+Secondly, this study systematically evaluated the binning strategies for reconstructed energy and the segmentation schemes for the reactor spectrum. The results indicate that during the low-statistics phase, a bin width of over 100 keV for reconstructed energy effectively suppresses parameter biases introduced by non-Gaussian statistical fluctuations. In the JUNO–Daya Bay joint analysis, this thesis proposes setting the reactor spectrum segment width to 300 keV. This strategy successfully balances the suppression of model dependence (with systematic error contributions below 0.3\%) and the preservation of physical sensitivity. This scheme has been adopted in JUNO’s first physics results publication.
+
+Finally, addressing the limitations of Wilks’ Theorem in specific physical parameter measurements, this thesis conducted large-scale frequentist coverage tests using the Feldman–Cousins (FC) method. The results demonstrate that for the measurement of $\Delta m^2_{31}$, Wilks’ approximation carries a significant risk of under-coverage under low-statistics conditions (with a $1\sigma$ empirical critical value of 1.57, markedly higher than the standard value of 1.0). Based on the FC method, this thesis yields a measurement precision of approximately 1.4\% for $\Delta m^2_{31}$ using 50 days of JUNO early operation data.
+
+\KEYWORDS{Jiangmen Underground Neutrino Observatory (JUNO); Reactor Neutrinos; Neutrino Oscillation; High-Performance Fitting; Feldman-Cousins Method; Binning Strategy}% 英文关键词
 
 \pagestyle{enfrontmatterstyle}%
 \cleardoublepage\pagestyle{frontmatterstyle}%

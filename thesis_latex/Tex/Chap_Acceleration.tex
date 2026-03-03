@@ -4,12 +4,13 @@
 
 在反应堆中微子振荡分析中，统计方法（尤其 Feldman–Cousins 构造）常常要求对大量伪实验（toy-MC）进行拟合以保证频率学意义下的正确覆盖。对于存在参数简并或多重局域极小值（如$\Delta m^2_{31}$）的问题，这一计算需求会呈几何级数增长：在参数网格、每个假设真值点的toy数量以及对初值的多起点扫描三者叠加下，总拟合次数往往达到百万级，从而使得传统的逐次串行拟合在常规算力下不可行。为了使频率学覆盖性验证、广域参数扫描、以及大规模 FC 构造在可接受的算力下成为现实，必须在算法与工程实现层面对反应堆拟合程序做出系统性的加速与工程化改进。
 
-本章提出并实现了一个基于 PyTorch 的前向折叠（forward-folded）能谱拟合框架，针对两个主要性能瓶颈——IBD 映射（neutrino→deposited）与探测器响应（deposited→reconstructed）——采用三类关键优化手段：(i) 结果缓存（result caching），避免重复计算代价昂贵的中间谱或矩阵；(ii) 带状稀疏矩阵（banded sparse matrices），利用矩阵的局域性显著降低内存与矩阵乘法开销；(iii) 分块（blocked）构造响应矩阵与分段卷积，借助张量化批量处理减少Python层循环与内存搬运。以 Intel Xeon Gold 6338 为基准测试平台，上述技术使单次拟合时间相比未经优化的拟合实现加速约$7 \times 7$，同时对谱形的相对误差保持在 $<10^{-6}$（相对于双精度基线）。该框架已在反应堆中微子振荡研究中投入使用，能够在大幅降低计算成本的前提下实现可行的 Feldman–Cousins 覆盖性研究与大规模参数扫描，并具有良好的可复用性——对其它基于 forward-folded 能谱的中微子实验亦可直接受益。
+本章提出并实现了一个基于 PyTorch 的前向折叠（forward-folded）能谱拟合框架，针对两个主要性能瓶颈——IBD 映射（neutrino→deposited）与探测器响应（deposited→reconstructed）——采用三类关键优化手段：(i) 结果缓存（result caching），避免重复计算代价昂贵的中间谱或矩阵；(ii) 带状稀疏矩阵（banded sparse matrices），利用矩阵的局域性显著降低内存与矩阵乘法开销；(iii) 分块（blocked）构造响应矩阵与分段卷积，借助张量化批量处理减少Python层循环与内存搬运。以 Intel Xeon Gold 6338 为基准测试平台，上述技术使单次拟合时间相比未经优化的拟合实现加速约$7 \times$，同时相对误差保持在 $<10^{-6}$（相对于双精度基线）。该框架已在反应堆中微子振荡研究中投入使用，能够在大幅降低计算成本的前提下实现可行的 Feldman–Cousins 覆盖性研究与大规模参数扫描，并具有良好的可复用性——对其它基于 forward-folded 能谱的中微子实验亦可直接受益。
 
-本章的研究成果已发表于EPJC（High-performance statistical methods for reactor neutrino oscillations, Eur. Phys. J C 85 (2025) 1420）。同时该能谱拟合框架也被合作组采纳，用于反应堆中微子振荡分析。本章的组织如下：
+本章的研究成果已发表于EPJC（High-performance statistical methods for reactor neutrino oscillations, Eur. Phys. J C 85 (2025) 1420）。同时该能谱拟合框架也被合作组采纳，用于反应堆中微子振荡分析。本章的组织如下：第~\ref{sec:problem_scale} 节量化分析了海量伪实验的计算需求与性能瓶颈；第~\ref{sec:performance_analysis} 节通过性能剖析定位了关键耗时环节，并介绍了分层优化策略；第~\ref{sec:techniques} 节详细阐述了具体的加速技术，包括结果缓存、稀疏矩阵表示以及响应矩阵的分块计算优化；第~\ref{sec:benchmark} 节展示了各技术的加速效果与不同 bin 设置下的性能基准测试结果，并总结了最终实现的性能提升。
 
 
 \section{问题规模量化与性能目标}
+\label{sec:problem_scale}
 
 \begin{figure}[htbp]
     \centering
@@ -42,6 +43,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 
 
 \section{性能瓶颈分析与分层建模}
+\label{sec:performance_analysis}
 
 
 为了定位反应堆中微子能谱拟合算法中的关键瓶颈，并将优化技术应用到最有效的环节，我们对单次拟合进行了性能剖析（profiling）。如图~\ref{fig:acc_time_distribution_in_one_fit}所示，谱计算（signal spectrum calculation）几乎完全主导了单次拟合的运行时间——约占总时间的98.6\%

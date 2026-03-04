@@ -6,7 +6,7 @@
 
 本章提出并实现了一个基于 PyTorch 的前向折叠（forward-folded）能谱拟合框架，针对两个主要性能瓶颈——IBD 映射（neutrino→deposited）与探测器响应（deposited→reconstructed）——采用三类关键优化手段：(i) 结果缓存（result caching），避免重复计算代价昂贵的中间谱或矩阵；(ii) 带状稀疏矩阵（banded sparse matrices），利用矩阵的局域性显著降低内存与矩阵乘法开销；(iii) 分块（blocked）构造响应矩阵与分段卷积，借助张量化批量处理减少Python层循环与内存搬运。以 Intel Xeon Gold 6338 为基准测试平台，上述技术使单次拟合时间相比未经优化的拟合实现加速约$7 \times$，同时相对误差保持在 $<10^{-6}$（相对于双精度基线）。该框架已在反应堆中微子振荡研究中投入使用，能够在大幅降低计算成本的前提下实现可行的 Feldman–Cousins 覆盖性研究与大规模参数扫描，并具有良好的可复用性——对其它基于 forward-folded 能谱的中微子实验亦可直接受益。
 
-本章的研究成果已发表于EPJC（High-performance statistical methods for reactor neutrino oscillations, Eur. Phys. J C 85 (2025) 1420）。同时该能谱拟合框架也被合作组采纳，用于反应堆中微子振荡分析。本章的组织如下：第~\ref{sec:problem_scale} 节量化分析了海量伪实验的计算需求与性能瓶颈；第~\ref{sec:performance_analysis} 节通过性能剖析定位了关键耗时环节，并介绍了分层优化策略；第~\ref{sec:techniques} 节详细阐述了具体的加速技术，包括结果缓存、稀疏矩阵表示以及响应矩阵的分块计算优化；第~\ref{sec:benchmark} 节展示了各技术的加速效果与不同 bin 设置下的性能基准测试结果，并总结了最终实现的性能提升。
+本章的研究成果已发表于EPJC（High-performance statistical methods for reactor neutrino oscillations, Eur. Phys. J C 85 (2025) 1420\citep{Xue2025HighPerformanceStatisticalMethods}）。同时该能谱拟合框架也被合作组采纳，用于反应堆中微子振荡分析。本章的组织如下：第~\ref{sec:problem_scale} 节量化分析了海量伪实验的计算需求与性能瓶颈；第~\ref{sec:performance_analysis} 节通过性能剖析定位了关键耗时环节，并介绍了分层优化策略；第~\ref{sec:techniques} 节详细阐述了具体的加速技术，包括结果缓存、稀疏矩阵表示以及响应矩阵的分块计算优化；第~\ref{sec:benchmark} 节展示了各技术的加速效果与不同 bin 设置下的性能基准测试结果，并总结了最终实现的性能提升。
 
 
 \section{问题规模量化与性能目标}
@@ -80,7 +80,10 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 
 
 \section{加速策略实现与基准测试}
+\label{sec:techniques}
+
 \subsection{缓存技术}
+\label{sec:benchmark}
 在反应堆中微子能谱拟合中，往往伴随大量重复的矩阵运算与非线性变换——这些中间计算既占用 CPU 也带来频繁的 I/O。为降低重复计算开销、提高拟合与大规模 toy-MC 管线的整体吞吐量，我们在框架中引入了分层缓存机制（caching），以避免在参数估计和伪实验生成过程中对不必要的中间量反复求值。缓存策略主要在两个层面实施：
 
 \textbf{静态量的预计算与常驻内存}

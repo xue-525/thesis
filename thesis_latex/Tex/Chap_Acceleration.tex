@@ -67,8 +67,8 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 
 更细致的热点分析表明：
 \begin{enumerate}
-  \item \textbf{探测器响应矩阵计算}：在当前实现中，构造响应矩阵 \(R\) 需要对所有重构能量箱边界与可见能量采样点计算差值与归一化因子（大致对应一个 \(560\times5600\) 的减/除操作阵列），并对每个元素评估误差函数 \(\operatorname{erf}\) 以得到累积分布函数（CDF）。该子任务同时具有高算术强度（arithmetic intensity）与大量特殊函数调用（误差函数求值），在谱计算中约占 66.7\% 的时间（约 72.4\,s）。      
-  \item \textbf{沉积能谱计算}：这里的主要开销来自用差分截面（IBD mapping）矩阵将中微子能量映射到沉积能量的矩阵—向量乘法，按当前网格大小相当于对约 5600×5600 的映射矩阵进行操作。该部分约耗时 30.8\%（约 33.4 s）。其余任务合计仅占 2.6\%（约 2.8 s），可视为次要。
+  \item \textbf{探测器响应矩阵计算}：在当前实现中，构造响应矩阵 \(R\) 需要对所有重建能量箱边界与可见能量采样点计算差值与归一化因子（大致对应一个 \(560\times5600\) 的减/除操作阵列），并对每个元素评估误差函数 \(\operatorname{erf}\) 以得到累积分布函数（CDF）。该子任务同时具有高算术强度（arithmetic intensity）与大量特殊函数调用（误差函数求值），在谱计算中约占 66.7\% 的时间（约 72.4\,s）。      
+  \item \textbf{沉积能谱计算}：这里的主要开销来自用微分散射截面（IBD mapping）矩阵将中微子能量映射到沉积能量的矩阵—向量乘法，按当前网格大小相当于对约 5600×5600 的映射矩阵进行操作。该部分约耗时 30.8\%（约 33.4 s）。其余任务合计仅占 2.6\%（约 2.8 s），可视为次要。
 \end{enumerate}
 
 基于上述剖析，本研究将优化重点放在两个热点之上，并制定相应的加速策略：
@@ -92,15 +92,15 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 
 \begin{enumerate}
     \item 各裂变同位素的反中微子基准能谱 $\phi_i(E_{\bar\nu})$（如 ${}^{235}$U、${}^{238}$U、${}^{239}$Pu、${}^{241}$Pu）；
-    \item IBD 的差分截面映射矩阵 $\sigma(E_{\bar\nu}\to E_{\rm dep})$；
+    \item IBD 的微分散射截面映射矩阵 $\sigma(E_{\bar\nu}\to E_{\rm dep})$；
     \item 探测器能量响应模型中的默认非线性响应曲线；
-    \item 各类背景的预设谱形（如天然放射性、宇宙成因中子等）。
+    \item 各类本底的谱形（如 Bi-Po214、宇宙线次级粒子、大气中微子、地球中微子、$^{13}$C($\alpha$,n)$^{16}$O 等）。
 \end{enumerate}
 
 将上述静态输入在拟合前预计算并常驻内存，一方面避免每次拟合或每次迭代时重复从磁盘加载，减少 I/O 开销；另一方面避免重复执行数值积分或插值，节省了大量 CPU 时间。
 
 \paragraph{动态量的函数级复用（memoization）}
-对于拟合过程中随参数变化、需要在每次迭代中更新的量（例如预测重构谱、参数化非线性校正函数，或与响应矩阵及冗余参数组合相关的中间结果），其理论上需要逐次重新计算；但在实际拟合与大规模 toy-MC 中，常会出现\emph{相同输入反复出现}的情况。为避免重复求值，我们在函数层面引入缓存（memoization），实现上可直接使用 Python 标准库的 \texttt{functools.lru\_cache}（或等价的哈希缓存）。其核心思想是维护一个定长键值表：当相同参数的函数调用再次发生时，直接返回已缓存的结果而不进行数值计算。
+对于拟合过程中随参数变化、需要在每次迭代中更新的量（例如预测重建能量能谱、参数化能量非线性函数，或与响应矩阵及冗余参数组合相关的中间结果），其理论上需要逐次重新计算；但在实际拟合与大规模 toy-MC 中，常会出现\emph{相同输入反复出现}的情况。为避免重复求值，我们在函数层面引入缓存（memoization），实现上可直接使用 Python 标准库的 \texttt{functools.lru\_cache}（或等价的哈希缓存）。其核心思想是维护一个定长键值表：当相同参数的函数调用再次发生时，直接返回已缓存的结果而不进行数值计算。
 
 \paragraph{数值实现注意事项}
 对浮点参数而言，缓存命中要求参数的二进制表示（及其哈希）完全一致，因此默认情况下\textbf{不具备数值公差容忍}。工程实现中可通过以下方式提升命中率并控制误差：
@@ -117,32 +117,32 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]  
     \centering  
     \includegraphics[width=0.55\textwidth]{Img/IBD_cross_matrix.png}  
-    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar\nu})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar\nu}$（MeV）；颜色越暖表示差分截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\overline{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\overline{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
+    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar\nu})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar\nu}$（MeV）；颜色越暖表示微分散射截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\overline{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\overline{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
     \label{fig:sparse_cross_section}  
 \end{figure}
 
-在反应堆反电子中微子谱拟合中，从中微子能量 $E_{\bar\nu}$ 到沉积能量 $E_{\rm dep}$ 的映射由 IBD（逆贝塔衰变）差分散射截面控制，该映射可表示为二维响应矩阵 $M[i,j]$，其元素 $M_{ij}$ 表示入射能量为 $E_{\bar\nu,j}$ 的反中微子经 IBD 在沉积能量箱 $i$ 中产生信号的概率密度。受 IBD 动力学约束（尤其是正电子能量与发射角之间的耦合）影响，该矩阵呈现出明显的带状稀疏结构：非零元主要集中在主对角附近，满足近似关系
+在反应堆反电子中微子谱拟合中，从中微子能量 $E_{\bar\nu}$ 到沉积能量 $E_{\rm dep}$ 的映射由 IBD（逆贝塔衰变）微分散射截面控制，该映射可表示为二维响应矩阵 $M[i,j]$，其元素 $M_{ij}$ 表示入射能量为 $E_{\bar\nu,j}$ 的反中微子经 IBD 在沉积能量箱 $i$ 中产生信号的概率密度。受 IBD 动力学约束（尤其是正电子能量与发射角之间的耦合）影响，该矩阵呈现出明显的带状稀疏结构：非零元主要集中在主对角附近，满足近似关系
 
 $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 
 其中 $\Delta\approx 0.8\ \mathrm{MeV}$ 包含了阈值与湮灭修正。该稀疏模式在图~\ref{fig:sparse_cross_section} 中有直观展示，主对角线附近有明显的带状结构。
 
-鉴于大多数矩阵元素为零或接近零，我们采用 PyTorch 提供的稀疏存储格式（如 CSR/带状存储）来保存差分截面矩阵 $M$。稀疏格式只记录非零元素的位置与数值，从而显著降低内存占用并避免对零元的冗余计算。在谱生成与拟合过程中，响应矩阵 $M$ 与按振荡参数计算得到的中微子通量向量 $\boldsymbol{\phi}(E_{\bar\nu})$ 做乘法得到沉积能量谱 $S(E_{\rm dep})$。利用稀疏表示后，矩阵—向量乘法的计算复杂度可由 $O(N^2)$ 降为 $O(Nw)$，其中 $N$ 为能量格点数，$w$ 为带宽（非零元在对角带上的宽度），通常远小于 $N$，因此能获得显著的计算加速。
+鉴于大多数矩阵元素为零或接近零，我们采用 PyTorch 提供的稀疏存储格式（如 CSR/带状存储）来保存微分散射截面矩阵 $M$。稀疏格式只记录非零元素的位置与数值，从而显著降低内存占用并避免对零元的冗余计算。在谱生成与拟合过程中，响应矩阵 $M$ 与按振荡参数计算得到的中微子通量向量 $\boldsymbol{\phi}(E_{\bar\nu})$ 做乘法得到沉积能量谱 $S(E_{\rm dep})$。利用稀疏表示后，矩阵—向量乘法的计算复杂度可由 $O(N^2)$ 降为 $O(Nw)$，其中 $N$ 为能量格点数，$w$ 为带宽（非零元在对角带上的宽度），通常远小于 $N$，因此能获得显著的计算加速。
 
-此外，稀疏表示在现代硬件（包括多核 CPU 与 GPU）上通常有更好的缓存局部性和更高的内存带宽效率，从而进一步提升并行计算中的吞吐量。我们的基准测试表明，在 Intel Xeon Gold 6338 平台上，不牺牲数值精度的前提下，采用稀疏表示与稀疏乘法可使差分截面映射步骤的计算时间缩短约 4 倍，成为整个加速管线中的关键组成部分。
+此外，稀疏表示在现代硬件（包括多核 CPU 与 GPU）上通常有更好的缓存局部性和更高的内存带宽效率，从而进一步提升并行计算中的吞吐量。我们的基准测试表明，在 Intel Xeon Gold 6338 平台上，不牺牲数值精度的前提下，采用稀疏表示与稀疏乘法可使微分散射截面映射步骤的计算时间缩短约 4 倍，成为整个加速管线中的关键组成部分。
 
-类似的思想也被 ReMU 等框架采用：仅保留含非零元的行并结合高效的线性代数操作，以提升能谱构造效率~\cite{Koch2019}。总体而言，充分利用差分截面矩阵的稀疏性不仅能显著减少存储与计算开销，而且对中微子能谱拟合在高精度、低统计或大规模 toy-MC 分析下的可扩展性与性能影响深远。
+类似的思想也被 ReMU 等框架采用：仅保留含非零元的行并结合高效的线性代数操作，以提升能谱构造效率~\cite{Koch2019}。总体而言，充分利用微分散射截面矩阵的稀疏性不仅能显著减少存储与计算开销，而且对中微子能谱拟合在高精度、低统计或大规模 toy-MC 分析下的可扩展性与性能影响深远。
 
 \subsection{通过分块计算优化探测器响应矩阵的计算}
-探测器响应矩阵用于将粒子在闪烁体中沉积的真实能量映射为对应的重构能量分布。矩阵的每个元素表示某一沉积能量落入某一重构能量箱的概率。在传统实现中，该响应矩阵通常为一个二维数组，尺寸约为 $560\times5600$：560 个重构能量箱对应横轴，5600 个沉积能量箱对应纵轴。构造该矩阵时，往往逐元素计算——先计算待测沉积能量与重构能量边界的差值，再除以标准差并对误差函数 $\operatorname{erf}$ 求值以得到累积分布函数（CDF），最后取相邻 CDF 的差值得到每个元素的概率。这种按元素计算的实现代价很高：一方面 $\operatorname{erf}$ 等特殊函数本身计算开销大；另一方面若一次性构造整个矩阵，则需在内存中保存大量中间结果，导致显著的内存占用与数据搬运开销。总体而言，逐元素一次性构造的方法在计算复杂度和内存消耗上都存在严重瓶颈。
+探测器响应矩阵用于将粒子在闪烁体中沉积的真实能量映射为对应的重建能量分布。矩阵的每个元素表示某一沉积能量落入某一重建能量箱的概率。在传统实现中，该响应矩阵通常为一个二维数组，尺寸约为 $560\times5600$：560 个重建能量箱对应横轴，5600 个沉积能量箱对应纵轴。构造该矩阵时，往往逐元素计算——先计算待测沉积能量与重建能量边界的差值，再除以标准差并对误差函数 $\operatorname{erf}$ 求值以得到累积分布函数（CDF），最后取相邻 CDF 的差值得到每个元素的概率。这种按元素计算的实现代价很高：一方面 $\operatorname{erf}$ 等特殊函数本身计算开销大；另一方面若一次性构造整个矩阵，则需在内存中保存大量中间结果，导致显著的内存占用与数据搬运开销。总体而言，逐元素一次性构造的方法在计算复杂度和内存消耗上都存在严重瓶颈。
 
-为降低计算与内存负担，本工作采用了分块（block）处理策略：将 $560\times5600$ 的矩阵沿列方向切分为若干小的子块（例如每块宽度设为 512）\cite{Lam1991}，并对每一子块逐个进行计算与累积。具体做法为：每次仅取出一个列区间内的沉积能量数据，在该区间上计算对应的重构能量概率分布；完成后将该子块的结果累加或拼接到最终的响应矩阵中，然后释放该子块的中间数据再继续处理下一个子块。这样一来，计算就被约束在较小的数据块上，有利于缓存（cache）重用并显著减少内存间的数据搬运；由于始终只保留当前子块的中间结果，无需为整个大矩阵分配峰值内存，从而大幅降低峰值内存使用与内存带宽压力。
+为降低计算与内存负担，本工作采用了分块（block）处理策略：将 $560\times5600$ 的矩阵沿列方向切分为若干小的子块（例如每块宽度设为 512）\cite{Lam1991}，并对每一子块逐个进行计算与累积。具体做法为：每次仅取出一个列区间内的沉积能量数据，在该区间上计算对应的重建能量概率分布；完成后将该子块的结果累加或拼接到最终的响应矩阵中，然后释放该子块的中间数据再继续处理下一个子块。这样一来，计算就被约束在较小的数据块上，有利于缓存（cache）重用并显著减少内存间的数据搬运；由于始终只保留当前子块的中间结果，无需为整个大矩阵分配峰值内存，从而大幅降低峰值内存使用与内存带宽压力。
 
 \begin{algorithm}[htbp]
 \caption{分块构造探测器响应矩阵 $R[i,j]$ 的伪代码}
 \caption*{Pseudocode for blocked construction of the detector response matrix $R[i,j]$.}
 \begin{algorithmic}[1]
-\Require 沉积能量网格 $E_{\rm dep}[j]$（$j=0,\dots,N_{\rm dep}-1$），重构能量 bin 边界 $E_{\rm rec}^{\rm edge}[k]$（$k=0,\dots,N_{\rm rec}$），分块宽度 $B$
+\Require 沉积能量网格 $E_{\rm dep}[j]$（$j=0,\dots,N_{\rm dep}-1$），重建能量 bin 边界 $E_{\rm rec}^{\rm edge}[k]$（$k=0,\dots,N_{\rm rec}$），分块宽度 $B$
 \Ensure 响应矩阵 $R[i,j]$（$i=0,\dots,N_{\rm rec}-1$；$j=0,\dots,N_{\rm dep}-1$）
 \State 初始化 $R \gets \mathbf{0}_{N_{\rm rec}\times N_{\rm dep}}$
 \For{$s = 0$ to $N_{\rm dep}-1$ step $B$}
@@ -166,16 +166,16 @@ $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 
 \begin{enumerate}  
 \item 引入缓存技术（caching）；  
-\item 使用稀疏表示存储差分截面矩阵；  
+\item 使用稀疏表示存储微分散射截面矩阵；  
 \item 采用分块计算优化探测器响应矩阵的构造与乘法。  
 \end{enumerate}
 
-对各项优化所获得的加速比进行了逐项测试。将探测器响应元素的计算限制在 $\pm6\sigma$ 范围内（截断高斯尾）在 NumPy 实现上可以带来约 $1.5\times$ 的加速，但在结合其它基于 PyTorch 的优化后，其增益可忽略不计，因此未在最终实现中启用此截断策略。缓存技术贡献了约 $3\times$ 的加速；将差分截面矩阵以稀疏格式存储带来了约 $1.5\times$ 的加速；而分块乘法/分块构造则再带来大约 $1.5\times$ 的加速。综合应用所有优化后，单次拟合的总耗时从原始的 $110.1\ \mathrm{s}$ 降至 $15.2\ \mathrm{s}$，总体约达到 $\approx 7\times$ 的加速。该结果见图~\ref{fig:fit_per_t_opt}。
+对各项优化所获得的加速比进行了逐项测试。将探测器响应元素的计算限制在 $\pm6\sigma$ 范围内（截断高斯尾）在 NumPy 实现上可以带来约 $1.5\times$ 的加速，但在结合其它基于 PyTorch 的优化后，其增益可忽略不计，因此未在最终实现中启用此截断策略。缓存技术贡献了约 $3\times$ 的加速；将微分散射截面矩阵以稀疏格式存储带来了约 $1.5\times$ 的加速；而分块乘法/分块构造则再带来大约 $1.5\times$ 的加速。综合应用所有优化后，单次拟合的总耗时从原始的 $110.1\ \mathrm{s}$ 降至 $15.2\ \mathrm{s}$，总体约达到 $\approx 7\times$ 的加速。该结果见图~\ref{fig:fit_per_t_opt}。
 
 \begin{figure}[htbp]  
 \centering  
 \includegraphics[width=0.6\textwidth]{Img/fitting_time_under_different_optimization_strategies.png}  
-\bicaption{不同优化策略下单次拟合平均耗时比较。横坐标依次为：未经优化的基线实现（\textit{Origin}）、仅启用缓存（\textit{opt1}）、缓存 + 差分截面稀疏表示（\textit{opt2}）、缓存 + 稀疏表示 + 分块乘法（\textit{opt3}）。纵坐标为单次拟合的平均壁钟时间（秒）。柱状图展示了随着逐步应用优化策略，运行时间的逐级下降；其中 \textit{opt3} 达到最短的拟合时间。}{Comparison of average fitting time per fit under different optimization strategies. The horizontal axis lists the tested strategies: the baseline without optimization (\textit{Origin}), caching only (\textit{opt1}), caching with sparse matrix representation (\textit{opt2}), and caching with sparse matrix representation plus block multiplication (\textit{opt3}). The vertical axis shows the average wall-clock time in seconds required for a single fit. The bars illustrate the progressive reduction in runtime as successive optimizations are applied, with \textit{opt3} achieving the shortest fitting time.}  
+\bicaption{不同优化策略下单次拟合平均耗时比较。横坐标依次为：未经优化的基线实现（\textit{Origin}）、仅启用缓存（\textit{opt1}）、缓存 + 微分散射截面稀疏表示（\textit{opt2}）、缓存 + 稀疏表示 + 分块乘法（\textit{opt3}）。纵坐标为单次拟合的平均壁钟时间（秒）。柱状图展示了随着逐步应用优化策略，运行时间的逐级下降；其中 \textit{opt3} 达到最短的拟合时间。}{Comparison of average fitting time per fit under different optimization strategies. The horizontal axis lists the tested strategies: the baseline without optimization (\textit{Origin}), caching only (\textit{opt1}), caching with sparse matrix representation (\textit{opt2}), and caching with sparse matrix representation plus block multiplication (\textit{opt3}). The vertical axis shows the average wall-clock time in seconds required for a single fit. The bars illustrate the progressive reduction in runtime as successive optimizations are applied, with \textit{opt3} achieving the shortest fitting time.}  
 \label{fig:fit_per_t_opt}  
 \end{figure}
 
@@ -197,7 +197,7 @@ $$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
 
 我们考察的优化策略包括：缓存（caching）、微分散射截面稀疏（CSR）表示、以及分块（tiled）乘法/分块构造。缓存与稀疏表示在整个 bin 宽范围内均能稳定带来加速；而分块乘法在箱数较多（bin 宽较细、矩阵尺寸最大）时能显著提升性能，但当 bin 较粗时分块带来的优势会减小甚至消失。
 
-在反应堆反中微子拟合中，探测器响应矩阵 $R$ 的构造与应用是主要的计算瓶颈之一。设 $R$ 的尺寸为 $M\times N$，其中 $M$ 为重构能量箱数，$N$ 为沉积能量箱数。每个矩阵元 $R_{ij}$ 都需通过高斯积分（误差函数 $\operatorname{erf}$）评估以得到相应的概率，因此直接构造完整矩阵的标量运算量可近似表示为
+在反应堆反中微子拟合中，探测器响应矩阵 $R$ 的构造与应用是主要的计算瓶颈之一。设 $R$ 的尺寸为 $M\times N$，其中 $M$ 为重建能量箱数，$N$ 为沉积能量箱数。每个矩阵元 $R_{ij}$ 都需通过高斯积分（误差函数 $\operatorname{erf}$）评估以得到相应的概率，因此直接构造完整矩阵的标量运算量可近似表示为
 
 $$\text{Cost}_{\text{full}} \propto C \times M \times N,$$
 
@@ -231,7 +231,7 @@ $$T_{\text{full}}=\mathcal{O}(M\cdot N).$$
 
 将上述三类技术组合后，相较于未经优化的实现，总体拟合耗时在本测试环境下缩短了约 $7\times$。
 
-我们还量化了重构能量分箱对计算耗时的影响。增大 bin 宽（即减少箱数）会直接缩小响应矩阵的维度，从而使每次似然/χ²评估的计算成本按矩阵规模近似线性下降；在我们的测试中，最小化器迭代次数基本保持不变，因此总耗时主要受每次迭代的计算代价驱动。由此可见，在分辨率与计算开销之间存在明显的权衡：极细的分箱会急剧膨胀矩阵规模，这时分块乘法的收益最大；而缓存与稀疏存储在广泛的分箱设置下均能提供稳健的加速效果。对于典型的反应堆谱分析任务，稀疏化存储与缓存的组合在成本—收益比上最为优越；当响应矩阵尺寸极大时，分块化乘法才显得尤为必要。
+我们还量化了重建能量分箱对计算耗时的影响。增大 bin 宽（即减少箱数）会直接缩小响应矩阵的维度，从而使每次似然/χ²评估的计算成本按矩阵规模近似线性下降；在我们的测试中，最小化器迭代次数基本保持不变，因此总耗时主要受每次迭代的计算代价驱动。由此可见，在分辨率与计算开销之间存在明显的权衡：极细的分箱会急剧膨胀矩阵规模，这时分块乘法的收益最大；而缓存与稀疏存储在广泛的分箱设置下均能提供稳健的加速效果。对于典型的反应堆谱分析任务，稀疏化存储与缓存的组合在成本—收益比上最为优越；当响应矩阵尺寸极大时，分块化乘法才显得尤为必要。
 
 总体而言，本工作所采用的缓存、稀疏化与分块等互补性优化措施，大幅降低了重建能量能谱拟合的计算代价，构建了一个高效且可扩展的前向折叠（forward-folding）加速框架。该方法对当前与未来的中微子实验（例如 JUNO、Hyper-Kamiokande、DUNE 等）具有广泛适用性，有助于开启更大规模的 toy-MC 研究、更快速的参数扫描以及更可行的频率学置信带（Feldman–Cousins）构造。
 

@@ -195,24 +195,25 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 \subsection{沉积能量能谱与微分散射截面矩阵构造}  
 \label{sec:Deposited energy spectrum}
 
-反应堆释放的反电子中微子能谱 $\phi(E_\nu)$ 通过逆贝塔衰变（IBD）反应与目标质子发生作用，产生正电子并沉积能量。探测到的沉积能量谱 $\phi(E_{\rm dep})$ 可表示为中微子能谱与 IBD 反应截面的卷积：  
 
+\paragraph{连续能谱的卷积描述。}
+在理想探测器中，观测到的沉积能量谱 $\phi(E_{\rm dep})$ 是入射中微子通量与 IBD 反应截面在能量空间上的卷积。其物理过程可表述为：
 \begin{equation}
 \label{eq:continuous_rate}
-\phi(E_{\rm dep}) \;=\; N_p \,  \int_{1.8}^{13} dE_{\overline{\nu}_e}\; \phi(E_{\overline{\nu}_e}) \; \frac{{\rm d}\sigma}{{\rm d}E_{\rm dep}}(E_{\overline{\nu}_e}, E_{\rm dep})  \; 
+\phi(E_{\rm dep}) = N_p \int_{1.8}^{13} \mathrm{d}E_{\nu} \cdot \phi(E_{\nu}) \cdot \frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\nu}, E_{\rm dep})
 \end{equation}
-
-其中 $N_p$ 为探测器中参与反应的自由质子数目，$\phi(E_{\overline{\nu}_e})$ 表示入射反应堆反电子中微子能谱。积分下限 $1.8\,\mathrm{MeV}$ 对应逆贝塔衰变反应的动力学阈值，而上限取 $13\,\mathrm{MeV}$ 以覆盖反应堆反中微子的有效能量范围。  
-$\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}(E_{\overline{\nu}_e},E_{\rm dep})$ 为关于沉积能量的 IBD 微分截面，它同时包含了反应截面的能量依赖性以及由散射角和反冲效应引入的动力学映射关系，刻画了给定入射中微子能量 $E_{\overline{\nu}_e}$ 时产生沉积能量 $E_{\rm dep}$ 的微分散射截面。
-
-IBD 反应为 $\bar\nu_e + p \to e^+ + n$，仅当入射反中微子能量超过阈值 $E_{\nu}^{\rm th}\simeq 1.806\ \mathrm{MeV}$ 时才能发生。能量与动量守恒将入射中微子能量 $E_\nu$ 与产生的正电子总能量 $E_{e^+}$ 以及正电子的出射角 $\theta$（定义为中微子方向与正电子方向的夹角）联系起来。在零阶近似下（忽略质子反冲）正电子近似带走 $E_\nu$ 扣除中子–质子质量差 $\Delta=m_n-m_p$ 的能量，湮灭光子与正电子全能共同构成在闪烁体中沉积的能量 $E_{\rm dep}$，因此常用近似 $E_{\rm dep}\simeq E_\nu-0.78\ \mathrm{MeV}$ 作为直观估计。
-
-为了获得更精确的能量映射和角分布权重，本工作采用 Vogel 与 Beacom 给出的 IBD 动力学与微分截面表达式（包括质子反冲等一阶修正及相应的角依赖项）来计算每一对 $(E_\nu,\cos\theta)$ 对应的正电子能量与微分截面 $\mathrm{d}\sigma/\mathrm{d}\cos\theta$（参见文献 \cite{Vogel1999Angular}）。基于该计算，对每个入射能量与发射角的样本点评估其产生的沉积能量并按微分截面加权，从而构造出用于离散化计算的响应矩阵 $M_{ij}$。该矩阵既包含了 IBD 截面的能量依赖性，也反映了由发射角和反冲效应引入的动力学展宽，是将入射中微子谱映射为沉积能量谱的关键数值单元。
+其中 $N_p$ 为探测器中参与反应的自由质子数目，$\phi(E_{\overline{\nu}_e})$ 表示入射反应堆反电子中微子能谱。积分下限 $1.8\,\mathrm{MeV}$ 对应逆贝塔衰变反应的动力学阈值，而上限取 $13\,\mathrm{MeV}$ 以覆盖反应堆反中微子的有效能量范围。 沉积能量微分截面 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 刻画了给定入射能量 $E_{\nu}$ 的中微子产生特定沉积能量 $E_{\rm dep}$ 的概率。由于 IBD 反应中正电子的出射具有角分布特征，且质子反冲效应会导致能量分配随角度变化，因此 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 需通过对发射角 $\cos\theta$ 积分获得：
 \begin{equation}
-E_{\rm dep}(E_\nu,\cos\theta)=E_{e^+}(E_\nu,\cos\theta)+m_e
+\frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\nu}, E_{\rm dep}) = \int_{-1}^{1} \mathrm{d}\cos\theta \cdot \frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}(E_{\nu}, \cos\theta) \cdot \delta\bigl(E_{\rm dep} - \mathcal{E}(E_{\nu}, \cos\theta)\bigr)
+\label{eq:dsigma-dEdep}
+\end{equation}
+在此映射关系中，$\mathcal{E}(E_{\nu}, \cos\theta)$ 代表由动力学确定的沉积能量。在闪烁体探测器中，正电子在沉积其动能 $T_e$ 后会与电子湮灭，释放两个 $0.511$~MeV 的光子，因此沉积能量定义为：
+\begin{equation}
+E_{\rm dep}(E_\nu, \cos\theta) = E_{e^+}(E_\nu, \cos\theta) + m_e = T_e(E_\nu, \cos\theta) + 2m_e
 \label{eq:Edep-positron}
 \end{equation}
-给定 $E_\nu$ 时，不同的 $\cos\theta$ 会产生略有不同的 $E_{\rm dep}$。低能下，IBD 的差分截面可以近似写为 $\frac{d\sigma}{d\cos\theta}\propto 1+v_e\,a(E_\nu)\cos\theta$，其中 $v_e$ 是正电子速率，$a(E_\nu)$ 与 $E_\nu$ 相关~\cite{Vogel1999Angular}。该式意味着在较低能量区，正电子角度分布近似均匀（$d\sigma/d\cos\theta\approx,$常数），只有微弱的方向依赖。基于上述动量学关系，可以将每个入射中微子能量 $E_\nu$ 和对应 $\cos\theta$ 映射到一个 $E_{\rm dep}$ 值，并用于构建响应矩阵。
+为了精确描述这一能量映射及其角分布权重，本工作采用了 Vogel 与 Beacom 提供的 IBD 截面模型 \cite{Vogel1999Angular}。该模型包含了质子反冲的一阶修正及完整的角依赖项，能够准确捕捉正电子能谱随角度的微弱偏移以及低能区的动力学展宽效应。在数值实现上，为了处理式 \ref{eq:continuous_rate} 中的积分，我们将上述连续物理过程离散化为响应矩阵 $M_{ij}$。通过对每一对样本点 $(E_\nu, \cos\theta)$ 计算对应的沉积能量并按微分截面 $\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 加权，该矩阵成功地将入射中微子能谱箱映射为探测器的沉积能量箱。$M_{ij}$ 不仅包含了 IBD 截面的能量依赖性，更忠实地反映了由角分布和反冲效应引入的动力学展宽，是连接理论通量模型与可观测能谱的核心数值单元。基于上述动量学关系，可以将每个入射中微子能量 $E_\nu$ 和对应 $\cos\theta$ 映射到一个 $E_{\rm dep}$ 值，并用于构建响应矩阵。
+\
 \begin{equation}
 \frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\bar\nu},E_{\rm dep})
 =\int_{-1}^{1}\!\mathrm{d}\cos\theta\;
@@ -220,25 +221,17 @@ E_{\rm dep}(E_\nu,\cos\theta)=E_{e^+}(E_\nu,\cos\theta)+m_e
 \delta\!\bigl(E_{\rm dep}-T_e(E_{\bar\nu},\cos\theta)-m_e\bigr)
 \label{eq:dsigma-dEdep}
 \end{equation}
-其中 $E_{\bar\nu}$ 表示入射反电子中微子能量，$T_e$ 为正电子的动力学能（kinetic energy），$m_e$ 为电子静质量。该式将中微子能量与正电子发射角 $\cos\theta$ 映射到可观测的沉积能量 $E_{\rm dep}$：对所有可能的发射角按角分布权重（由微分截面 $\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 给出）进行积分，$\delta$ 函数保证仅在正电子产生的沉积能量恰好等于指定 $E_{\rm dep}$ 时才有贡献。换言之，式中积分把入射能量为 $E_{\bar\nu}$ 的中微子在不同发射角下产生的正电子能量分布累加起来，得到以沉积能量为自变量的微分截面。
+其中 $E_{\bar\nu}$ 表示入射反电子中微子能量，$T_e$ 为正电子的动力学能（kinetic energy），$m_e$ 为电子静质量。对所有可能的发射角按角分布权重（由微分截面 $\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 给出）进行积分，$\delta$ 函数保证仅在正电子产生的沉积能量恰好等于指定 $E_{\rm dep}$ 时才有贡献。换言之，式中积分把入射能量为 $E_{\bar\nu}$ 的中微子在不同发射角下产生的正电子能量分布累加起来，得到以沉积能量为自变量的微分截面。$\delta$ 函数在理论上给出严格的能量映射，但在数值实现时通常以离散化方式处理：将 $\cos\theta$ 作等距或重要性采样，计算每一采样点对应的 $E_{\rm dep}$，并将该采样点按权重$\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 累加到落入相应沉积能量区间的响应矩阵单元中。
 
-物理上，$\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 包含了 IBD 的角分布信息及与能量有关的动力学修正（例如质子反冲、一阶相对论展开项及必要的辐射学修正等；具体公式可参见 VogelBeacom (1999) 等文献）。$\delta$ 函数在理论上给出严格的能量映射，但在数值实现时通常以离散化方式处理：将 $\cos\theta$ 作等距或重要性采样，计算每一采样点对应的 $E_{\rm dep}$，并将该采样点按权重$\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 累加到落入相应沉积能量区间的响应矩阵单元中。若需保留解析上的雅可比因子，可通过对 $\delta\bigl(E_{\rm dep}-T_e(\cos\theta)-m_e\bigr)$ 关于 $\cos\theta$ 的变换引入相应的导数因子；但在常见的蒙特卡洛或格点积分实现中，直接采样并归档权重的方法更加简便且数值稳定。
+\paragraph{响应矩阵的离散化构造。}
+为了实现从入射中微子谱到沉积能量谱的数值转换，我们需要将连续的卷积过程离散化为矩阵映射形式。响应矩阵 $M_{ij}$ 的每个矩阵元表示入射能量在第 $j$ 个能量箱（bin）内的中微子，在第 $i$ 个沉积能量箱内产生信号的概率加权权重。
 
-式中以角分布加权并对 $\cos\theta$ 积分的形式，明确给出了从入射中微子能量到可观测沉积能量的动力学映射关系；在数值实现上，$\delta$ 函数通过对角度采样并按微分截面加权归档到沉积能量区间来近似，从而得到用于后续响应矩阵构造的离散化微分截面。
-经离散化后，上述连续映射可写为矩阵形式：
+在实际计算中，我们通过对入射能量 $E_{\nu}$ 和正电子发射角 $\cos\theta$ 进行双重采样来构建矩阵。数值上，矩阵元 $M_{ij}$ 可表达为如下求和形式：
 \begin{equation}
-S_i \;=\; \sum_j M_{ij}\,\Phi_j,
-\label{eq:Si-Mij-Phi}
-\end{equation}
-其中 $\Phi_j=\Phi(E_{\nu_j})\Delta E_{\nu_j}$ 表示第 $j$ 个中微子能量格点（或能量 bin）上的入射通量积分值，$S_i=S(E_{{\rm dep},i})\Delta E_{{\rm dep},i}$ 表示第 $i$ 个沉积能量格点上的期望事例数。响应矩阵元 $M_{ij}$ 编码了第 $j$ 个中微子能量 bin 的中微子通过 IBD 反应在第 $i$ 个沉积能量 bin 中产生信号的权重（权重包含微分截面、动力学映射與格点宽度等因素）。
-
-在实际构造 $M_{ij}$ 时，常按如下数值流程实现：对每个入射能量格点 $E_{\nu_j}$ 在发射角 $\cos\theta\in[-1,1]$ 上做采样（等距或重要性采样），对每一采样点计算对应的正电子能量并由此得到沉积能量 $E_{\rm dep}=T_e+m_e$。该采样点的贡献按微分截面值 $\mathrm{d}\sigma/\mathrm{d}\cos\theta(E_{\nu_j},\cos\theta_k)$ 加权，并根据 $E_{\rm dep}$ 落入的沉积能量格点 $i$ 将该权重累加到 $M_{ij}$ 上。数值上可表达为求和形式：
-\begin{equation}
-M_{ij}=\sum_k \frac{\mathrm{d}\sigma(E_{\nu_j},\cos\theta_k)}{\mathrm{d}\cos\theta}\,\Delta\cos\theta\;
-\mathbf{1}\bigl(E_{\rm dep}(E_{\nu_j},\cos\theta_k)\in [E_{{\rm dep},i},E_{{\rm dep},i+1})\bigr),
+M_{ij} = \sum_{k \in \text{samples}} \frac{\mathrm{d}\sigma(E_{\nu,j}, \cos\theta_k)}{\mathrm{d}\cos\theta} \cdot \Delta\cos\theta \cdot \mathbf{1} \bigl( E_{\rm dep}(E_{\nu,j}, \cos\theta_k) \in [E_{{\rm dep},i}, E_{{\rm dep},i+1}) \bigr)
 \label{eq:Mij-sum}
 \end{equation}
-其中 $\Delta\cos\theta$ 是采样步长，$\mathbf{1}(\cdot)$ 为指示函数（若条件成立取 1，否则取 0）。在实现时还常对中微子能量 bin 进行内部细分（sub-sampling）以提高数值精度，且在最终使用前对 $M_{ij}$ 做适当的归一化以符合定义（例如包含 $\Delta E_{\nu}$ 或在乘以 $\Phi_j$ 时一并处理）。
+其中，$\Delta\cos\theta$ 是角度采样步长，$\mathbf{1}(\cdot)$ 为指示函数（若计算得到的沉积能量落入第 $i$ 个分箱，则取值为 1，否则为 0）。为了提高数值精度，通常会对每个中微子能量 bin 进行内部细分采样（Sub-sampling），以平滑箱边沿的离散效应。
 
 采用上述构造方法得到的响应矩阵自然同时包含了 IBD 微分截面的能量与角度依赖、由发射角和反冲引入的动量学展宽，以及离散化带来的能量混合效应。因此矩阵映射 $S_i=\sum_j M_{ij}\Phi_j$ 在数值上忠实再现了从入射反中微子谱到可观测沉积能量谱的完整物理过程。由基准反应堆通量与构建好的 $M_{ij}$ 得到的典型沉积能量谱示例见图~\ref{fig:depo_e_spec}。
 
@@ -266,9 +259,6 @@ M_{ij}=\sum_k \frac{\mathrm{d}\sigma(E_{\nu_j},\cos\theta_k)}{\mathrm{d}\cos\the
 \end{algorithmic}
 \end{algorithm}
 
-
-
-
 1. 能量分箱：预先定义离散的中微子能量网格和对应的沉积能量网格。
     
 2. 角度采样：对每个中微子能量 $E_{\nu_j}$，在 $\cos\theta\in[-1,1]$ 上均匀采样若干点。
@@ -279,7 +269,7 @@ M_{ij}=\sum_k \frac{\mathrm{d}\sigma(E_{\nu_j},\cos\theta_k)}{\mathrm{d}\cos\the
     
 5. 循环累积：对所有中微子能量 bin 和角度样本重复以上过程，最终得到完整的微分散射截面矩阵 $M_{ij}$。
 因此微分散射截面矩阵的构建逻辑是先采样中微子能量和出射角度，计算对应的沉积能量，并将相应的微分截面权重累加到正确的能量 bin 中。这样，矩阵 $M_{ij}$ 自动反映了从入射中微子谱到探测沉积谱的完整物理映射关系。
-最终，沉积能量能谱可以通过下式得到：
+在构建好响应矩阵 $M_{ij}$ 后，对于任意给定的入射反中微子通量向量 $\Phi_\nu$（其元素为各能箱内的通量积分），观测到的沉积能量能谱向量 $S_{\rm dep}$ 可通过简单的矩阵乘法得到：
 \begin{equation}
 \phi_{\rm dep} = \phi_{\nu} \cdot M_{ij}
 \label{eq:phi-dep-Mij}

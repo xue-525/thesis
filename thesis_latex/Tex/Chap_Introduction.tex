@@ -21,7 +21,7 @@
 
 \section{中微子振荡理论}
 
-标准模型初始假设中微子无质量且产生时具有确定的味态（电子、缪子、陶子），味道在传播中不会改变。如果中微子具有非零质量，则不同味态的中微子是质量本征态的叠加。这可表示为
+标准模型最初假设中微子无质量，且产生时具有确定的味态（电子、缪子、陶子），味道在传播中不会改变。然而，若中微子具有非零质量，则不同味态的中微子是质量本征态的叠加。这可表示为
 \begin{equation}
 |\nu_\alpha\rangle=\sum_{k}U^*_{\alpha k}\,|\nu_k\rangle\qquad(\alpha=e,\mu,\tau;\ k=1,2,3).
 \label{eq:flavor-mass-superposition}
@@ -46,7 +46,7 @@
 
 其中，$\Delta m_{ij}^2$为中微子的质量平方差。
 
-对于中微子混合矩阵（PMNS 矩阵），中微子混合矩阵 $U_{\mathrm{PMNS}}$ 将味态和质量态联系起来，是一个 $3\times3$ 酉矩阵\cite{Maki1962,Pontecorvo1968}。一般可用三个混合角 $(\theta_{12},\theta_{23},\theta_{13})$ 和一个狄拉克 CP 破坏相位 $\delta$ 来参数化（如果中微子是马约拉纳粒子，还可多出两个马约拉纳相位 $\alpha_{21},\alpha_{31}$）。一种常见的表示形式为：
+中微子混合矩阵（PMNS 矩阵）$U_{\mathrm{PMNS}}$ 将味态与质量态联系起来，是一个 $3\times3$ 酉矩阵\cite{Maki1962,Pontecorvo1968}。一般可用三个混合角 $(\theta_{12},\theta_{23},\theta_{13})$ 和一个狄拉克 CP 破坏相位 $\delta$ 来参数化（若中微子是马约拉纳粒子，还额外包含两个马约拉纳相位 $\alpha_{21},\alpha_{31}$）。其常见的参数化形式为：
 \begin{equation}
 \begin{aligned}
 U & =\left(\begin{array}{ccc}
@@ -72,9 +72,9 @@ s_{12} s_{23}-c_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & -c_{12} s_{23}-s_{12}
 \end{equation}
 式中 $c_{ij}=\cos\theta_{ij}$，$s_{ij}=\sin\theta_{ij}$。混合角 $\theta_{ij}$ 描述不同质量本征态间的混合幅度，$\delta$ 是 CP 破坏相位（$\delta\neq0$ 时振荡过程在中微子与反中微子间不对称），马约拉纳相位仅影响无中微子双 $\beta$ 衰变过程，不出现在振荡概率中。
 
-由公式~\ref{eq:flavor-mass-superposition} 以及 PMNS 矩阵~\ref{eq:formula_prob} 可知，描述中微子振荡的参数有 6 个，分别是混合角 $\theta_{13}$、$\theta_{12}$、$\theta_{23}$，质量平方差 $\Delta m_{21}^2$ 和 $\Delta m_{32}^2$，CP 破坏相角 $\delta$。而 JUNO 实验将给出振荡参数的精确测量 $(\theta_{12},\Delta m_{21}^2)$ 以及 $\Delta m_{32}^2$ 的正负号（质量顺序）。
+由公式~\ref{eq:flavor-mass-superposition} 以及 PMNS 矩阵（公式~\ref{eq:pmns-matrix}）可知，描述中微子振荡的参数有 6 个，分别是混合角 $\theta_{13}$、$\theta_{12}$、$\theta_{23}$，质量平方差 $\Delta m_{21}^2$ 和 $\Delta m_{32}^2$，CP 破坏相角 $\delta$。而 JUNO 实验将给出振荡参数的精确测量 $(\theta_{12},\Delta m_{21}^2)$ 以及 $\Delta m_{32}^2$ 的正负号（质量顺序）。
 
-由公式~\ref{eq:flavor-mass-superposition} 以及 PMNS 矩阵~\ref{eq:formula_prob} 可推出反应对中微子存活概率为：
+由公式~\ref{eq:flavor-mass-superposition} 以及 PMNS 矩阵（公式~\ref{eq:pmns-matrix}）可推出反应堆中微子存活概率为：
 \begin{equation}
     \begin{aligned}
     P(\bar{\nu}_e \rightarrow \bar{\nu}_e)
@@ -105,7 +105,7 @@ s_{12} s_{23}-c_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & -c_{12} s_{23}-s_{12}
 \label{fig:reactor_survival_baseline}
 \end{figure}
 
-因此，根据反应堆中微子存活概率的关系如图~\ref{fig:reactor_survival_baseline} 所示，在不同基线条件下，短基线实验（例如大亚湾近/远站）主要观测由 $\Delta m^2_{31}$ / $\Delta m^2_{32}$ 驱动的“快振荡”，其振荡极大值位于约 2\,km 附近；而中长基线实验（例如 JUNO）则位于由 $\Delta m^2_{21}$ 驱动的“慢振荡”极大值附近（约 65\,km），因此 JUNO 能在同一次能谱测量中同时对慢、快两类频率成分敏感。
+如图~\ref{fig:reactor_survival_baseline} 所示，在不同基线条件下，短基线实验（例如大亚湾近/远站）主要观测由 $\Delta m^2_{31}$/$\Delta m^2_{32}$ 驱动的”快振荡”，其振荡极大值位于约 2\,km 附近；而中长基线实验（例如 JUNO）则位于由 $\Delta m^2_{21}$ 驱动的”慢振荡”极大值附近（约 65\,km），因此 JUNO 能在同一次能谱测量中同时对慢、快两类频率成分敏感。
 
 在传播介质中，中微子除了自由传播相位外，还会与介质中的电子、中子发生相干的前向散射，从而在味基下引入额外的有效势项。对于电子中微子，除中性流外还存在带电流相互作用，产生有效势\cite{Wolfenstein1978,Mikheyev1985}
 \begin{equation}
@@ -134,22 +134,24 @@ V_e=\sqrt{2}\,G_F N_e,
 
 在三味振荡情形中，需对 $3\times3$ 的有效哈密顿量数值对角化以获得精确的物质修正\cite{Zaglauer1988Analytic}；一般而言，物质效应主要影响与太阳项（$\Delta m^2_{21}$）相关的低频分量，而对于快频项（由 $\Delta m^2_{3\ell}$ 驱动）影响较小。对于太阳中微子（穿越太阳高密度区域），MSW 效应产生的大幅增强是解释太阳中微子缺失的关键机制\cite{SNO2002Solar}；而对于穿过地壳传播的反应堆反中微子（基线为数十公里、能量在 MeV 量级），物质势 $V_e$ 的数值通常较小，仅作为微小却必要的修正被纳入精密拟合，以避免在高精度测量（如 JUNO 等）中产生系统偏差\cite{JUNO2016YellowBook, Khan2015Matter}。
 
-\subsection{JUNO的探测器结构}
+\section{江门中微子实验}
+
+\subsection{JUNO 的探测器结构}
 
 如图\ref{fig:juno_detector}所示，JUNO的核心部件是一个直径35.4米的有机玻璃球形中心探测器，内部装有约20,000吨液体闪烁体\cite{Abusleme2022_Detector}。该玻璃球被浸没在深44米、容积约3.5万吨的水切伦科夫池中，水池既屏蔽周围岩石的本底射线，又安装了光电倍增管作为水切伦科夫探测器，用于标记通过的宇宙射线μ子\cite{Abusleme2025}。中心有机玻璃球外壁均匀布置了约20000只20英寸光电倍增管和25600只3英寸光电倍增管，用于收集来自闪烁体的光信号，这一双量能器系统（Dual-calorimetry）能够有效提升动态范围与校准精度\cite{Abusleme2022_PMT}。为了进一步抑制宇宙μ子背景，在水池顶部还安装有塑料闪烁体顶层径迹探测器（Top Tracker），用于精确记录穿过探测器的μ子轨迹并作为μ子标记\cite{Grassmann2014_TT}。
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{Img/JUNO_Detector_Scheme.pdf}
-    \bicaption{JUNO的探测器示意图\citep{Abusleme2025}）。}{Schematic view of the JUNO detector, taken from Ref.\cite{Abusleme2025}.}
+    \bicaption{JUNO 探测器示意图（图片来自文献\citep{Abusleme2025}）。}{Schematic view of the JUNO detector, taken from Ref.\cite{Abusleme2025}.}
     \label{fig:juno_detector}
 \end{figure}
 
-\subsection{JUNO的探测器关键参数}
+\subsection{JUNO 的探测器关键参数}
 
 JUNO探测器的关键指标之一是极高的能量分辨率。设计要求在1 MeV处达到约3\%的能量分辨率，相当于每MeV产生超过1100个探测光电子\cite{Abusleme2021_LS}。为此，探测器选用了高透射性的LAB基液体闪烁体，掺有荧光体PPO和波长转换剂Bis-MSB\cite{Abusleme2021_LS}。探测器中安装了约20000只20英寸高效PMT和25600只3英寸PMT，光电覆盖率约为75\%，保证了足够的光收集效率以实现上述能量分辨率目标\cite{Abusleme2022_PMT}。
 
-\subsection{JUNO的主要物理目标}
+\subsection{JUNO 的主要物理目标}
 
 JUNO 的首要物理目标是通过精确测量反应堆中微子能谱来确定中微子的质量顺序（正常层级或倒置层级）\cite{An2016_YellowBook}。根据设计，JUNO 在约 6 年运行后可在 $3$--$4\sigma$ 置信度上区分两种质量层级。同时，JUNO 将以亚百分比级的精度精准测量主要振荡参数，如 $\theta_{12}$、$\Delta m^2_{21}$ 和 $\Delta m^2_{31}$，从而进一步完善三味振荡模型\cite{Abusleme2022_Physics}。除反应堆中微子研究外，JUNO还具备探测太阳中微子、地球（地幔）中微子和超新星中微子的能力，并可进行惰性中微子、质子衰变等新物理现象的探索\cite{An2016_YellowBook}。这些物理目标的实现将为中微子物理学的未来研究提供关键数据和启示。
 
@@ -175,7 +177,7 @@ JUNO 协作组于 2025 年底发布了首篇反应堆中微子振荡物理结果
 图~\ref{fig:juno_contour} 表明这一测量精度比以往实验的组合结果提高了约 1.6 倍。JUNO 已能够通过反应堆反中微子能谱的精密测量，对太阳振荡参数 $\sin^2\theta_{12}$ 和 $\Delta m_{21}^2$ 给出具有竞争力的独立约束。系统误差方面，通过大量校准保证了能量标度不确定度约 $0.5\%$、正电子非线性约 $1\%$ 的约束；同时对来自宇宙射线次级粒子 $^9$Li/$^8$He 衰变等本底进行了严格抑制。实验结果为未来利用 JUNO 数据精确探究中微子质量顺序奠定了良好基础。
 
 \subsection{JUNO 中的大气中微子}
-JUNO 探测器还可观测大气中微子，其能量范围从100 MeV 到 10 GeV\citep{Abusleme2021}，通道覆盖对跗至地球直径的路径长度（最长约 $1.3\times10^4\,\mathrm{km}$），对应广泛的 $L/E$ 范围（从几百到上万 km/GeV）。在几 GeV 以上能量区间内，JUNO 具有良好的能量和角分辨能力：对于 $E_\nu>3\,\mathrm{GeV}$ 的电子型大气中微子，能量重建优于 $6\%$，缪子型优于 $8\%$；其到达方向的角度分辨率在 $\sim10^\circ$ 量级。这些精度使 JUNO 能够通过对大气中微子在地球介质中出现的 MSW 效应进行研究，从而补充其主要的质量序测定方案。目前 JUNO 尚未发布大气中微子观测结果，但相关研究表明，利用大约 10 年的数据，大气中微子通道可提供约 $1.0$--$1.8\sigma$ 的质量序敏感度\citep{Zhang2023OscillationPhysicsPotential}。特别是将大气中微子结果与反应堆中微子结果结合分析，有望进一步增强整体灵敏度。
+JUNO 探测器还可观测大气中微子，其能量范围从100 MeV 到 10 GeV\citep{Abusleme2021}，通道覆盖从近地表至地球直径的路径长度（最长约 $1.3\times10^4\,\mathrm{km}$），对应广泛的 $L/E$ 范围（从几百到上万 km/GeV）。在几 GeV 以上能量区间内，JUNO 具有良好的能量和角分辨能力：对于 $E_\nu>3\,\mathrm{GeV}$ 的电子型大气中微子，能量重建优于 $6\%$，缪子型优于 $8\%$；其到达方向的角度分辨率在 $\sim10^\circ$ 量级。这些精度使 JUNO 能够通过对大气中微子在地球介质中出现的 MSW 效应进行研究，从而补充其主要的质量序测定方案。目前 JUNO 尚未发布大气中微子观测结果，但相关研究表明，利用大约 10 年的数据，大气中微子通道可提供约 $1.0$--$1.8\sigma$ 的质量序敏感度\citep{Zhang2023OscillationPhysicsPotential}。特别是将大气中微子结果与反应堆中微子结果结合分析，有望进一步增强整体灵敏度。
 
 \begin{figure}[htbp]
 \centering
@@ -210,7 +212,7 @@ JUNO 对银河系内超新星的中微子爆发具极强响应能力。根据模
 \label{fig:supernova_channels}
 \end{figure}
 
-如图~\ref{fig:supernova_channels} 所示，反 $\beta$ 衰变通道在数十 MeV 能区具有最高统计量，是 JUNO 探测超新星 $\bar{\nu}_e$ 的核心通道；同时，$^{12}$C 与 $^{13}$C 上的中性流反应以及弹性散射通道为研究全味道中微子谱及爆发动力学过程提供了重要补充信息。此外，中微子与碳原子核的相互作用（含荷核相互作用和中性流相互作用）也会贡献数百个事件。图中能谱示例反映了不同通道的能量分布。如此高的统计量可让 JUNO 对超新星信号进行时域和能谱的精细测量，检验超新星核心坍缩模型\citep{Li2020Prospects}。JUNO 探测器还可参与国际超新星预警网络（SNEWS），在探测到信号时提供爆发的预警定位。研究估计，当观测到约 5000 个 IBD 事件时，JUNO 对超新星方向的定位精度可达到约 $9^\circ$ 不确定度\citep{Lorenz2016NeutrinoAstroJUNO}，足以配合光学望远镜迅速搜索可能的爆发源。
+如图~\ref{fig:supernova_channels} 所示，反 $\beta$ 衰变通道在数十 MeV 能区具有最高统计量，是 JUNO 探测超新星 $\bar{\nu}_e$ 的核心通道；同时，$^{12}$C 与 $^{13}$C 上的中性流反应以及弹性散射通道为研究全味道中微子谱及爆发动力学过程提供了重要补充信息。此外，中微子与碳原子核的相互作用（含带电流和中性流反应）也会贡献数百个事件。如此高的统计量可让 JUNO 对超新星信号进行时域和能谱的精细测量，检验超新星核心坍缩模型\citep{Li2020Prospects}。JUNO 探测器还可参与国际超新星预警网络（SNEWS），在探测到信号时提供爆发的预警定位。研究估计，当观测到约 5000 个 IBD 事件时，JUNO 对超新星方向的定位精度可达到约 $9^\circ$ 不确定度\citep{Lorenz2016NeutrinoAstroJUNO}，足以配合光学望远镜迅速搜索可能的爆发源。
 
 \subsection{JUNO 中的地球中微子}
 JUNO 设计同样适用于探测来自地球内部放射性元素衰变产生的地球中微子（主要来源于 $^{238}$U 和 $^{232}$Th 衰变链）。利用与反应堆中微子相同的 IBD 反应，JUNO 每年预计可记录约 400 个地球中微子事件\citep{Ludhova2023JUNOStatus}。这一统计量远超当前 Borexino 和神冈两个实验多年来的累计结果（Borexino 约 50 个/年，神冈约 100 个/年）。如此高的事件率意味着 JUNO 将很快达到现有实验的灵敏度，并进一步精确测定地球中微子通量\citep{Ludhova2023JUNOStatus}。地球中微子的测量在地质学上意义重大：它为估算地幔与岩石圈中放射性元素丰度提供了独一无二的探针，可进一步推算地球的放射生热总量。JUNO 的测量还可以对 $^{232}$Th/$^{238}$U 比值进行约束，从而帮助验证地球化学模型对深部地热源贡献的预测\citep{Li2026Prospects}。

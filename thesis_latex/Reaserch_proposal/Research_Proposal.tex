@@ -1,0 +1,436 @@
+\documentclass[a4paper, 12pt, UTF8]{ctexart}
+
+% ============ 宏包 ============
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+
+% ============ 格式设置 ============
+\linespread{1.5}
+\setlength{\parindent}{2em}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+% ============ 标题信息 ============
+\title{\textbf{JUNO实验反应堆中微子振荡精密测量的分析方法研究} \\ \vspace{0.5em} \Large 研究计划}
+\author{薛景秦}
+\date{}
+
+% ============ 正文 ============
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\vspace{1em}
+
+\begin{abstract}
+\noindent
+中微子作为连接粒子物理与宇宙学的关键"信使"，其非零质量与振荡现象提供了超越标准模型的新物理证据。当前，中微子研究已从现象发现迈向精密测量时代。实现振荡参数的亚百分比量级测量，不仅对于完善大统一理论具有重要意义，更是判定中微子马约拉纳（Majorana）或狄拉克（Dirac）属性的关键前提。江门中微子实验（JUNO）依托地下700\,米处的20\,千吨液体闪烁体探测器，通过对52.5\,公里基线处的反应堆反中微子进行测量，旨在实现振荡参数的亚百分比量级测量。然而，实验运行早期面临低统计量、反应堆模型依赖性以及统计推断稳健性等关键挑战。本研究计划围绕反应堆中微子振荡分析中的物理链条，从数值算法优化、能谱分段策略与严格统计方法三个维度展开系统研究，旨在为JUNO精密测量提供完整、可靠的分析链支持。
+\end{abstract}
+
+\newpage
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+%% ================================================================
+%%                    第一章  选题背景
+%% ================================================================
+\section{选题背景}
+
+\subsection{中微子精密测量的物理意义}
+
+中微子是标准模型中唯一已被证实具有超越标准模型性质的基本粒子。自1998年Super-Kamiokande实验发现大气中微子振荡、2001年SNO实验确认太阳中微子味转化以来，中微子振荡现象已被广泛证实，其背后的物理机制——中微子的非零质量与味混合——构成了超越标准模型新物理的确凿证据。这些发现分别获得了2015年的诺贝尔物理学奖。
+
+在三代中微子框架下，味本征态 $|\nu_\alpha\rangle$（$\alpha = e, \mu, \tau$）与质量本征态 $|\nu_k\rangle$（$k = 1, 2, 3$）之间通过 Pontecorvo-Maki-Nakagawa-Sakata（PMNS）酉混合矩阵 $U$ 相联系：
+\begin{equation}
+|\nu_\alpha\rangle = \sum_{k=1}^{3} U_{\alpha k}^* \, |\nu_k\rangle \,.
+\end{equation}
+PMNS矩阵的标准参数化形式为：
+\begin{equation}
+\begin{aligned}
+U & =\left(\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & c_{23} & s_{23} \\
+0 & -s_{23} & c_{23}
+\end{array}\right)\left(\begin{array}{ccc}
+c_{13} & 0 & s_{13} e^{-\mathrm{i} \delta} \\
+0 & 1 & 0 \\
+-s_{13} e^{\mathrm{i} \delta} & 0 & c_{13}
+\end{array}\right)\left(\begin{array}{ccc}
+c_{12} & s_{12} & 0 \\
+-s_{12} & c_{12} & 0 \\
+0 & 0 & 1
+\end{array}\right) P_\nu \\
+& =\left(\begin{array}{ccc}
+c_{12} c_{13} & s_{12} c_{13} & s_{13} e^{-\mathrm{i} \delta} \\
+-s_{12} c_{23}-c_{12} s_{13} s_{23} e^{\mathrm{i} \delta} & c_{12} c_{23}-s_{12} s_{13} s_{23} e^{\mathrm{i} \delta} & c_{13} s_{23} \\
+s_{12} s_{23}-c_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & -c_{12} s_{23}-s_{12} s_{13} c_{23} e^{\mathrm{i} \delta} & c_{13} c_{23}
+\end{array}\right) P_\nu \,,
+\end{aligned}
+\label{eq:pmns-matrix}
+\end{equation}
+其中 $c_{ij} \equiv \cos\theta_{ij}$，$s_{ij} \equiv \sin\theta_{ij}$，$\delta$ 为狄拉克CP破坏相，$P_\nu = \mathrm{diag}(1, e^{i\alpha_{21}/2}, e^{i\alpha_{31}/2})$ 为包含马约拉纳相的对角矩阵。该矩阵包含三个混合角 $\theta_{12}$、$\theta_{13}$、$\theta_{23}$，一个狄拉克CP相 $\delta$，以及（若中微子为马约拉纳粒子时）两个额外的马约拉纳相。与之相关的物理量还包括两个独立的质量平方差 $\Delta m^2_{21} \equiv m_2^2 - m_1^2$ 和 $\Delta m^2_{31} \equiv m_3^2 - m_1^2$。
+
+在上述六个振荡参数中，太阳振荡参数 $\sin^2\theta_{12}$ 和 $\Delta m^2_{21}$ 的高精度测量具有特殊的物理意义。一方面，这两个参数直接关联太阳中微子味转化机制和Mikheyev-Smirnov-Wolfenstein（MSW）效应的精确检验，是理解中微子在物质中传播行为的基石。另一方面，更为关键的是，$\sin^2\theta_{12}$ 和 $\Delta m^2_{21}$ 的精密测量是未来无中微子双贝塔衰变（$0\nu\beta\beta$）实验确定中微子有效质量上限及判定质量序的前提条件。具体而言，$0\nu\beta\beta$ 衰变的有效马约拉纳质量为：
+\begin{equation}
+|m_{\beta\beta}| = \left| c_{12}^2 c_{13}^2 \, m_1 + s_{12}^2 c_{13}^2 \, m_2 \, e^{i\alpha_{21}} + s_{13}^2 \, m_3 \, e^{i(\alpha_{31}-2\delta)} \right| \,,
+\end{equation}
+其中混合角 $\theta_{12}$ 的精度直接决定了 $|m_{\beta\beta}|$ 理论预测带的宽度。因此，将 $\sin^2\theta_{12}$ 的测量精度推进至亚百分比量级，是判定中微子本质属性（马约拉纳或狄拉克）的必要步骤，也是粒子物理与宇宙学交叉领域中最迫切的精密测量任务之一。
+
+此外，大气振荡参数 $\Delta m^2_{31}$ 的精密测量同样意义重大。$\Delta m^2_{31}$ 的正负号决定了中微子质量序（即正序或倒序问题），而其绝对值的精确测定对于约束中微子质量和谱的整体结构不可或缺。在JUNO实验的早期运行阶段，受限于统计量，$\Delta m^2_{31}$ 的测量面临独特的统计学挑战（详见\ref{sec:challenge}节），这也构成了本研究的核心动机之一。
+
+\subsection{JUNO实验概况与物理目标}
+
+江门中微子实验（Jiangmen Underground Neutrino Observatory，JUNO）是中国主导建设的大型中微子实验，坐落于广东省江门市开平地下约700\,米处。JUNO的中心探测器为一个直径35.4\,米的透明丙烯酸球体，内装约20\,千吨线性烷基苯（LAB）基液体闪烁体，配备约20\,000支20英寸光电倍增管（PMT）和25\,600支3英寸PMT，实现约75\%的光阴极覆盖率。这一设计使JUNO在1\,MeV处达到约3\%的能量分辨率（对应大于1100光电子/MeV的光产额），为精密谱形分析奠定了硬件基础。探测器外围为直径44\,米的水池，内装35\,000吨超纯水，兼做切伦科夫探测器和宇宙线屏蔽层；水池顶部设有塑料闪烁体条组成的径迹探测器（Top Tracker）用于宇宙线缪子标记。
+
+JUNO的核心物理目标是利用52.5\,公里基线处的反应堆电子反中微子，通过逆贝塔衰变（IBD）反应：
+\begin{equation}
+\bar{\nu}_e + p \to e^+ + n
+\end{equation}
+进行探测。该反应产生的正电子沉积能与反中微子能量之间具有明确的运动学关系，延迟信号（中子俘获释放的$\gamma$射线）提供了有效的本底压制手段。
+
+在三味框架下，反应堆电子反中微子的存活概率为：
+\begin{equation}
+\begin{aligned}
+P(\bar{\nu}_e \rightarrow \bar{\nu}_e)
+= \; & 1
+- \sin^2 2\theta_{12}\, c_{13}^4
+\sin^2 \frac{\Delta m_{21}^2 L}{4E} \\
+& - \sin^2 2\theta_{13}
+\left[
+c_{12}^2
+\sin^2 \frac{\Delta m_{31}^2 L}{4E}
++
+s_{12}^2
+\sin^2 \frac{\Delta m_{32}^2 L}{4E}
+\right] \,,
+\end{aligned}
+\label{eq:survival-prob}
+\end{equation}
+其中 $L$ 为反应堆到探测器的距离，$E$ 为反中微子能量。JUNO位于太阳振荡极大值附近（$\Delta m^2_{21} L / 4E \sim \pi/2$），对 $\sin^2\theta_{12}$ 和 $\Delta m^2_{21}$ 具有最大灵敏度；同时，其卓越的能量分辨率使得由 $\Delta m^2_{31}$ 驱动的快振荡信息也可以被提取。
+
+JUNO的信号源主要来自台山（TS）和阳江（YJ）核电站群的反应堆机组，距探测器约52.5\,公里，另有大亚湾和防城港核电站的次级贡献。反应堆反中微子能谱主要由四种裂变同位素（$^{235}$U、$^{238}$U、$^{239}$Pu、$^{241}$Pu）的贡献组成，其裂变份额随燃料燃耗周期演化。
+
+JUNO早期仅59.1天的运行数据便取得了令人瞩目的成果：基于2379个IBD候选事例，测量得到
+\begin{equation}
+\sin^2\theta_{12} = 0.3092 \pm 0.0087\,, \qquad
+\Delta m^2_{21} = (7.50 \pm 0.12) \times 10^{-5}\,\mathrm{eV}^2 \,,
+\end{equation}
+将太阳振荡参数的测量精度较全球既有联合结果提升了1.6倍。这一成果有力验证了JUNO探测器卓越的能量分辨率与大规模工程设计的可行性，也为后续更高精度的物理分析奠定了坚实基础。
+
+\subsection{早期运行阶段的关键挑战}
+\label{sec:challenge}
+
+尽管JUNO的早期运行已展示出卓越的物理潜力，但实验运行初期面临着一系列严峻的技术与方法学挑战，这些挑战构成了本研究计划的核心动机：
+
+\paragraph{（一）低统计量下的非高斯效应与参数估计偏差}
+
+在JUNO运行的前数十天至数月内，重建能谱各能量箱中的事例数较低（尤其在能谱端点区域可能低至个位数）。在此条件下，传统的基于高斯近似的 $\chi^2$ 统计方法面临严峻挑战：泊松统计涨落的非高斯性质使得标准的Neyman或Pearson加权方案引入系统性的参数估计偏差。例如，当重建能谱采用20\,keV的精细箱宽时，30天数据下 $\sin^2\theta_{12}$ 的拟合偏差可达 $\sim 0.8\sigma$，这对于追求亚百分比精度的实验而言是不可接受的。因此，如何选择合适的能谱分箱方案以有效抑制低统计量下的非高斯偏差，同时不损失物理灵敏度，是早期分析面临的首要问题。
+
+\paragraph{（二）TAO缺失导致的反应堆模型依赖性}
+
+台山反中微子观测站（Taishan Antineutrino Observatory，TAO）是JUNO的近端探测器，设计目标是在近距离处以极高的能量分辨率精确测量反应堆反中微子能谱的精细结构，从而为JUNO提供近乎模型无关的输入能谱约束。然而，在TAO尚未投入运行的阶段，JUNO的振荡分析不得不依赖于理论反应堆能谱模型（如Huber-Mueller转换模型或核数据库求和模型）。这些模型之间存在显著差异——特别是在5--7\,MeV能量区间的所谓"bump"结构上——不同模型预言的能谱形状差异可直接传导为振荡参数的系统误差。
+
+为缓解这一问题，本研究提出利用大亚湾实验积累的555万反中微子事例对反应堆能谱形状进行约束，构建JUNO与大亚湾的联合分析框架。然而，这一联合分析中反应堆能谱如何分段（segmentation）——即以何种能量宽度将能谱划分为独立的归一化区间——直接决定了分析结果对模型假设的敏感程度。分段过细，大亚湾数据无法有效约束各段的归一化，可能导致过拟合；分段过粗，则无法容纳模型与真实能谱之间的局域偏差，导致模型依赖性残留。因此，确定最优的分段策略是联合分析的核心方法学问题。
+
+\paragraph{（三）Wilks定理在特定参数测量中的失效}
+
+在粒子物理实验中，基于似然比的参数估计通常依赖Wilks定理来构建置信区间：在大样本极限下，检验统计量 $\Delta\chi^2$ 渐近服从 $\chi^2$ 分布。然而，Wilks定理的成立需要满足一系列正则性条件，包括：似然函数的单模态性、参数不在边界上、以及充分大的样本量。在JUNO早期对 $\Delta m^2_{31}$ 的测量中，这些条件均受到不同程度的违反：振荡的周期性导致 $\Delta\chi^2$ 剖面在参数空间中出现多个分离的局域极小值（相位简并）；低统计量使得似然面呈现强烈的非抛物线结构。因此，直接套用Wilks定理的标准阈值（如 $\Delta\chi^2 = 1.0$ 对应 $1\sigma$）将导致置信区间的覆盖不足（undercoverage），即实际的统计覆盖率低于名义覆盖率。这要求采用更为严格的频率学方法——如Feldman-Cousins（FC）方法——来保证置信区间的正确覆盖。
+
+\paragraph{（四）大规模伪实验分析的计算瓶颈}
+
+Feldman-Cousins方法的实施需要在参数空间的每个假设点上生成大量伪实验（toy Monte Carlo），并对每个伪实验进行完整的谱拟合。以JUNO典型的FC分析配置为例：50个参数网格点 $\times$ 5000个伪实验 $\times$ 20个多起点初始化（用于避免局域极小值陷阱），总计需要约500万次完整的能谱生成与拟合过程。以未优化的实现为基准，单次拟合耗时约110秒，总计算量约需635天的单核计算时间——这在实际中是不可行的。因此，开发高性能的计算框架以大幅降低单次拟合的计算开销，是FC分析得以实施的先决条件。
+
+综上所述，JUNO早期运行阶段在低统计量下如何减少拟合偏差、如何降低对反应堆模型的依赖性、如何确保统计推断的稳健性，以及如何克服大规模伪实验分析的计算瓶颈，构成了一个相互关联的方法学挑战体系。本研究计划正是围绕这一挑战体系，从计算加速、能谱策略优化和统计方法严格化三个维度展开系统研究。
+
+%% ================================================================
+%%                    第二章  研究内容
+%% ================================================================
+\section{研究内容}
+
+本研究围绕JUNO反应堆中微子振荡精密测量的完整分析链，从数值算法优化、能谱分箱与分段策略、以及统计推断稳健性三个维度展开。三个研究方向相互支撑：高性能拟合框架为大规模伪实验研究提供计算基础；能谱策略优化为拟合分析确定最佳配置；Feldman-Cousins覆盖性检验为最终的物理结果提供严格的统计保障。
+
+\subsection{基于张量化的高性能前向折叠拟合框架}
+
+\subsubsection{前向折叠能谱生成的物理模型}
+
+JUNO反应堆中微子振荡分析采用前向折叠（forward-folding）方法：从反应堆端的反中微子能谱出发，经过振荡传播、IBD反应截面加权、沉积能转换、液体闪烁体非线性响应和探测器能量分辨率模糊，最终生成理论预期的重建能谱，与实验观测进行比较。完整的前向折叠积分表达式为：
+\begin{multline}
+\phi(E_{\text{rec}}) = \int_{T_{\text{DAQ}}} \! \mathrm{d}t \int_{1.8\,\text{MeV}}^{15\,\text{MeV}} \! \mathrm{d}E_{\bar{\nu}_e} \, \phi(E_{\bar{\nu}_e}, t) \int_{-1}^{1} \! \mathrm{d}\cos\theta \, \frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}(E_{\bar{\nu}_e}, \cos\theta) \cdot N_p \cdot \epsilon(E_{\text{dep}}) \cdot {} \\
+\frac{1}{\sqrt{2\pi} \sigma_{E_{\text{vis}}}} \exp\left[-\frac{1}{2} \left(\frac{E_{\text{vis}} - E_{\text{dep}}}{\sigma_{E_{\text{vis}}}} \right)^2 \right] \,,
+\label{eq:forward-folding}
+\end{multline}
+其中 $\phi(E_{\bar{\nu}_e}, t)$ 为时间依赖的反应堆反中微子发射谱（已包含振荡概率调制），$\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 为IBD微分截面，$N_p$ 为靶质子数，$\epsilon$ 为探测效率。能量转换链为：
+\begin{equation}
+E_{\bar\nu_e} \xrightarrow{\text{IBD运动学}} E_e(E_{\bar\nu_e},\cos\theta) \xrightarrow{\text{湮灭}} E_{\rm dep}(E_e) \xrightarrow{\text{液闪非线性}} E_{\rm vis}(E_{\rm dep}) \xrightarrow{\text{探测器分辨率}} E_{\rm rec}(E_{\rm vis}) \,,
+\end{equation}
+其中液体闪烁体非线性效应通过
+\begin{equation}
+E_{\rm vis} = E_{\rm dep}\,f_{\rm LSNL}(E_{\rm dep})
+\end{equation}
+描述，探测器能量分辨率通过
+\begin{equation}
+\sigma_{E_{\rm rec}} = E_{\rm vis} \sqrt{\frac{a^2}{E_{\rm vis}} + b^2 + \frac{c^2}{(E_{\rm vis})^2}}
+\end{equation}
+参数化，其中 $a$、$b$、$c$ 分别对应光子统计、系统不确定性和暗噪声贡献。
+
+在数值实现中，上述连续积分被离散化为矩阵链运算。将反应堆反中微子能谱、IBD截面映射和探测器响应分别表示为向量和矩阵，前向折叠过程可紧凑地表达为：
+\begin{equation}
+\vec{\phi}_{\rm rec} = \mathbf{R} \cdot \mathbf{M} \cdot \vec{\phi}_{\bar\nu} \,,
+\label{eq:matrix-chain}
+\end{equation}
+其中 $\vec{\phi}_{\bar\nu}$ 为反中微子能谱向量，$\mathbf{M}$ 为IBD截面映射矩阵（将反中微子能量映射到沉积能量），$\mathbf{R}$ 为探测器响应矩阵（包含非线性和分辨率模糊）。
+
+在参数拟合中，采用含拉回项（pull terms）的扩展 $\chi^2$ 统计量：
+\begin{equation}
+\chi^2 \equiv (\boldsymbol{M}-\boldsymbol{T}(\boldsymbol{\theta}, \boldsymbol{\alpha}))^T \cdot \boldsymbol{V}^{-1} \cdot (\boldsymbol{M}-\boldsymbol{T}(\boldsymbol{\theta}, \boldsymbol{\alpha})) + \sum_k \left(\frac{\alpha_k}{\sigma_k}\right)^2 \,,
+\label{eq:chisq-general}
+\end{equation}
+其中 $\boldsymbol{M}$ 为观测计数向量，$\boldsymbol{T}$ 为理论预期（依赖物理参数 $\boldsymbol{\theta}$ 和系统学参数 $\boldsymbol{\alpha}$），$\boldsymbol{V}$ 为协方差矩阵，拉回项约束约30余个系统学参数（包括反应堆功率、裂变份额、非平衡/乏燃料贡献、能量刻度、非线性参数、分辨率参数、各类本底归一化等）。
+
+\subsubsection{计算瓶颈分析}
+
+性能剖析表明，单次能谱拟合（包含多次能谱生成与极小化迭代）中，\textbf{能谱生成过程占据总计算时间的98.6\%}。具体而言，在未优化的基线实现中（单次拟合耗时110.1\,秒）：
+\begin{itemize}[nosep]
+  \item 探测器响应矩阵的构造与应用占 72.4\,秒（66.7\%），其瓶颈在于大量误差函数（$\mathrm{erf}$）的计算——560个重建能量箱 $\times$ 5600个沉积能量箱，共需约310万次$\mathrm{erf}$调用；
+  \item IBD截面映射矩阵与向量乘法占 33.4\,秒（30.8\%），涉及5600$\times$5600的稠密矩阵运算；
+  \item 极小化算法本身仅占 1.5\,秒（1.4\%）。
+\end{itemize}
+因此，优化的重点在于能谱生成链的加速，而非极小化算法的改进。
+
+\subsubsection{三层加速策略}
+
+本研究设计并实现了三层递进的优化策略：
+
+\paragraph{第一层：静态量预计算与动态结果缓存（$\sim$3倍加速）}
+
+将计算过程中不随拟合参数变化的静态量——包括四种裂变同位素的基准能谱 $\phi_i(E_{\bar\nu})$、IBD微分截面映射矩阵、探测器非线性曲线、以及所有本底模板——在程序启动时一次性预计算并常驻内存，消除重复的磁盘读取和数值积分。对于依赖拟合参数但在参数扫描过程中频繁重复的动态计算结果，采用函数级缓存（基于Python \texttt{functools.lru\_cache}），并通过浮点参数量化提高缓存命中率。
+
+\paragraph{第二层：IBD截面映射的稀疏矩阵表示（$\sim$1.5--4倍加速）}
+
+IBD反应的运动学约束使得截面映射矩阵 $\mathbf{M}$ 具有带状稀疏结构：非零元素集中在主对角线附近（$E_{\rm dep} \approx E_{\bar\nu} - 0.8\,\mathrm{MeV}$），带宽 $w \ll N$（$N$ 为矩阵维度）。将该矩阵从稠密格式转换为压缩稀疏行（CSR）格式存储，矩阵-向量乘法的计算复杂度从 $\mathcal{O}(N^2)$ 降至 $\mathcal{O}(Nw)$，同时改善了缓存局部性和内存带宽利用率。
+
+\paragraph{第三层：响应矩阵的分块构造（$\sim$1.5--2倍加速）}
+
+探测器响应矩阵 $\mathbf{R}$（560$\times$5600维）的一次性构造需要大量$\mathrm{erf}$计算，数据量超出CPU缓存容量。本研究采用列方向分块策略（块宽512），每次仅计算响应矩阵的一个列块，累积中间结果后释放临时数据。这一策略在不改变总计算量的前提下，通过改善数据局部性显著提升了计算效率。
+
+\subsubsection{加速效果与精度验证}
+
+三层优化的综合效果如表~\ref{tab:acceleration}所示。
+
+\begin{table}[htbp]
+\centering
+\caption{各优化级别的计算性能对比（测试平台：Intel Xeon Gold 6338, 2.00\,GHz）}
+\label{tab:acceleration}
+\begin{tabular}{lcccc}
+\toprule
+优化级别 & 单次拟合时间 & 总加速比 & 响应矩阵 & IBD映射 \\
+\midrule
+基线（未优化） & 110.1\,s & $1\times$ & 72.4\,s & 33.4\,s \\
++缓存 & 54.3\,s & $2.0\times$ & — & — \\
++稀疏矩阵 & 38.2\,s & $2.9\times$ & — & — \\
++分块处理 & 15.2\,s & $\mathbf{7.2\times}$ & 8.1\,s & 5.0\,s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+优化后的响应矩阵计算从72.4\,秒降至8.1\,秒（$\sim$9倍），IBD映射从33.4\,秒降至5.0\,秒（$\sim$6倍），总能谱计算从108.6\,秒降至14.3\,秒（$\sim$8倍）。全部优化在双精度浮点基准下保持了 $10^{-6}$ 量级的相对误差，确保物理精度不受损失。
+
+这一加速使得Feldman-Cousins分析所需的$\sim$500万次拟合：
+\begin{equation}
+N_{\rm fits} = N_{\rm pts} \times N_{\rm toys} \times N_{\rm init} = 50 \times 5000 \times 20 = 5{,}000{,}000
+\end{equation}
+从原本不可行的$\sim$635天单核计算时间降至$\sim$90天，配合16核并行化可在$\sim$6天内完成，使大规模FC研究在标准计算资源上具备了可行性。
+
+该拟合框架已作为JUNO合作组GroupA内部的基础振荡分析工具，并发表于\textit{Eur.\ Phys.\ J.\ C} (2025)。
+
+\subsection{能谱分箱与分段策略}
+
+\subsubsection{重建能谱的分箱策略}
+
+在JUNO的振荡分析中，重建能谱的箱宽（binning）选择直接影响 $\chi^2$ 统计量的行为。在低统计量阶段，过细的箱宽导致部分能量箱中的事例数极少，泊松分布的非高斯性质变得显著。标准的Neyman加权（方差正比于观测值 $M_i$）和Pearson加权（方差正比于理论预期 $T_i$）均在此条件下引入一阶偏差。本研究采用Cochran-Neyman-Pearson（CNP）组合加权方案：
+\begin{equation}
+V_{ii}^{\rm stat} \equiv 3\left(\frac{1}{M_i}+\frac{2}{T_i^{\rm IBD}+\sum_B T_i^{B}}\right)^{-1} \,,
+\label{eq:CNP}
+\end{equation}
+该方案在一阶近似下消除了Neyman和Pearson加权的互补偏差。
+
+为系统评估不同箱宽的影响，本研究通过大规模伪实验研究参数估计的偏差。偏差的定义采用对非正态分布具有稳健性的百分位方法：
+\begin{equation}
+\text{Bias} = \frac{\langle\hat{\theta}\rangle - \theta_{\text{true}}}{\sigma_{\text{68\%}}} \,,\qquad
+\sigma_{\text{68\%}} = \frac{P_{84} - P_{16}}{2} \,,
+\label{eq:bias-def}
+\end{equation}
+其中 $P_{16}$ 和 $P_{84}$ 分别为拟合参数分布的第16和第84百分位数。
+
+\paragraph{主要发现}
+
+通过对30天、50天和100天曝光量的系统扫描，研究发现：
+\begin{itemize}[nosep]
+  \item 对于 $\Delta m^2_{21}$：该参数对箱宽选择\textbf{极不敏感}，在所有合理箱宽（20--200\,keV）下偏差始终低于 $0.1\sigma$。这是因为 $\Delta m^2_{21}$ 主要由振荡的整体包络（长波长分量）决定，而非逐箱的统计涨落。
+  \item 对于 $\sin^2\theta_{12}$：该参数对箱宽敏感。在30天数据、20\,keV箱宽下偏差达 $\sim 0.8\sigma$；当箱宽增至70\,keV（7倍重新分箱）时降至 $\sim 0.4\sigma$；增至100\,keV（10倍重新分箱）时降至 $< 0.2\sigma$。
+  \item 随曝光量增加，偏差迅速收敛：50天时 $\sin^2\theta_{12}$ 的偏差已显著降低；100天时两个太阳参数的偏差均可忽略。
+\end{itemize}
+
+\paragraph{结论} 对于JUNO早期低统计量阶段，推荐采用56箱（100\,keV箱宽）的重建能谱配置，在有效抑制非高斯偏差的同时保留充分的物理灵敏度。
+
+\subsubsection{反应堆能谱的分段策略：JUNO与大亚湾联合分析}
+
+在TAO数据可用之前，JUNO需要借助大亚湾实验的高统计量近端数据（555万反中微子事例）来约束反应堆能谱形状。本研究构建了JUNO与大亚湾联合分析的半模型无关框架。
+
+\paragraph{半模型无关方法}
+
+将反应堆反中微子能谱在能量轴上分为若干段（segment），每段内的谱形固定为基准模型预言（如Huber-Mueller或求和模型），但各段之间的相对归一化作为自由参数 $\alpha_i$ 在拟合中浮动：
+\begin{equation}
+S(E)\;\approx\;\sum_{i}\alpha_i\,S_i(E),\qquad S_i(E)\equiv S(E)\,\mathbf{1}_{E\in I_i} \,,
+\label{eq:segmented-spectrum}
+\end{equation}
+其中 $I_i$ 为第 $i$ 段的能量区间。大亚湾的高统计量数据通过联合拟合约束这些归一化参数，从而部分释放对理论模型的依赖。联合 $\chi^2$ 统计量为：
+\begin{equation}
+\begin{aligned}
+\chi^2_{\rm Total}
+&= \chi^2_{\rm JUNO} + \chi^2_{\rm DYB} \\
+&\quad + \left( \frac{\sin^2\theta_{13} - \sin^2\theta_{13}^{\rm DYB}}{\sigma(\sin^2\theta_{13}^{\rm DYB})} \right)^2
++ \left( \frac{\Delta m_{31}^2 - \Delta m_{31}^{2,\rm DYB}}{\sigma(\Delta m_{31}^{2,\rm DYB})} \right)^2 \,,
+\end{aligned}
+\label{eq:joint-chisq}
+\end{equation}
+其中后两项为大亚湾测量值的外部先验约束。
+
+\paragraph{核心权衡}
+
+分段宽度的选择涉及一个根本性的权衡：
+\begin{itemize}[nosep]
+  \item \textbf{分段过细}（$< 200$\,keV）：自由参数过多，大亚湾数据无法有效约束各段归一化，拟合出现非物理的"波纹"（wiggle），可能将真实的振荡信号吸收到能谱形状参数中，导致过拟合。
+  \item \textbf{分段过粗}（$> 500$\,keV）：各段内的刚性模板无法容纳局域的模型偏差，分析结果过度依赖理论能谱的准确性，模型相关的系统误差增大。
+\end{itemize}
+
+\paragraph{最优分段宽度的确定}
+
+通过生成两类伪实验——固定模型场景和模型变化场景（随机丢弃20\%裂变分支/同位素以模拟模型不确定性）——系统比较不同分段宽度下 $\Delta m^2_{31}$ 和 $\sin^2\theta_{12}$ 的测量精度与模型依赖性，研究得出以下结论：
+\begin{itemize}[nosep]
+  \item 200\,keV分段：模型不确定性较大（1--2\%偏差），不推荐。
+  \item \textbf{300\,keV分段}：模型依赖性系统误差低于0.3\%，同时保留了充分的局域灵活性和物理灵敏度——\textbf{为最优选择}。
+  \item 400\,keV分段：可接受但灵活性有所下降。
+  \item 500\,keV以上分段：模型依赖性偏差重新增大。
+\end{itemize}
+
+该300\,keV分段策略已被JUNO合作组首篇物理结果论文采纳，为联合分析提供了量化的方法学基础。
+
+\subsection{基于Feldman-Cousins方法的统计推断稳健性研究}
+
+\subsubsection{Wilks定理的失效与动机}
+
+标准的参数估计方法依赖Wilks定理：在大样本极限下，剖面似然比统计量 $\Delta\chi^2$ 渐近服从自由度为参数个数 $p$ 的 $\chi^2_p$ 分布。对于一维参数测量，$\Delta\chi^2 = 1.0$ 对应68.27\%置信水平（$1\sigma$）。然而，对于JUNO早期运行阶段 $\Delta m^2_{31}$ 的测量，Wilks定理的正则性条件遭到严重违反：
+
+\begin{enumerate}[nosep]
+  \item \textbf{多模态似然}：振荡概率中 $\sin^2(\Delta m^2_{31} L / 4E)$ 的周期性使得 $\chi^2$ 剖面在参数空间中出现多个分离的局域极小值，间距约为 $\pi$ 相位偏移。
+  \item \textbf{非抛物线似然面}：低统计量下，$\Delta\chi^2$ 与 $\Delta m^2_{31}$ 的关系呈现强烈的非二次行为。
+  \item \textbf{小样本效应}：50天曝光量不足以达到渐近极限。
+\end{enumerate}
+
+这意味着，若直接使用标准Wilks阈值构建 $\Delta m^2_{31}$ 的置信区间，将导致\textbf{覆盖不足}——实际覆盖率低于名义的68.27\%。
+
+\subsubsection{Feldman-Cousins方法的核心算法}
+
+Feldman-Cousins方法通过构造参数依赖的经验临界值来保证频率学覆盖。对于待测参数 $\delta$ 的每个假设真值 $\delta_i$，算法流程如下：
+
+\begin{enumerate}[nosep]
+  \item 在假设 $\delta = \delta_i$ 下生成 $N_{\rm toys}$ 个伪实验数据集 $\{x_{ij}\}$，包含真实的统计涨落和系统学参数的随机化。
+  \item 对每个伪实验 $x_{ij}$，计算剖面似然比统计量：
+  \begin{equation}
+  \Delta\chi^2(\delta_i) = \chi^2(x_{ij} \mid \delta_i, \hat{\hat{\boldsymbol{\eta}}}_{ij}) - \chi^2(x_{ij} \mid \hat{\delta}_j, \hat{\boldsymbol{\eta}}_j) \,,
+  \label{eq:FC-statistic}
+  \end{equation}
+  其中 $\hat{\hat{\boldsymbol{\eta}}}_{ij}$ 为固定 $\delta_i$ 时的条件最优扰动参数，$(\hat{\delta}_j, \hat{\boldsymbol{\eta}}_j)$ 为全局最优解。
+  \item 收集所有伪实验的 $\Delta\chi^2$ 值，构建经验分布 $P(\Delta\chi^2 \mid \delta_i)$。
+  \item 从经验分布中提取给定置信水平（如68.27\%）的临界值：
+  \begin{equation}
+  \int_0^{\Delta\chi^{2,\alpha}_{\mathrm{crit}}(\delta_i)} P\left(\Delta\chi^2 \mid \delta_i\right) \mathrm{d}(\Delta\chi^2) = 1-\alpha \,.
+  \label{eq:FC-critical}
+  \end{equation}
+  \item 最终的置信区间为所有满足 $\Delta\chi^2_{\rm obs}(\delta_i) \leq \Delta\chi^2_{\rm crit}(\delta_i)$ 的参数点的集合。
+\end{enumerate}
+
+\subsubsection{主要结果}
+
+本研究在JUNO 50天曝光量配置下开展了大规模FC覆盖性检验，主要发现如下：
+
+\paragraph{太阳振荡参数（$\Delta m^2_{21}$, $\sin^2\theta_{12}$）的二维FC检验}
+
+对太阳参数进行二维FC分析，发现68.27\%置信水平对应的经验临界值为 $\Delta\chi^2_{\rm crit} \approx 2.30$，与 $\chi^2_2$ 分布的理论预期一致。这表明\textbf{Wilks定理对太阳参数的测量是有效的}，可以安全地使用标准 $\chi^2$ 阈值来构建置信轮廓。两参数间存在 $\rho \approx -0.29$ 的反相关性。
+
+\paragraph{大气振荡参数（$\Delta m^2_{31}$）的一维FC检验}
+
+$\Delta m^2_{31}$ 的情况截然不同：
+\begin{itemize}[nosep]
+  \item 固定反应堆模型下：$1\sigma$ 经验临界值为 $\Delta\chi^2_{\rm crit} = 1.5379$，比Wilks标准值1.0高出\textbf{54\%}。
+  \item 含模型变化的场景下：$\Delta\chi^2_{\rm crit} = 1.5724$，模型不确定性仅带来$\sim$2\%的额外影响，表明统计效应主导了非正则行为。
+  \item 约\textbf{8\%}的伪实验产生了\textbf{不连续的}（disjoint）置信区间——即真实参数值落在两个分离的参数区间内——这是多模态似然的直接表现。
+\end{itemize}
+
+\paragraph{FC校正后的测量精度}
+
+基于FC方法，50天曝光量下 $\Delta m^2_{31}$ 的相对测量精度为\textbf{约1.4\%}。这一精度虽略低于当前全球拟合的$\sim$1.1\%，但反映了早期阶段统计量有限的客观约束，且所有置信区间均具有严格的频率学覆盖保证。
+
+\paragraph{覆盖性随曝光量的演化}
+
+FC研究还系统考察了不同曝光量下Wilks偏差的演化：30天时经验临界值约为2.0（偏离100\%）；50天时约1.54（偏离54\%）；100天时约1.4（偏离40\%）；预计6年积累数据后收敛至约1.2（偏离20\%）。即使在1年数据量下，$\Delta m^2_{31}$ 的 $\chi^2$ 剖面仍可能保留非光滑结构和多个局域极小值，尚未达到Wilks定理的大样本渐近极限。因此，\textbf{FC方法在JUNO前期数据分析中始终是不可或缺的统计工具}。
+
+%% ================================================================
+%%                    第三章  预期目标
+%% ================================================================
+\section{预期目标}
+
+\subsection{振荡参数的亚百分比量级精密测量}
+
+本研究的首要物理目标是支撑JUNO实现振荡参数的世界领先精密测量。具体量化目标包括：
+
+\begin{itemize}[nosep]
+  \item \textbf{太阳振荡参数}：在JUNO运行首月即实现 $\sin^2\theta_{12}$ 和 $\Delta m^2_{21}$ 的全球最优精度。早期59.1天数据已实现1.6倍的精度提升；随数据积累，预期在亚百分比量级实现精密测量，为 $0\nu\beta\beta$ 实验的有效马约拉纳质量约束提供关键输入。
+  \item \textbf{大气振荡参数}：在50天曝光量下，基于FC方法实现 $\Delta m^2_{31}$ 约1.4\%的测量精度，并保证置信区间的严格频率学覆盖。随统计量增长，精度将进一步提升。
+  \item \textbf{系统误差控制}：通过300\,keV分段策略，将反应堆模型依赖性引入的系统误差控制在0.3\%以下，确保系统误差不成为精密测量的限制因素。
+\end{itemize}
+
+\subsection{高性能通用拟合平台}
+
+本研究建立的基于张量化思想的高性能前向折叠拟合框架，其预期目标不仅限于JUNO振荡分析本身：
+
+\begin{itemize}[nosep]
+  \item \textbf{计算性能}：实现约7倍的加速（110秒$\to$15秒/次拟合），使百万量级的大规模伪实验研究在标准计算资源上具备可行性。
+  \item \textbf{数值精度}：在全部优化操作下保持 $10^{-6}$ 量级的相对误差，确保加速不以牺牲物理精度为代价。
+  \item \textbf{通用性}：该框架的设计理念（张量化运算链、稀疏矩阵表示、分块构造策略）具有方法学的一般性，可直接推广至其他采用前向折叠方法的中微子实验谱分析中。
+  \item \textbf{实际影响}：该拟合器已成为JUNO合作组GroupA内部的基础振荡分析工具，相关成果已发表于\textit{Eur.\ Phys.\ J.\ C} (2025)。
+\end{itemize}
+
+\subsection{为JUNO首篇物理结果提供稳健的分析链支持}
+
+本研究的三个研究方向共同构成了JUNO反应堆振荡分析的完整方法学支撑：
+
+\begin{itemize}[nosep]
+  \item \textbf{分箱策略}：100\,keV重建能谱箱宽的推荐方案有效抑制了低统计量下 $\sin^2\theta_{12}$ 的拟合偏差（从 $0.8\sigma$ 降至 $< 0.2\sigma$），确保了早期结果的可靠性。
+  \item \textbf{分段策略}：300\,keV反应堆能谱分段方案在JUNO与大亚湾联合分析中取得了模型依赖性抑制（$< 0.3\%$）与物理灵敏度保留之间的最优平衡。该方案已被JUNO首篇物理结果论文正式采纳。
+  \item \textbf{统计方法}：FC覆盖性检验揭示了 $\Delta m^2_{31}$ 测量中Wilks定理的失效（经验临界值1.57 vs. 标准值1.0），为JUNO合作组关于该参数的发表策略提供了严格的统计学依据。
+\end{itemize}
+
+\subsection{未来展望}
+
+在本研究所建立的分析框架基础上，后续工作将沿以下方向拓展：
+
+\begin{itemize}[nosep]
+  \item \textbf{TAO联合分析}：当TAO投入运行并积累足够统计量后，其在近端以极高能量分辨率对反应堆能谱精细结构的直接测量，将为JUNO提供近乎模型无关的输入能谱约束，有望进一步压缩分段宽度、抑制反应堆模型的"补偿效应"，实现更为精确的参数测量。JUNO-TAO联合分析是推动振荡参数测量迈向更高精度的关键突破口。
+  \item \textbf{更高统计量阶段}：随数据积累，Wilks定理的偏差将逐步收敛（预计6年数据后临界值偏差降至$\sim$20\%），但在此之前FC方法仍将是 $\Delta m^2_{31}$ 测量的必要工具。同时，探测器响应函数和能量刻度将随真实数据的增长而不断精化。
+  \item \textbf{计算平台升级}：当前框架的张量化设计天然适配GPU加速架构。将核心计算从CPU迁移至GPU（如基于PyTorch的CUDA后端），有望实现进一步的量级加速，为更复杂的多维FC分析和精细的系统学研究打开空间。
+  \item \textbf{方法学推广}：本研究所建立的加速-优化-验证分析链可为未来的反应堆中微子实验和其他中微子精密测量实验提供可复用的方法学模板。
+\end{itemize}
+
+\end{document}

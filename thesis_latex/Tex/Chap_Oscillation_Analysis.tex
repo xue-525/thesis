@@ -337,7 +337,7 @@ R_{ij} = \mathrm{CDF}(E_{\rm rec}^{(i+1)} \mid E_{\rm dep}^{(j)}) - \mathrm{CDF}
 
 \subsection{统计方法}
 \label{sec:statistical method}
-在获取重建能量能谱后，基于分箱的重建能谱进行振荡参数估计。设由振荡参数 $\theta$ 与一组系统不确定性（冗余）参数 $\alpha$ 所决定的理论预测分箱重建能谱为 $\boldsymbol{T}(\theta,\alpha)$。其中 $\theta=(\sin^2\theta_{12},\Delta m^2_{21},\Delta m^2_{31},\sin^2\theta_{13})$。观测数据记为向量 $\boldsymbol{M}$（JUNO 的分箱观测能谱）。为同时考虑统计不确定性与多种系统误差，我们采用含拉项（pull terms）的最小二乘（$\chi^2$）方法构造目标函数并进行拟合，其一般化的表达式如式~\ref{chisq}所示。
+在获取重建能量能谱后，基于分箱的重建能谱进行振荡参数估计。设由振荡参数 $\theta$ 与一组系统不确定性（冗余）参数 $\alpha$ 所决定的理论预测分箱重建能谱为 $\boldsymbol{T}(\theta,\alpha)$。其中 $\theta=(\sin^2\theta_{12},\Delta m^2_{21},\Delta m^2_{31},\sin^2\theta_{13})$。观测数据记为向量 $\boldsymbol{M}$（JUNO 的分箱观测能谱）。为同时考虑统计不确定性与多种系统误差，我们采用含拉项（pull terms）的最小二乘（$\chi^2$）方法构造目标函数并进行拟合~\cite{Zhang2023_Thesis}，其一般化的表达式如式~\ref{chisq}所示。
 
 \begin{equation}
   \chi^2 \equiv(\boldsymbol{M}-\boldsymbol{T}(\boldsymbol{\theta}, \boldsymbol{\alpha}))^T \cdot \boldsymbol{V}^{-1} \cdot(\boldsymbol{M}-\boldsymbol{T}(\boldsymbol{\theta}, \boldsymbol{\alpha}))+\sum_k\left(\frac{\alpha_k}{\sigma_k}\right)^2,

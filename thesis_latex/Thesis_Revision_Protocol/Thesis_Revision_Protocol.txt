@@ -1,0 +1,10 @@
+  评阅专家意见1：
+  意见1：关于中文摘要中"……是未来无中微子双贝塔衰变（0νββ）实验确定中微子有效质量上限及质量序的前提条件"的表述，"前提条件"一词不够严谨，建议改为"有助于提高……的解释精度"或"对……具有重要意义"，避免因果关系表述过强。
+  修改说明：在学位论文中文摘要首段末句（Tex/Frontmatter.tex 第 21 行）中，重新措辞了太阳振荡参数高精度测量与未来无中微子双贝塔衰变（0νββ）实验之间的关系。具体地，将原句"特别是对太阳振荡参数 sin²θ₁₂ 和 Δm²₂₁
+  的高精度测量，是未来无中微子双贝塔衰变（0νββ）实验确定中微子有效质量上限及质量序的前提条件。"修改为"特别是对太阳振荡参数 sin²θ₁₂ 和 Δm²₂₁ 的高精度测量，对提高未来无中微子双贝塔衰变（0νββ）实验对中微子有效质量上限及质量序
+  的解释精度具有重要意义。"，同时吸收了专家建议的两种措辞方向："有助于提高……的解释精度"与"对……具有重要意义"。为保持中英文摘要语义对齐，同步对英文摘要首段末句（Tex/Frontmatter.tex 第 39 行）进行了一致性修订，将"are
+  prerequisites for future neutrinoless double-beta decay (0νββ) experiments to constrain the upper limit of the effective neutrino mass and to determine the neutrino mass ordering."改为"are of great significance for
+  improving the interpretive precision with which future neutrinoless double-beta decay (0νββ) experiments can constrain the upper limit of the effective neutrino mass and the neutrino mass
+  ordering."。此项修改弱化了原句中太阳振荡参数精度与 0νββ 实验结果之间单向因果判断的表述强度，更严谨地反映了 PMNS 参数精度（尤其是 sin²θ₁₂ 与 Δm²₂₁）通过影响有效马约拉纳质量的解读区间，进而为 0νββ
+  实验提供支撑的物理关系，而非将其视为不可或缺的前置条件，同时避免了"0νββ 实验确定质量序"这一描述中隐含的过强因果链条。正文第 1
+  章及其他章节原本未使用"前提条件"这一措辞，因此无需同步改动，本次修订范围仅限于摘要段落，不影响论文其他物理结论与分析结果。

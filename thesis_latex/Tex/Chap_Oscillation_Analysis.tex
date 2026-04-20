@@ -70,7 +70,7 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\linewidth]{Img/JUNO_location.jpg}
-  \bicaption[JUNO探测器的位置]{JUNO探测器的位置}{JUNO detector location}
+  \bicaption[JUNO 探测器相对各反应堆堆芯的位置]{JUNO 探测器相对台山、阳江及大亚湾等核电站的地理位置与平均基线示意（图片来自文献\citep{An2016_YellowBook}）。}{Location of the JUNO detector and the surrounding nuclear power plants (Taishan, Yangjiang, Daya Bay, etc.), with corresponding baselines (taken from Ref.~\citep{An2016_YellowBook}).}
   \label{fig:JUNO_location}
 \end{figure}
 
@@ -78,7 +78,7 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 \label{sec:Arrived neutrino spectrum}
 
 \subsubsection{反应堆反中微子能谱模型}
-在商用轻水反应堆中，释出的电子反中微子主要来自若干主要裂变同位素的 β 衰变。为了构造到达探测器的中微子通量谱，常用两类方法：一种是基于转换法（conversion）得到的经验谱模型（Huber–Müller）；另一种是基于裂变产物$\beta$支级信息的求和法（summation method），后者能够在理论上产生更丰富的谱形细节。本文以 Huber–Müller 模型作为基准反应堆反中微子能谱模型，用以生成参考到达谱并作为后续不确定度评估与比较的参照；而基于求和法产生的能谱则用于不确定度估计与谱形敏感性研究。在后续的不确定度量化与分 bin 策略研究中，将进一步介绍由 summation 法产生的带有精细结构的反应堆反中微子能谱模型。
+在商用轻水反应堆中，释出的电子反中微子主要来自若干主要裂变同位素的 $\beta$ 衰变。为了构造到达探测器的中微子通量谱，常用两类方法：一种是基于积分 $\beta$ 能谱测量（ILL 等反应堆裸样品 $\beta$ 谱测量）的转换法（conversion method），其代表为由 Huber 对 $^{235}$U、$^{239}$Pu、$^{241}$Pu 重新给出\cite{Huber2011Reactor}、由 Mueller 等人对 $^{238}$U 补全的 Huber--Müller 模型\cite{Mueller2011Improved}；另一种是基于核数据库中裂变产物 $\beta$ 支级信息的求和法（summation method）\cite{Fallot2012_Summation,Estienne2019Summation}，后者能够在理论上产生更丰富的谱形细节。本文以 Huber--Müller 模型\cite{Huber2011Reactor,Mueller2011Improved} 作为基准反应堆反中微子能谱模型，用以生成参考到达谱并作为后续不确定度评估与比较的参照；而基于求和法产生的能谱\cite{Fallot2012_Summation} 则用于不确定度估计与谱形敏感性研究。在后续的不确定度量化与分 bin 策略研究中，将进一步介绍由 summation 法产生的带有精细结构的反应堆反中微子能谱模型。
 
 对第 $r$ 个反应堆堆芯在时刻 $t$ 的中微子产额谱，可表示为
 \begin{equation}
@@ -86,7 +86,7 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 = \frac{W_r(t)}{\sum_i f_{ir}(t)\,e_i}\sum_i f_{ir}(t)\,s_i(E_{\bar\nu}),
 \label{eq:phi-r-reactor-spectrum}
 \end{equation}
-其中 $W_r(t)$ 为第 $r$ 个堆芯在时刻 $t$ 的热功率，$f_{ir}(t)$ 表示在时刻 $t$ 第 $r$ 个堆芯中第 $i$ 种裂变同位素的裂变份额（例如 $^{235}\mathrm{U}$、$^{238}\mathrm{U}$、$^{239}\mathrm{Pu}$、$^{241}\mathrm{Pu}$），$e_i$ 为第 $i$ 种裂变同位素每次裂变释放的平均能量，$s_i(E_{\bar\nu})$ 为第 $i$ 种裂变同位素每次裂变产生的反中微子能谱（基准由 Huber--Müller 给出或由求和法计算）。将各堆芯的到达谱按距离衰减与振荡概率叠加，可得探测器处的总到达通量：
+其中 $W_r(t)$ 为第 $r$ 个堆芯在时刻 $t$ 的热功率，$f_{ir}(t)$ 表示在时刻 $t$ 第 $r$ 个堆芯中第 $i$ 种裂变同位素的裂变份额（例如 $^{235}\mathrm{U}$、$^{238}\mathrm{U}$、$^{239}\mathrm{Pu}$、$^{241}\mathrm{Pu}$），$e_i$ 为第 $i$ 种裂变同位素每次裂变释放的平均能量，$s_i(E_{\bar\nu})$ 为第 $i$ 种裂变同位素每次裂变产生的反中微子能谱，其基准形状由 Huber--Müller 转换法\cite{Huber2011Reactor,Mueller2011Improved} 给出，或由基于裂变产物 $\beta$ 支级信息的求和法\cite{Fallot2012_Summation,Estienne2019Summation} 计算。将各堆芯的到达谱按距离衰减与振荡概率叠加，可得探测器处的总到达通量：
 \begin{equation}
 \Phi(E_{\bar\nu},t)=\sum_r \frac{\phi_r(E_{\bar\nu},t)}{4\pi L_r^2}\,P_{\bar\nu_e\to\bar\nu_e}(E_{\bar\nu},L_r),
 \label{eq:Phi-total-reactor-flux}

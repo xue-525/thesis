@@ -6,7 +6,7 @@
 
 本章设计并实现了一套基于 PyTorch 的前向折叠（Forward-folded）能谱拟合架构。针对 IBD 动力学映射（中微子 $\to$ 沉积能量）与探测器响应（沉积能量 $\to$ 重建能量）这两大性能瓶颈，采用了三项核心优化技术：(i) 结果缓存机制（Result Caching），大幅减少了昂贵的重复中间计算；(ii) 带状稀疏矩阵表示（Banded Sparse Matrix），利用响应矩阵的局域性特征降低内存带宽与计算开销；(iii) 分块张量化构造与分段卷积优化，利用张量并行处理能力最小化内存搬运。以 Intel Xeon Gold 6338 处理器作为基准测试平台，实验结果表明，上述优化使单次拟合速度较原始实现提升了约 7 倍，且数值相对误差控制在 $10^{-6}$ 量级以内（以双精度计算为基准）。该框架已成功应用于反应堆中微子振荡分析，为大规模 Feldman-Cousins 覆盖率研究提供了核心计算保障，并具有良好的通用性，可直接推广至其他基于前向折叠能谱分析的中微子实验。
 
-本章的相关研究成果已发表于《欧洲物理期刊 C》（Eur. Phys. J. C, 2025 \cite{Xue2025HighPerformanceStatisticalMethods}），并被实验合作组采纳作为基础分析工具。本章组织结构如下：第~\ref{sec:problem_scale} 节量化分析了海量伪实验的计算挑战；第~\ref{sec:performance_analysis} 节通过性能剖析（Profiling）定位瓶颈并提出分层优化策略；第~\ref{sec:techniques} 节详述结果缓存、稀疏矩阵及分块计算的实现细节；第~\ref{sec:benchmark} 节展示加速效果与性能基准测试结果。
+本章的相关研究成果已发表于《欧洲物理期刊 C》（Eur. Phys. J. C, 2025 \cite{Xue2025HighPerformanceStatisticalMethods}），并被实验合作组采纳作为基础分析工具。本章组织结构如下：第~\ref{sec:problem_scale} 节量化分析大规模伪实验带来的计算挑战并明确加速的性能目标；第~\ref{sec:performance_analysis} 节通过性能剖析（Profiling）定位单次拟合中的主要计算瓶颈，并在此基础上提出分层优化策略；第~\ref{sec:techniques} 节详述结果缓存、带状稀疏矩阵表示与分块张量化构造等关键加速技术的实现细节，给出各项优化的基准测试结果，并量化重建能谱分箱尺度对拟合耗时的影响；第~\ref{sec:ch3_summary} 节对本章的加速方案与性能提升结果进行归纳。
 
 
 \section{问题规模量化与性能目标}
@@ -83,7 +83,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \label{sec:techniques}
 
 \subsection{缓存技术}
-\label{sec:benchmark}
+\label{sec:caching}
 在反应堆中微子能谱拟合中，往往伴随大量重复的矩阵运算与非线性变换——这些中间计算既占用 CPU 也带来频繁的 I/O。为降低重复计算开销、提高拟合与大规模 toy-MC 管线的整体吞吐量，我们在框架中引入了分层缓存机制（caching），以避免在参数估计和伪实验生成过程中对不必要的中间量反复求值。缓存策略主要在两个层面实施：
 
 \textbf{静态量的预计算与常驻内存}
@@ -201,6 +201,7 @@ $$T_{\text{full}}=\mathcal{O}(M\cdot N).$$
 \end{figure}
 
 \section{本章小结}
+\label{sec:ch3_summary}
 本章内容提出的多项加速技术在保证数值精度的前提下，显著提升了反应堆反中微子能谱拟合的计算效率。具体而言：
 
 首先，通过缓存（caching）策略将拟合过程中频繁重复出现的中间计算结果保存并复用，避免了大量冗余计算。基准测试表明，仅启用缓存即可将拟合速度提高约 $3\times$。

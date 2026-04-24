@@ -87,4 +87,18 @@
 3. 消除了第 3 章图 3-2 英文图题中 $E_{\overline{\nu}_e}$（使用 \overline 命令）与正文 $E_{\bar{\nu}_e}$（使用 \bar 命令）的混用，统一改为 $E_{\bar{\nu}_e}$。
 上述修改均为符号写法的统一，未改动任何公式的物理内容；修改后对全文完整重新编译，未出现未定义引用或编译错误。
 
+意见2：第三章"探测器响应矩阵的分块构造"段落中，块宽取 512 缺乏依据说明。
+修改说明：
+1. 在第三章第 3.3.2 节"微分散射截面矩阵的稀疏表示与响应矩阵分块优化"的"探测器响应矩阵的分块构造"段落中，将原句"（例如每块宽度设为 512）"删去括号说明，改由后续段落给出明确依据：补充说明块宽 512 是通过对测试平台（Intel Xeon Gold 6338）上若干候选值（128、256、512、1024）进行基准测试所得的经验最优值，并从硬件架构层面解释其合理性——512 为 2 的幂次（$2^9$），与 CPU 缓存行对齐良好；512 个 float32 元素占 2 KB，可完整驻留于 L1 数据缓存（32 KB），从而最大化缓存命中率；同时说明块宽过小时分块开销增大、过大时数据超出 L1 缓存导致命中率下降，因此 512 为该平台上的经验最优值。
+
+意见3：在 2.1.3 节，沉积能量能谱与微分散射截面矩阵构造中，\phi / \Phi / S 等符号混用，大小写及记号体系建议统一。
+修改说明：
+1. 在第二章第 2.1.3 节"沉积能量能谱与微分散射截面矩阵构造"中，确立了统一的大小写与下标约定：入射反应堆反电子中微子在探测器处的到达通量统一记为 $\Phi(E_{\bar\nu_e})$（延续式~\eqref{eq:Phi-total-reactor-flux} 的大写 $\Phi$ 约定）、沉积能量能谱统一记为 $\phi_{\rm dep}(E_{\rm dep})$（与 2.1.4 节 $\phi_{\rm rec}$ 记号保持小写 $\phi$ + 下标的统一风格）、离散化后以 $\Phi_j$、$\phi_{{\rm dep},i}$ 表达各 bin 分量，并以黑体 $\boldsymbol{\Phi}$、$\boldsymbol{\phi}_{\rm dep}$ 表示对应的向量量。
+2. 重写了式 eq:continuous_rate（原 2-8）及其前后段落：原公式写作 $\phi(E_{\rm dep}) = N_p \int \mathrm{d}E_{\bar\nu_e}\, \phi(E_{\bar\nu_e})\, \mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$，入射通量与沉积能谱共用同一个无下标的 $\phi$，易产生歧义；修改后明确区分为 $\phi_{\rm dep}(E_{\rm dep}) = N_p \int \mathrm{d}E_{\bar\nu_e}\, \Phi(E_{\bar\nu_e})\, \mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$。
+3. 删除了原式 eq:dsigma-dEdep 的重复副本（原位于"为了精确描述这一能量映射……"段落之后的 \begin{equation}…\end{equation} 块中，使用了相同的 \label{eq:dsigma-dEdep}，是导致全文长期出现 "LaTeX Warning: Label `eq:dsigma-dEdep' multiply defined" 警告的根源）；同步把该重复公式后"$\delta$ 函数在数值实现时……"一段有价值的数值说明并入首版式 eq:dsigma-dEdep 的解释段中，避免信息丢失。
+4. 将 2.1.3 节内原混用的入射能量符号 $E_\nu$ 与 $E_{\bar\nu_e}$ 全部统一为 $E_{\bar\nu_e}$，涉及 eq:dsigma-dEdep、eq:Edep-positron、eq:Mij-sum 以及其前后说明段落（$E_{\nu,j}$ → $E_{\bar\nu_e,j}$，$\mathcal{E}(E_\nu,\cos\theta)$ → $\mathcal{E}(E_{\bar\nu_e},\cos\theta)$，$E_{\rm dep}(E_\nu,\cos\theta)$ → $E_{\rm dep}(E_{\bar\nu_e},\cos\theta)$ 等）。
+5. 修正了离散化矩阵方程的记号与矩阵乘法顺序：原行内式 "$S_i=\sum_j M_{ij}\Phi_j$" 与原式 eq:phi-dep-Mij "$\phi_{\rm dep} = \phi_{\nu}\cdot M_{ij}$" 同时混用 $S_i/\phi_{\rm dep}/\phi_\nu/\Phi_j$ 四套记号，且后式写作 "向量·矩阵" 顺序与前式 "矩阵·向量" 不一致；修改后统一为 $\phi_{{\rm dep},i}=\sum_j M_{ij}\,\Phi_j$（等价向量形式 $\boldsymbol{\phi}_{\rm dep}=M\,\boldsymbol{\Phi}$），并同步把末段"入射反中微子通量向量 $\Phi_\nu$…观测到的沉积能量能谱向量 $S_{\rm dep}$"改写为"$\boldsymbol{\Phi}$（其元素 $\Phi_j$ 为第 $j$ 个能量 bin 内的到达通量积分）…$\boldsymbol{\phi}_{\rm dep}$（其元素为 $\phi_{{\rm dep},i}$）"。
+6. 顺带修正了 2.1.4 节"重建能量能谱"中一处与 2.1.3 节记号约定冲突的记号：原正文"任意给定的沉积能量谱 $\Phi_{\rm dep}(E_{\rm dep,j})$ 与响应矩阵相乘即可得到对应的重建能量能谱 $\Phi_{\rm rec}(E_{\rm rec,i})$"（使用大写 $\Phi_{\rm dep}/\Phi_{\rm rec}$）与紧邻的 eq:phi-rec-Rij"$\phi_{\rm rec}(E_{\rm rec,i}) = \sum_j R_{ij}\,\phi_{\rm dep}(E_{\rm dep,j})$"（使用小写 $\phi_{\rm dep}/\phi_{\rm rec}$）存在大小写不一致，统一为小写 $\phi_{\rm dep}/\phi_{\rm rec}$ 与 2.1.3 节保持一致。
+7. 未改动任何公式的物理内容、任何图表及 \cite/\ref/\eqref 交叉引用；2.1.3 节内所有公式原有 \label 均保留，eq:dsigma-dEdep 重复定义被消除。修改后对全文完整重新编译进行验证，未出现未定义引用或编译错误；之前长期存在的 "LaTeX Warning: Label `eq:dsigma-dEdep' multiply defined" 警告随本次修改一并消除。
+
 

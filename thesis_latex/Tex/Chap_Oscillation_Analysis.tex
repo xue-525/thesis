@@ -35,9 +35,9 @@
 
 \begin{equation}
 \begin{aligned}
-E_{\bar\nu_e}
+E_{\bar{\nu}_e}
 &\xrightarrow{\text{kinematics}}
-E_e(E_{\bar\nu_e},\cos\theta)
+E_e(E_{\bar{\nu}_e},\cos\theta)
 \xrightarrow{\text{annihilation}}
 E_{\rm dep}(E_e)
 \\
@@ -60,7 +60,7 @@ E_{\rm rec}(E_{\rm vis}) \, .
 其中：
 $T_{\text{DAQ}}$ 表示数据采集（Data Acquisition，DAQ）时间窗口，对时间 $t$ 的积分即在该窗口内对反应堆通量的瞬时值进行时间累积；$\phi(E_{\bar{\nu}_e}, t)$ 为 $t$ 时刻在探测器处、经振荡后的反应堆反中微子通量，其时间依赖性反映反应堆热功率、各同位素裂变份额及停堆/换料等运行状态的时变特征。$E_{\text{dep}} = E_{\text{dep}}(E_{\bar{\nu}_e}, \cos\theta)$ 表示由中微子能量和散射角确定的沉积能量；$N_p$ 是靶质子数；$\epsilon(E_{\text{dep}})$ 是探测器对沉积能量的效率；$\sigma_{E_{\text{vis}}}$ 是探测器能量分辨。
 
-为了将反应堆产生的反中微子能谱转化为实验中观测到的重建能谱，需要经过两个主要过程的卷积。首先，反中微子在探测器中与靶质子发生反应，按照微分散射截面 $\frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}$ 分布产生一系列沉积能量事件，从而得到沉积能谱。该过程还包含了靶粒子数 $N_p$ 以及探测器效率 $\epsilon(E_{\text{dep}})$ 的影响。随后，沉积能量能谱再通过与探测器的能量响应函数（通常近似为高斯分布）进行卷积，最终得到重建能量谱 $\phi(E_{\text{rec}})$。这一过程在数学上体现为式~\eqref{eq:phi-Erec-integral} 所示的三重积分：对数据采集时间 $t$ 的积分（区间 $T_{\text{DAQ}}$）反映整个数据采集周期内反中微子通量的时间累积，将时变的反应堆通量 $\phi(E_{\bar\nu_e},t)$（包含各堆芯热功率、裂变份额与停堆/换料周期等随时间演化的因素）与数据获取时间窗口自洽地衔接起来；对反中微子能量 $E_{\bar{\nu}_e}$ 的积分覆盖 IBD 反应的有效能量窗口（自阈值 $1.8$~MeV 至约 $15$~MeV），刻画入射中微子能谱与微分散射截面在能量维度上的耦合；对散射角余弦 $\cos\theta$ 的积分则在全角度范围内累加 IBD 出射动力学的贡献，经由运动学关系 $E_{\text{dep}}=E_{\text{dep}}(E_{\bar\nu_e},\cos\theta)$ 将中微子能量与散射角的联合分布映射为沉积能量分布。在上述三重积分的被积函数中，高斯核 $\frac{1}{\sqrt{2\pi}\,\sigma_{E_{\text{vis}}}}\exp\!\left[-\tfrac{1}{2}\bigl((E_{\text{vis}}-E_{\text{dep}})/\sigma_{E_{\text{vis}}}\bigr)^2\right]$ 作为探测器能量响应函数，将沉积能量 $E_{\text{dep}}$ 通过能量分辨率效应平滑展宽为可见能量 $E_{\text{vis}}$，并在非线性校正后进一步映射为重建能量 $E_{\text{rec}}$。
+为了将反应堆产生的反中微子能谱转化为实验中观测到的重建能谱，需要经过两个主要过程的卷积。首先，反中微子在探测器中与靶质子发生反应，按照微分散射截面 $\frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}$ 分布产生一系列沉积能量事件，从而得到沉积能谱。该过程还包含了靶粒子数 $N_p$ 以及探测器效率 $\epsilon(E_{\text{dep}})$ 的影响。随后，沉积能量能谱再通过与探测器的能量响应函数（通常近似为高斯分布）进行卷积，最终得到重建能量谱 $\phi(E_{\text{rec}})$。这一过程在数学上体现为式~\eqref{eq:phi-Erec-integral} 所示的三重积分：对数据采集时间 $t$ 的积分（区间 $T_{\text{DAQ}}$）反映整个数据采集周期内反中微子通量的时间累积，将时变的反应堆通量 $\phi(E_{\bar{\nu}_e},t)$（包含各堆芯热功率、裂变份额与停堆/换料周期等随时间演化的因素）与数据获取时间窗口自洽地衔接起来；对反中微子能量 $E_{\bar{\nu}_e}$ 的积分覆盖 IBD 反应的有效能量窗口（自阈值 $1.8$~MeV 至约 $15$~MeV），刻画入射中微子能谱与微分散射截面在能量维度上的耦合；对散射角余弦 $\cos\theta$ 的积分则在全角度范围内累加 IBD 出射动力学的贡献，经由运动学关系 $E_{\text{dep}}=E_{\text{dep}}(E_{\bar{\nu}_e},\cos\theta)$ 将中微子能量与散射角的联合分布映射为沉积能量分布。在上述三重积分的被积函数中，高斯核 $\frac{1}{\sqrt{2\pi}\,\sigma_{E_{\text{vis}}}}\exp\!\left[-\tfrac{1}{2}\bigl((E_{\text{vis}}-E_{\text{dep}})/\sigma_{E_{\text{vis}}}\bigr)^2\right]$ 作为探测器能量响应函数，将沉积能量 $E_{\text{dep}}$ 通过能量分辨率效应平滑展宽为可见能量 $E_{\text{vis}}$，并在非线性校正后进一步映射为重建能量 $E_{\text{rec}}$。
 \subsection{JUNO的核反应堆}
 
 JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用核电站。目前，对 JUNO 贡献最显著的是台山核电站和阳江核电站，如图\ref{fig:JUNO_location}所示，共包含八个反应堆堆芯。这些堆芯到探测器的基线长度集中在约 50 km 附近，其平均距离约为 52.5 km，使其成为 JUNO 进行中微子振荡精密测量的主要信号来源。
@@ -82,16 +82,16 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 
 对第 $r$ 个反应堆堆芯在时刻 $t$ 的中微子产额谱，可表示为
 \begin{equation}
-\phi_r(E_{\bar\nu},t)
-= \frac{W_r(t)}{\sum_i f_{ir}(t)\,e_i}\sum_i f_{ir}(t)\,s_i(E_{\bar\nu}),
+\phi_r(E_{\bar{\nu}_e},t)
+= \frac{W_r(t)}{\sum_i f_{ir}(t)\,e_i}\sum_i f_{ir}(t)\,s_i(E_{\bar{\nu}_e}),
 \label{eq:phi-r-reactor-spectrum}
 \end{equation}
-其中 $W_r(t)$ 为第 $r$ 个堆芯在时刻 $t$ 的热功率，$f_{ir}(t)$ 表示在时刻 $t$ 第 $r$ 个堆芯中第 $i$ 种裂变同位素的裂变份额（例如 $^{235}\mathrm{U}$、$^{238}\mathrm{U}$、$^{239}\mathrm{Pu}$、$^{241}\mathrm{Pu}$），$e_i$ 为第 $i$ 种裂变同位素每次裂变释放的平均能量，$s_i(E_{\bar\nu})$ 为第 $i$ 种裂变同位素每次裂变产生的反中微子能谱，其基准形状由 Huber--Müller 转换法\cite{Huber2011Reactor,Mueller2011Improved} 给出，或由基于裂变产物 $\beta$ 支级信息的求和法\cite{Fallot2012_Summation,Estienne2019Summation} 计算。将各堆芯的到达谱按距离衰减与振荡概率叠加，可得探测器处的总到达通量：
+其中 $W_r(t)$ 为第 $r$ 个堆芯在时刻 $t$ 的热功率，$f_{ir}(t)$ 表示在时刻 $t$ 第 $r$ 个堆芯中第 $i$ 种裂变同位素的裂变份额（例如 $^{235}\mathrm{U}$、$^{238}\mathrm{U}$、$^{239}\mathrm{Pu}$、$^{241}\mathrm{Pu}$），$e_i$ 为第 $i$ 种裂变同位素每次裂变释放的平均能量，$s_i(E_{\bar{\nu}_e})$ 为第 $i$ 种裂变同位素每次裂变产生的反中微子能谱，其基准形状由 Huber--Müller 转换法\cite{Huber2011Reactor,Mueller2011Improved} 给出，或由基于裂变产物 $\beta$ 支级信息的求和法\cite{Fallot2012_Summation,Estienne2019Summation} 计算。将各堆芯的到达谱按距离衰减与振荡概率叠加，可得探测器处的总到达通量：
 \begin{equation}
-\Phi(E_{\bar\nu},t)=\sum_r \frac{\phi_r(E_{\bar\nu},t)}{4\pi L_r^2}\,P_{\bar\nu_e\to\bar\nu_e}(E_{\bar\nu},L_r),
+\Phi(E_{\bar{\nu}_e},t)=\sum_r \frac{\phi_r(E_{\bar{\nu}_e},t)}{4\pi L_r^2}\,P_{\bar{\nu}_e\to\bar{\nu}_e}(E_{\bar{\nu}_e},L_r),
 \label{eq:Phi-total-reactor-flux}
 \end{equation}
-其中 $L_r$ 为第 $r$ 个堆芯到探测器的基线距离， $P_{\bar\nu_e\to\bar\nu_e}$ 为电子反中微子的生存概率。
+其中 $L_r$ 为第 $r$ 个堆芯到探测器的基线距离， $P_{\bar{\nu}_e\to\bar{\nu}_e}$ 为电子反中微子的生存概率。
 
 需要强调的两个额外修正项是：非平衡态（Non-Equilibrium, Non-Eq）与已乏燃料（Spent Nuclear Fuel, SNF）的贡献。一般地，堆芯中的短寿命裂变产物在开机初期或换料后并不处于完全稳态，这些非平衡贡献会在谱的若干能段产生小的附加分量；而乏燃料储存池中残余放射性也会向背景能谱提供长期、能谱上可辨的微小贡献。两者通常作为谱形的微小校正并入 $\phi_r$ 或作为独立项加入系统误差评估中（在高精度谱拟合和不确定度量化中不可忽略）。
 
@@ -101,10 +101,10 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 
 为将上述修正纳入基准谱，可写成
 \begin{equation}
-\phi_r^{\rm tot}(E_{\bar\nu},t)
-= \phi_r^{\rm base}(E_{\bar\nu},t)
-+ \phi_r^{\rm NonEq}(E_{\bar\nu},t)
-+ \phi_r^{\rm SNF}(E_{\bar\nu},t),
+\phi_r^{\rm tot}(E_{\bar{\nu}_e},t)
+= \phi_r^{\rm base}(E_{\bar{\nu}_e},t)
++ \phi_r^{\rm NonEq}(E_{\bar{\nu}_e},t)
++ \phi_r^{\rm SNF}(E_{\bar{\nu}_e},t),
 \label{eq:phi-r-tot}
 \end{equation}
 其中 $\phi_r^{\rm base}$ 通常采用 Huber–Müller 或求和法得到的基准谱，$\phi_r^{\rm NonEq}$ 由对堆内长寿命产物的累积计算得到，$\phi_r^{\rm SNF}$ 则由冷却池中各 SNF 批次的残余放射性与几何-时间积分得到。上述两项修正既可作为谱的确定性修正项直接加入 $\phi_r^{\rm tot}$，也可在不确定度评估中作为可变项（例如通过生成一组扰动谱进行 toy-MC）来量化它们对振荡参数拟合结果的影响。
@@ -154,7 +154,7 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 
 
 
-将式~\eqref{eq:phi-r-tot} 给出的修正后发射谱 $\phi_r^{\rm tot}(E_{\bar\nu},t)$ 代入式~\eqref{eq:Phi-total-reactor-flux}，即可得到探测器处按全部堆芯累加后的到达通量：式~\eqref{eq:Phi-total-reactor-flux} 中的几何衰减因子 $1/(4\pi L_r^2)$ 反映中微子在自由传播过程中的立体角稀释，$L_r$ 为第 $r$ 个堆芯到 JUNO 探测器的基线长度；存活概率 $P_{\bar\nu_e\to\bar\nu_e}(E_{\bar\nu},L_r)$ 则描述由三味中微子振荡引起的通量重分布。此处中微子在物质中的传播还受到物质效应的影响，这由 Wolfenstein 最早提出~\cite{Wolfenstein1978}，并由 Mikheyev 和 Smirnov 进一步发展~\cite{Mikheyev1985}。因此 $P_{\bar\nu_e\to\bar\nu_e}$ 包含了由中微子与地壳电子相互作用所引起的物质效应~\cite{Akhmedov2004}。
+将式~\eqref{eq:phi-r-tot} 给出的修正后发射谱 $\phi_r^{\rm tot}(E_{\bar{\nu}_e},t)$ 代入式~\eqref{eq:Phi-total-reactor-flux}，即可得到探测器处按全部堆芯累加后的到达通量：式~\eqref{eq:Phi-total-reactor-flux} 中的几何衰减因子 $1/(4\pi L_r^2)$ 反映中微子在自由传播过程中的立体角稀释，$L_r$ 为第 $r$ 个堆芯到 JUNO 探测器的基线长度；存活概率 $P_{\bar{\nu}_e\to\bar{\nu}_e}(E_{\bar{\nu}_e},L_r)$ 则描述由三味中微子振荡引起的通量重分布。此处中微子在物质中的传播还受到物质效应的影响，这由 Wolfenstein 最早提出~\cite{Wolfenstein1978}，并由 Mikheyev 和 Smirnov 进一步发展~\cite{Mikheyev1985}。因此 $P_{\bar{\nu}_e\to\bar{\nu}_e}$ 包含了由中微子与地壳电子相互作用所引起的物质效应~\cite{Akhmedov2004}。
 
 
 当反中微子在基线 $L_{r}$ 上传播至 JUNO 探测器时，其味态成分根据三味中微子振荡公式发生演化，带有物质效应的反中微子存活概率如图~\ref{fig:osc_prob} 所示。
@@ -195,9 +195,9 @@ JUNO 实验所探测的反应堆反中微子主要来自华南地区多个商用
 在理想探测器中，观测到的沉积能量谱 $\phi(E_{\rm dep})$ 是入射中微子通量与 IBD 反应截面在能量空间上的卷积。其物理过程可表述为：
 \begin{equation}
 \label{eq:continuous_rate}
-\phi(E_{\rm dep}) = N_p \int_{1.8}^{13} \mathrm{d}E_{\bar{\nu}} \cdot \phi(E_{\bar{\nu}}) \cdot \frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\bar{\nu}}, E_{\rm dep})
+\phi(E_{\rm dep}) = N_p \int_{1.8}^{13} \mathrm{d}E_{\bar{\nu}_e} \cdot \phi(E_{\bar{\nu}_e}) \cdot \frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\bar{\nu}_e}, E_{\rm dep})
 \end{equation}
-其中 $N_p$ 为探测器中参与反应的自由质子数目，$\phi(E_{\overline{\nu}_e})$ 表示入射反应堆反电子中微子能谱。积分下限 $1.8\,\mathrm{MeV}$ 对应逆贝塔衰变反应的动力学阈值，而上限取 $13\,\mathrm{MeV}$ 以覆盖反应堆反中微子的有效能量范围。 沉积能量微分截面 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 刻画了给定入射能量 $E_{\nu}$ 的中微子产生特定沉积能量 $E_{\rm dep}$ 的概率。由于 IBD 反应中正电子的出射具有角分布特征，且质子反冲效应会导致能量分配随角度变化，因此 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 需通过对发射角 $\cos\theta$ 积分获得：
+其中 $N_p$ 为探测器中参与反应的自由质子数目，$\phi(E_{\bar{\nu}_e})$ 表示入射反应堆反电子中微子能谱。积分下限 $1.8\,\mathrm{MeV}$ 对应逆贝塔衰变反应的动力学阈值，而上限取 $13\,\mathrm{MeV}$ 以覆盖反应堆反中微子的有效能量范围。 沉积能量微分截面 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 刻画了给定入射能量 $E_{\nu}$ 的中微子产生特定沉积能量 $E_{\rm dep}$ 的概率。由于 IBD 反应中正电子的出射具有角分布特征，且质子反冲效应会导致能量分配随角度变化，因此 $\mathrm{d}\sigma/\mathrm{d}E_{\rm dep}$ 需通过对发射角 $\cos\theta$ 积分获得：
 \begin{equation}
 \frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\nu}, E_{\rm dep}) = \int_{-1}^{1} \mathrm{d}\cos\theta \cdot \frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}(E_{\nu}, \cos\theta) \cdot \delta\bigl(E_{\rm dep} - \mathcal{E}(E_{\nu}, \cos\theta)\bigr)
 \label{eq:dsigma-dEdep}
@@ -210,13 +210,13 @@ E_{\rm dep}(E_\nu, \cos\theta) = E_{e^+}(E_\nu, \cos\theta) + m_e = T_e(E_\nu, \
 为了精确描述这一能量映射及其角分布权重，本工作采用了 Vogel 与 Beacom 提供的 IBD 截面模型 \cite{Vogel1999Angular}。该模型包含了质子反冲的一阶修正及完整的角依赖项，能够准确捕捉正电子能谱随角度的微弱偏移以及低能区的动力学展宽效应。在数值实现上，为了处理式 \ref{eq:continuous_rate} 中的积分，我们将上述连续物理过程离散化为响应矩阵 $M_{ij}$。通过对每一对样本点 $(E_\nu, \cos\theta)$ 计算对应的沉积能量并按微分截面 $\mathrm{d}\sigma/\mathrm{d}\cos\theta$ 加权，该矩阵成功地将入射中微子能谱箱映射为探测器的沉积能量箱。$M_{ij}$ 不仅包含了 IBD 截面的能量依赖性，更忠实地反映了由角分布和反冲效应引入的动力学展宽，是连接理论通量模型与可观测能谱的核心数值单元。基于上述动量学关系，可以将每个入射中微子能量 $E_\nu$ 和对应 $\cos\theta$ 映射到一个 $E_{\rm dep}$ 值，并用于构建响应矩阵。
 \
 \begin{equation}
-\frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\bar\nu},E_{\rm dep})
+\frac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\bar{\nu}_e},E_{\rm dep})
 =\int_{-1}^{1}\!\mathrm{d}\cos\theta\;
-\frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}(E_{\bar\nu},\cos\theta)\;
-\delta\!\bigl(E_{\rm dep}-T_e(E_{\bar\nu},\cos\theta)-m_e\bigr)
+\frac{\mathrm{d}\sigma}{\mathrm{d}\cos\theta}(E_{\bar{\nu}_e},\cos\theta)\;
+\delta\!\bigl(E_{\rm dep}-T_e(E_{\bar{\nu}_e},\cos\theta)-m_e\bigr)
 \label{eq:dsigma-dEdep}
 \end{equation}
-其中 $E_{\bar\nu}$ 表示入射反电子中微子能量，$T_e$ 为正电子的动力学能（kinetic energy），$m_e$ 为电子静质量。对所有可能的发射角按角分布权重（由微分截面 $\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 给出）进行积分，$\delta$ 函数保证仅在正电子产生的沉积能量恰好等于指定 $E_{\rm dep}$ 时才有贡献。换言之，式中积分把入射能量为 $E_{\bar\nu}$ 的中微子在不同发射角下产生的正电子能量分布累加起来，得到以沉积能量为自变量的微分截面。$\delta$ 函数在理论上给出严格的能量映射，但在数值实现时通常以离散化方式处理：将 $\cos\theta$ 作等距或重要性采样，计算每一采样点对应的 $E_{\rm dep}$，并将该采样点按权重$\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 累加到落入相应沉积能量区间的响应矩阵单元中。
+其中 $E_{\bar{\nu}_e}$ 表示入射反电子中微子能量，$T_e$ 为正电子的动力学能（kinetic energy），$m_e$ 为电子静质量。对所有可能的发射角按角分布权重（由微分截面 $\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 给出）进行积分，$\delta$ 函数保证仅在正电子产生的沉积能量恰好等于指定 $E_{\rm dep}$ 时才有贡献。换言之，式中积分把入射能量为 $E_{\bar{\nu}_e}$ 的中微子在不同发射角下产生的正电子能量分布累加起来，得到以沉积能量为自变量的微分截面。$\delta$ 函数在理论上给出严格的能量映射，但在数值实现时通常以离散化方式处理：将 $\cos\theta$ 作等距或重要性采样，计算每一采样点对应的 $E_{\rm dep}$，并将该采样点按权重$\mathrm{d}\sigma/\mathrm{d\cos\theta}$ 累加到落入相应沉积能量区间的响应矩阵单元中。
 
 \paragraph{响应矩阵的离散化构造。}
 为了实现从入射中微子谱到沉积能量谱的数值转换，我们需要将连续的卷积过程离散化为矩阵映射形式。响应矩阵 $M_{ij}$ 的每个矩阵元表示入射能量在第 $j$ 个能量箱（bin）内的中微子，在第 $i$ 个沉积能量箱内产生信号的概率加权权重。

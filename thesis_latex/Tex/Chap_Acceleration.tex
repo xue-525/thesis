@@ -91,8 +91,8 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 对于拟合过程中恒定不变的输入量，在拟合开始前一次性计算并加载到内存中。典型的静态量包括：
 
 \begin{enumerate}
-    \item 各裂变同位素的反中微子基准能谱 $\phi_i(E_{\bar\nu})$（如 ${}^{235}$U、${}^{238}$U、${}^{239}$Pu、${}^{241}$Pu）；
-    \item IBD 的微分散射截面映射矩阵 $\sigma(E_{\bar\nu}\to E_{\rm dep})$；
+    \item 各裂变同位素的反中微子基准能谱 $\phi_i(E_{\bar{\nu}_e})$（如 ${}^{235}$U、${}^{238}$U、${}^{239}$Pu、${}^{241}$Pu）；
+    \item IBD 的微分散射截面映射矩阵 $\sigma(E_{\bar{\nu}_e}\to E_{\rm dep})$；
     \item 探测器能量响应模型中的默认非线性响应曲线；
     \item 各类本底的谱形（如 Bi-Po214、宇宙线次级粒子、大气中微子、地球中微子、$^{13}$C($\alpha$,n)$^{16}$O 等）。
 \end{enumerate}
@@ -117,17 +117,17 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]  
     \centering  
     \includegraphics[width=0.55\textwidth]{Img/IBD_cross_matrix.png}  
-    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar\nu})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar\nu}$（MeV）；颜色越暖表示微分散射截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\overline{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\overline{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
+    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar{\nu}_e}$（MeV）；颜色越暖表示微分散射截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\bar{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
     \label{fig:sparse_cross_section}  
 \end{figure}
 
-在反应堆反电子中微子谱拟合中，从中微子能量 $E_{\bar\nu}$ 到沉积能量 $E_{\rm dep}$ 的映射由 IBD（逆贝塔衰变）微分散射截面控制，该映射可表示为二维响应矩阵 $M[i,j]$，其元素 $M_{ij}$ 表示入射能量为 $E_{\bar\nu,j}$ 的反中微子经 IBD 在沉积能量箱 $i$ 中产生信号的概率密度。受 IBD 动力学约束（尤其是正电子能量与发射角之间的耦合）影响，该矩阵呈现出明显的带状稀疏结构：非零元主要集中在主对角附近，满足近似关系
+在反应堆反电子中微子谱拟合中，从中微子能量 $E_{\bar{\nu}_e}$ 到沉积能量 $E_{\rm dep}$ 的映射由 IBD（逆贝塔衰变）微分散射截面控制，该映射可表示为二维响应矩阵 $M[i,j]$，其元素 $M_{ij}$ 表示入射能量为 $E_{\bar{\nu}_e,j}$ 的反中微子经 IBD 在沉积能量箱 $i$ 中产生信号的概率密度。受 IBD 动力学约束（尤其是正电子能量与发射角之间的耦合）影响，该矩阵呈现出明显的带状稀疏结构：非零元主要集中在主对角附近，满足近似关系
 
-$$E_{\rm dep,i} \approx E_{\bar\nu,j} - \Delta,$$
+$$E_{\rm dep,i} \approx E_{\bar{\nu}_e,j} - \Delta,$$
 
 其中 $\Delta\approx 0.8\ \mathrm{MeV}$ 包含了阈值与湮灭修正。该稀疏模式在图~\ref{fig:sparse_cross_section} 中有直观展示，主对角线附近有明显的带状结构。
 
-鉴于大多数矩阵元素为零或接近零，我们采用 PyTorch 提供的稀疏存储格式（如 CSR/带状存储）来保存微分散射截面矩阵 $M$。稀疏格式只记录非零元素的位置与数值，从而显著降低内存占用并避免对零元的冗余计算。在谱生成与拟合过程中，响应矩阵 $M$ 与按振荡参数计算得到的中微子通量向量 $\boldsymbol{\phi}(E_{\bar\nu})$ 做乘法得到沉积能量谱 $S(E_{\rm dep})$。利用稀疏表示后，矩阵—向量乘法的计算复杂度可由 $O(N^2)$ 降为 $O(Nw)$，其中 $N$ 为能量格点数，$w$ 为带宽（非零元在对角带上的宽度），通常远小于 $N$，因此能获得显著的计算加速。
+鉴于大多数矩阵元素为零或接近零，我们采用 PyTorch 提供的稀疏存储格式（如 CSR/带状存储）来保存微分散射截面矩阵 $M$。稀疏格式只记录非零元素的位置与数值，从而显著降低内存占用并避免对零元的冗余计算。在谱生成与拟合过程中，响应矩阵 $M$ 与按振荡参数计算得到的中微子通量向量 $\boldsymbol{\phi}(E_{\bar{\nu}_e})$ 做乘法得到沉积能量谱 $S(E_{\rm dep})$。利用稀疏表示后，矩阵—向量乘法的计算复杂度可由 $O(N^2)$ 降为 $O(Nw)$，其中 $N$ 为能量格点数，$w$ 为带宽（非零元在对角带上的宽度），通常远小于 $N$，因此能获得显著的计算加速。
 
 此外，稀疏表示在现代硬件（包括多核 CPU 与 GPU）上通常有更好的缓存局部性和更高的内存带宽效率，从而进一步提升并行计算中的吞吐量。我们的基准测试表明，在 Intel Xeon Gold 6338 平台上，不牺牲数值精度的前提下，采用稀疏表示与稀疏乘法可使微分散射截面映射步骤的计算时间缩短约 4 倍，成为整个加速管线中的关键组成部分。
 

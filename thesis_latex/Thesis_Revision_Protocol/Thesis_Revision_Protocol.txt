@@ -79,4 +79,12 @@
 3. 将同一段落以及后续衔接段中出现的 $L_{dr}$ 全部统一为 $L_r$，并将"探测器 $d$"简化为"JUNO 探测器"，使与式 (2-4)—式 (2-6) 及后文对基线的 $L_r$ 记号完全一致；原冗余公式标签 eq:phi-r-at-detector 在全文（含 Tex/ 与根目录所有 .tex 文件）未被任何 \ref/\eqref 引用，删除后不会产生 undefined reference。公式 2-5、2-6 及其后续公式的编号因此自动左移一位（原 2-8→2-7，依此类推），\label/\eqref 机制保证正文其他位置的交叉引用自动更新。
 
 
+评阅专家意见4（盲审专家）：
+意见1：neutrino 相关符号（是否加 bar、下标写法等）前后不够一致，建议统一。
+修改说明：
+1. 统一了全文 \bar{\nu} 的 LaTeX 写法：将所有不带花括号的 \bar\nu 改为 \bar{\nu}，涉及 Chap_Introduction.tex（第 1 章第 1.6.4 节超新星中微子段落中的 IBD 反应式 $\bar\nu_e+p\to e^++n$）、Chap_Acceleration.tex（第 3 章微分截面矩阵稀疏表示小节及图 3-2 中文图题中的 $E_{\bar\nu}$）、Chap_Binning.tex（第 4 章引言及第 4.2 节中的 reactor $\bar\nu_e$ spectrum 表述）。
+2. 统一了反中微子能量符号的下标：在 Chap_Oscillation_Analysis.tex（第 2 章）中，反应堆源谱公式（式 eq:phi-r-reactor-spectrum、eq:Phi-total-reactor-flux、eq:phi-r-tot 及其相关文字）原使用无下标的 $E_{\bar{\nu}}$，与沉积能量及重建能谱公式中已使用的 $E_{\bar{\nu}_e}$ 不一致；本次将这些公式及段落中的 $E_{\bar{\nu}}$ 全部改为 $E_{\bar{\nu}_e}$，使整章统一使用 $\bar{\nu}_e$ 表示电子反中微子。
+3. 消除了第 3 章图 3-2 英文图题中 $E_{\overline{\nu}_e}$（使用 \overline 命令）与正文 $E_{\bar{\nu}_e}$（使用 \bar 命令）的混用，统一改为 $E_{\bar{\nu}_e}$。
+上述修改均为符号写法的统一，未改动任何公式的物理内容；修改后对全文完整重新编译，未出现未定义引用或编译错误。
+
 

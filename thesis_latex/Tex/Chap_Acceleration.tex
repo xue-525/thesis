@@ -6,8 +6,14 @@
 
 本章设计并实现了一套基于 PyTorch 的前向折叠（Forward-folded）能谱拟合架构。针对 IBD 动力学映射（中微子 $\to$ 沉积能量）与探测器响应（沉积能量 $\to$ 重建能量）这两大性能瓶颈，采用了三项核心优化技术：(i) 结果缓存机制（Result Caching），大幅减少了昂贵的重复中间计算；(ii) 带状稀疏矩阵表示（Banded Sparse Matrix），利用响应矩阵的局域性特征降低内存带宽与计算开销；(iii) 分块张量化构造与分段卷积优化，利用张量并行处理能力最小化内存搬运。以 Intel Xeon Gold 6338 处理器作为基准测试平台，实验结果表明，上述优化使单次拟合速度较原始实现提升了约 7 倍，且数值相对误差控制在 $10^{-6}$ 量级以内（以双精度计算为基准）。该框架已成功应用于反应堆中微子振荡分析，为大规模 Feldman-Cousins 覆盖率研究提供了核心计算保障，并具有良好的通用性，可直接推广至其他基于前向折叠能谱分析的中微子实验。
 
-本章的相关研究成果已发表于《欧洲物理期刊 C》（Eur. Phys. J. C, 2025 \cite{Xue2025HighPerformanceStatisticalMethods}），并被实验合作组采纳作为基础分析工具。本章组织结构如下：第~\ref{sec:problem_scale} 节量化分析大规模伪实验带来的计算挑战并明确加速的性能目标；第~\ref{sec:performance_analysis} 节通过性能剖析（Profiling）定位单次拟合中的主要计算瓶颈，并在此基础上提出分层优化策略；第~\ref{sec:techniques} 节详述结果缓存、带状稀疏矩阵表示与分块张量化构造等关键加速技术的实现细节，给出各项优化的基准测试结果，并量化重建能谱分箱尺度对拟合耗时的影响；第~\ref{sec:ch3_summary} 节对本章的加速方案与性能提升结果进行归纳。
+\paragraph*{方法论选择：前向折叠（Forward Folding）与反卷积（Unfolding）}\mbox{}\\
+中微子振荡分析在处理"探测器重建能谱 $\leftrightarrow$ 反应堆中微子能谱"这一层对应关系时，原则上有两种互为逆过程的方法论\cite{Cowan:2010js, Canelli2025}：一是\textbf{前向折叠}（Forward Folding），即保持"理论真能谱 $\to$ IBD 截面 $\to$ 沉积能谱 $\to$ 探测器响应 $\to$ 该方法遵循物理过程的因果链条，即“理论能谱 $\to$ IBD 截面 $\to$ 沉积能谱 $\to$ 探测器响应 $\to$ 重建能谱”。在重建能量空间构造预测谱并与观测数据比对，通过最小化 $\chi^2$ 或极大似然估计来提取物理参数。二是\textbf{反卷积}（Unfolding / Deconvolution），该方法试图通过对观测谱 $\boldsymbol{M}$ 应用响应矩阵 $R$ 的某种正则化逆（如迭代 Bayesian unfolding 或 SVD unfolding），估计出“去仪器效应”的等效真能谱 $\hat{\boldsymbol{\Phi}}$，再在真能谱层面与理论预测进行比较~\cite{An2021Unfolding, Canelli2025}。
 
+两种方法在物理严谨性与计算特征上存在显著差异。在物理严谨性方面，前向折叠具有决定性优势。由于响应矩阵 $R$ 通常是病态（ill-conditioned）算子，直接求逆会剧烈放大重建谱上的统计涨落，并产生显著的 bin 间负相关结构。为抑制此类非物理振荡，解卷积必须引入正则化（Regularization）平滑假设，而正则化强度的选取往往引入难以量化的先验依赖。相比之下，前向折叠始终保持前向概率映射的清晰性，统计误差传递遵循原生的泊松/高斯分布，系统误差通过冗余参数（nuisance parameters）自然嵌入目标函数中（如式~\eqref{eq:Chisq:Total}），不会破坏原始的协方差结构。这对于追求亚百分比精度的 JUNO 实验而言，是保证统计结果稳健性的核心前提。在计算特征方面，解卷积方法的单次拟合计算开销较低，因为其核心的矩阵反演或正则化过程通常只需执行一次（或少量迭代）。然而，前向折叠的计算开销则随着拟合迭代次数呈线性增长。在每一次拟合步长中，程序必须针对更新的振荡参数与冗余参数重新执行全流程的能谱构造。尤其在进行 Feldman-Cousins 频繁测研究（涉及 $10^5 \sim 10^6$ 量级的伪实验拟合）时，能谱构造涉及的大规模矩阵乘法与高频误差函数（$\operatorname{erf}$）评估会累积出巨大的计算负担。
+
+综合以上方法论比较，为了在保持前向折叠物理严谨性的同时，克服其在计算量上的固有劣势，本章提出了一套高性能的拟合加速方案。通过张量化重构、稀疏矩阵优化及缓存预计算策略，显著降低了单次前向折叠的计算耗时，使大规模统计学验证在有限算力下成为可能。
+
+本章的相关研究成果已发表于《欧洲物理期刊 C》（Eur. Phys. J. C, 2025 \cite{Xue2025HighPerformanceStatisticalMethods}），并被实验合作组采纳作为基础分析工具。本章组织结构如下：第~\ref{sec:problem_scale} 节量化分析大规模伪实验带来的计算挑战并明确加速的性能目标；第~\ref{sec:performance_analysis} 节通过性能剖析（Profiling）定位单次拟合中的主要计算瓶颈，并在此基础上提出分层优化策略；第~\ref{sec:techniques} 节详述结果缓存、带状稀疏矩阵表示与分块张量化构造等关键加速技术的实现细节，给出各项优化的基准测试结果，并量化重建能谱分箱尺度对拟合耗时的影响；第~\ref{sec:ch3_summary} 节对本章的加速方案与性能提升结果进行归纳。
 
 \section{问题规模量化与性能目标}
 \label{sec:problem_scale}
@@ -106,7 +112,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 对浮点参数而言，缓存命中要求参数的二进制表示（及其哈希）完全一致，因此默认情况下\textbf{不具备数值公差容忍}。工程实现中可通过以下方式提升命中率并控制误差：
 \begin{itemize}
     \item 对浮点参数进行离散化/量化（quantization），例如按固定精度四舍五入后再参与哈希；
-    \item 设计归一化的函数签名（统一单位与尺度、显式截断无关小数位），避免"数值等价输入"产生不同键值。
+    \item 设计归一化的函数签名（统一单位与尺度、显式截断无关小数位），避免“数值等价输入”产生不同键值。
 \end{itemize}
 
 \paragraph{收益与可复用性}
@@ -117,7 +123,7 @@ $$T_{\rm tot} \;=\; \frac{N_{\rm fits}\times t_{\rm fit}}{3600\ \mathrm{s/h}}
 \begin{figure}[htbp]  
     \centering  
     \includegraphics[width=0.55\textwidth]{Img/IBD_cross_matrix.png}  
-    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ 的热力图（色标单位为 $10^{-44}$ cm$^2$ / 2 keV）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar{\nu}_e}$（MeV）；颜色越暖表示微分散射截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}$ cm$^2$ per 2keV). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\bar{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
+    \bicaption{IBD 微分散射截面矩阵 $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ 的热力图（色标单位为 $10^{-44}\,\mathrm{cm}^2 / 2~\mathrm{keV}$）。横轴为沉积能量 $E_{\rm dep}$（MeV），纵轴为入射反中微子能量 $E_{\bar{\nu}_e}$（MeV）；颜色越暖表示微分散射截面值越大。图中清晰可见主对角带，表明矩阵适合采用带状稀疏表示以加速谱的构造与拟合。}{Differential inverse beta-decay (IBD) cross-section matrix $\dfrac{\mathrm{d}\sigma}{\mathrm{d}E_{\rm dep}}(E_{\rm dep},E_{\bar{\nu}_e})$ is shown as a color map (color scale in units of $10^{-44}\,\mathrm{cm}^2$ per $2~\mathrm{keV}$). The horizontal axis is the deposited energy $E_{\rm dep}$ (MeV) and the vertical axis is the incident antineutrino energy $E_{\bar{\nu}_e}$ (MeV); warmer colors denote larger differential cross-section values. This mapping is used to project theoretical neutrino-energy spectra into deposited-energy space for spectrum construction and fitting.}  
     \label{fig:sparse_cross_section}  
 \end{figure}
 
@@ -139,7 +145,10 @@ $$E_{\rm dep,i} \approx E_{\bar{\nu}_e,j} - \Delta,$$
 为降低计算与内存负担，本工作采用了分块（block）处理策略：将 $560\times5600$ 的矩阵沿列方向切分为若干小的子块\cite{Lam1991}，并对每一子块逐个进行计算与累积。具体做法为：每次仅取出一个列区间内的沉积能量数据，在该区间上计算对应的重建能量概率分布；完成后将该子块的结果累加或拼接到最终的响应矩阵中，然后释放该子块的中间数据再继续处理下一个子块。这样一来，计算就被约束在较小的数据块上，有利于缓存（cache）重用并显著减少内存间的数据搬运；由于始终只保留当前子块的中间结果，无需为整个大矩阵分配峰值内存，从而大幅降低峰值内存使用与内存带宽压力。
 
 
-分块计算方法在实践中带来了可观的性能提升。块宽的最优取值通过在测试平台（Intel Xeon Gold 6338）上对若干候选值（128、256、512、1024）进行基准测试确定：块宽 512 时耗时最短，这与其硬件对齐特性一致——512 为 2 的幂次（$2^9$），与 CPU 缓存行（cache line，通常 64 字节）对齐良好；512 个 float32 元素仅占 2 KB，可完整驻留于 L1 数据缓存（32 KB），从而最大化缓存命中率。块宽过小（如 128）时分块开销相对增大，过大（如 1024）时数据超出 L1 缓存导致命中率下降，故 512 为该平台上的经验最优值。在块宽设置为 512 时，探测器响应矩阵的构造时间从约 55 ms 降至约 27 ms，约为 $2\times$ 的加速比。该方法之所以有效，主要在于它充分利用了数据局部性（data locality），使得对 $\operatorname{erf}$ 等数值操作的调用更容易命中高速缓存，减少了重复 I/O 与索引开销，从而降低了整体运行时间与资源消耗。
+分块计算方法在实践中带来了可观的性能提升。块宽的最优取值通过在测试平台（Intel Xeon Gold 6338）上对若干候选值（128、256、512、1024）进行基准测试确定：块宽 512 时耗时最短，这与其硬件对齐特性一致——512 为 2 的幂次（$2^9$），与 CPU 缓存行（cache line，通常 64 字节）对齐良好；512 个 float32 元素仅占 2~KB，可完整驻留于 L1 数据缓存（32~KB），从而最大化缓存命中率。块宽过小（如 128）时分块开销相对增大，过大（如 1024）时数据超出 L1 缓存导致命中率下降，故 512 为该平台上的经验最优值。在块宽设置为 512 时，探测器响应矩阵的构造时间从约 55~ms 降至约 27~ms，约为 $2\times$ 的加速比。该方法之所以有效，主要在于它充分利用了数据局部性（data locality），使得对 $\operatorname{erf}$ 等数值操作的调用更容易命中高速缓存，减少了重复 I/O 与索引开销，从而降低了整体运行时间与资源消耗。
+
+\paragraph*{手动分块与编译器自动优化的权衡}\mbox{}\\
+这里有必要说明：现代编译器（如 GCC 13 / Clang 17 在 \texttt{-O3 -march=native} 下）对简单的稠密矩阵循环已经具备较强的自动向量化（auto-vectorization）、循环分块（loop tiling）与预取（prefetching）能力，因此对教科书式的稠密 GEMM 而言，手动分块往往相对于已经高度调优的 BLAS 实现并不会带来额外收益，反而可能因削弱编译器的整体视野而降低效率。本工作的响应矩阵构造在三个维度上均超出了编译器自动优化的有效范围：第一，循环体内含误差函数 $\operatorname{erf}$ 这一特殊函数调用，编译器通常无法对其内联展开，因而无法执行跨整行的向量化；第二，构造过程依赖于按列累加的依赖链，循环不可自由重排，自动分块启发式（如 Polly、loop-nest optimizer）在本场景下往往选择不进行分块；第三，我们的实现基于 PyTorch 动态图，底层张量算子由框架在运行时分发，编译器在 Python 侧看不到完整循环结构，亦无从施加循环级优化。基于上述三点，我们选择仅在编译器无法有效向量化的复杂张量收缩环节（即响应矩阵的 $\operatorname{erf}$ 批量求值与按列累加）进行手动分块与块宽调优，对其余常规稠密矩阵—向量乘法等编译器已能良好优化的部分则完全交由 PyTorch/BLAS 后端处理，避免过度工程化（over-engineering）。实测中，手动分块相对于直接让 PyTorch 按默认方式构造整张响应矩阵额外带来约 $2\times$ 加速；若在不含 $\operatorname{erf}$ 的纯稠密矩阵乘法环节强行引入同样的手动分块，反而会破坏 BLAS 的并行调度、使该环节耗时上升约 15\%，这一对照实验从反面印证了"仅在编译器盲区手动优化、编译器可见处保持原生调用"的权衡策略的合理性。
 
 \subsection{加速结果}
 本节评估在中微子能谱拟合中应用各类优化技术所带来的性能提升。所有基准测试均在同一台服务器上进行，测试平台为 Intel Xeon Gold 6338（2.00 GHz）。我们考察了三类主要的加速策略：

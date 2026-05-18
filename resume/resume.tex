@@ -136,9 +136,9 @@
 \section{个人技能}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{编程语言}{: \textbf{C/C++}（熟练，掌握内存管理与底层优化）、Python、Shell 脚本；LaTeX（精通）} \\
+     \textbf{编程语言}{: \textbf{C/C++}（熟练，掌握内存管理与底层优化）、Python、Pytorch、Shell 脚本；LaTeX} \\
      \textbf{高性能计算 (HPC)}{: \textbf{PyTorch (autograd)} 张量化建模与批处理、算法\textbf{张量化表示}重构、多核 / 集群并行、分布式作业提交} \\
-     \textbf{性能调优}{: Linux \texttt{perf}、Hotspot 性能剖析；热点函数级底层优化（实测 3$\sim$10$\times$ 加速）} \\
+     \textbf{性能调优}{: Linux \texttt{perf}、Hotspot 性能剖析；热点函数级底层优化} \\
      \textbf{工程工具}{: Linux 开发环境、Git 协同开发、CMake / Makefile 构建系统、Claude Code 等 Agentic 编程工具} \\
      \textbf{数据与统计}{: 大规模蒙特卡洛模拟、Feldman--Cousins 统计方法、核数据库处理与谱构建}
     }}
@@ -149,30 +149,34 @@
   \resumeSubHeadingListStart
 
     \resumeResearchHeading
-      {JUNO 反应堆中微子拟合框架 —— 算法优化与框架级重构}{2023.09 -- 至今}
+      {高性能前向折叠能谱拟合框架的开发与加速实现}{2023.09 -- 至今}
       \resumeItemListStart
-        \resumeItem{\textbf{JUNO 反应堆中微子拟合算法的框架级重构} \hfill \textbf{\color{MyDarkBlue}[核心开发]}}
-        \resumeItem{将谱预测与似然评估\textbf{张量化 / 批处理}，消除大量循环与内存搬运，实现\textbf{整体约 10 倍加速}，显著降低 CPU 成本。}
-        \resumeItem{形成可在常规算力下稳定运行的 Feldman--Cousins 工程化流程，大幅提升大规模参数扫描的可行性；框架可复用于其他基于正向折叠能谱的中微子实验。}
-        \resumeItem{成果发表于 \textbf{\textit{Eur. Phys. J. C} 85 (2025) 1420}（第一作者，IF 4.8，中科院二区），并在第 25 届 JUNO 国际合作会议作主题报告。}
-        \resumeItem{已被高能物理研究所采纳用于反应堆中微子振荡分析，并应用于 \textbf{JUNO 首篇物理论文}的振荡分析。}
+        \resumeItem{\textbf{自研张量化前向折叠拟合框架的设计与性能优化} \hfill \textbf{\color{MyDarkBlue}[独立设计 / 核心开发 / 第一作者]}}
+        \resumeItem{从零设计框架架构，将“反应堆能谱 $\to$ IBD 微分截面 $\to$ 沉积能量谱 $\to$ 探测器响应 $\to$ 重建能谱”的多层卷积链路重构为\textbf{四级张量算子级联}，并将系统误差统一编码为冗余参数嵌入 $\chi^2$，使整条链路在 PyTorch 计算图上端到端可微；张量化重构能谱计算。}
+        \resumeItem{基于 Profiling 自顶向下定位热点（信号谱计算占 98.6\%），实施三项优化：\textbf{分层缓存}（静态量预计算 + 函数级 memoization，约 3$\times$）、\textbf{带状稀疏矩阵}（CSR 存储，矩阵-向量乘 $O(N^2)\to O(N\cdot w)$，约 1.5$\times$）、\textbf{分块张量化构造}（块宽 512，临时张量驻留 L2 缓存，约 1.5$\times$）。}
+        \resumeItem{单次拟合耗时由 \textbf{110\,s 降至 15.2\,s}，叠加张量化重构总体加速超一个数量级；双精度基准下相对误差 $< 10^{-6}$，5000 组 Toy-MC 收敛成功率达 100\%。}
+        \resumeItem{框架支撑了 \textbf{500 万次拟合}的全量 FC 覆盖率构造，成果发表于 \textbf{\textit{Eur. Phys. J. C} 85 (2025) 1420}（第一作者，IF 4.8，中科院二区），被 JUNO 合作组采纳为基础分析工具，并在第 25 届 JUNO 国际合作会议作主题报告。}
       \resumeItemListEnd
 
     \resumeResearchHeading
-      {大规模蒙特卡洛模拟与统计方法研究}{2024.01 -- 2025.06}
+      {大规模 MC 模拟与统计方法研究}{2024.01 -- 2025.06}
       \resumeItemListStart
-        \resumeItem{\textbf{基于 Toy MC 的统计偏差与 Feldman--Cousins 方法研究} \hfill \textbf{\color{MyDarkBlue}[第一作者]}}
-        \resumeItem{通过大规模 Toy MC 实验量化低统计量下的拟合偏差，发现增大重建能谱分 bin 宽度可减小高斯近似（CNP / Pearson）偏差，100\,keV bin 宽偏差最小 —— 被 JUNO 首篇论文采纳为分 bin 策略。}
-        \resumeItem{基于核数据库构建 summation 反应堆能谱并生成精细结构变化谱，量化\textbf{反应堆模型依赖}引入的系统误差；优化分 bin 后对 $\sin^2\theta_{12}$、$\Delta m_{21}^2$ 的额外系统误差 $<$ \textbf{0.3\%}（结果被 arXiv:2511.14593 采纳）。}
-        \resumeItem{针对低统计量下 Wilks 定理失效问题，用 \textbf{Feldman--Cousins} 方法构建 $\Delta\chi^2$ 分布以保证置信区间覆盖率正确，并评估 Wilks 近似的适用范围，为首篇论文振荡参数结果的报告策略提供统计依据。}
+        \resumeItem{\textbf{① 能谱分 bin 策略研究} \hfill \textbf{\color{MyDarkBlue}[核心开发]}}
+        \resumeItem{搭建支持 5{,}000$\sim$10{,}000 个伪实验的自动化 Toy-MC 流水线，覆盖 56$\sim$560 bins 多种配置；以分位数（第 16/84 百分位）非参数化定义偏差指标，规避高斯近似假设。}
+        \resumeItem{将重建能谱 bin 宽由 20\,keV 调整至 \textbf{100\,keV} 后，关键参数统计偏差由 0.8$\sigma$ 降至 $<$ \textbf{0.2$\sigma$}；模型能谱在约 300\,keV 段宽处模型依赖系统误差最小（$<$ \textbf{0.3\%}）—— 被 JUNO 首篇物理论文采纳为分 bin 策略（Nature, arXiv:2511.14593）。}
+        \resumeItem{\textbf{② Feldman--Cousins 方法的工程化实现} \hfill \textbf{\color{MyDarkBlue}[核心开发]}}
+        \resumeItem{将 FC 构造分解为 50 网格点 $\times$ 5{,}000 伪实验 $\times$ 20 多起始点 = \textbf{500 万次独立拟合}，在 1{,}000+ 核 HPC 集群上并行编排；针对似然面多极小值采用多起始点全局优化。}
+        \resumeItem{由经验 $\Delta\chi^2$ 分布提取临界值 \textbf{$\Delta\chi^2 \approx 1.57$}（显著高于渐近近似的 1.0），定量证实 Wilks 定理在低统计量下失效；约 8\% 伪实验出现不连续置信区间，相关统计策略建议被JUNO 首篇物理论文采纳（Nature, arXiv:2511.14593）。}
       \resumeItemListEnd
 
     \resumeResearchHeading
-      {JUNO OMILREC 事例重建算法 —— 性能剖析与底层优化}{2024.06 -- 2024.12}
+      {OMILREC 事例重建算法的加速实现}{2024.06 -- 2024.12}
       \resumeItemListStart
-        \resumeItem{\textbf{C++ 事例重建算法的性能剖析与热点优化} \hfill \textbf{\color{MyDarkBlue}[核心开发]}}
-        \resumeItem{基于 Linux \texttt{perf} 与 Hotspot 对 OMILREC 重建算法进行性能剖析，针对关键热点函数实施底层优化，最终\textbf{速度提升 3 倍}。}
-        \resumeItem{成果在第 26 届 JUNO 国际合作会议作主题报告。}
+        \resumeItem{\textbf{C++ 事例重建算法的性能剖析与底层优化} \hfill \textbf{\color{MyDarkBlue}[核心开发]}}
+        \resumeItem{基于 Linux \texttt{perf} + Hotspot 进行性能剖析，定位关键热点函数并实施底层优化。}
+        \resumeItem{引入\textbf{稀疏化计算}，按事例信息筛选有效 PMT、跳过无贡献 PMT，避免对全部 PMT 的无效遍历。}
+        \resumeItem{通过\textbf{并行计算}与几何计算\textbf{向量化}进一步压缩单次重建耗时。}
+        \resumeItem{将与拟合参数无关的计算\textbf{移出 Minuit 似然循环}，预计算后复用，消除迭代中的重复开销；最终\textbf{速度提升 3 倍}，并在第 26 届 JUNO 国际合作会议作主题报告。}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
@@ -184,7 +188,7 @@
     \resumeItem{\textbf{[会议一作]} J.~Xue, ``The accelerated reactor neutrino fitter and oscillation analysis of JUNO,'' \textit{PoS}.}
     \resumeItem{\textbf{[合作组]} JUNO Collaboration, ``First measurement of reactor neutrino oscillations at JUNO,'' arXiv:2511.14593.}
     \resumeItem{\textbf{[合作组]} JUNO Collaboration, ``Initial performance results of the JUNO detector,'' \textit{Chinese Physics C} (2026).}
-    \resumeItem{\textbf{[口头报告]} 第 25 / 26 届 JUNO 国际合作会议：\textit{The accelerated reactor fitter}；\textit{Reducing Bias in Low Exposure: Poisson Method and Binning Strategies}；\textit{Speedup of OMILREC}。}
+    \resumeItem{\textbf{[主题报告]} 第 25 / 26 届 JUNO 国际合作会议：\textit{The accelerated reactor fitter}；\textit{Reducing Bias in Low Exposure: Poisson Method and Binning Strategies}；\textit{Speedup of OMILREC}。}
     \resumeItem{\textbf{[Poster]} TAUP 2025 国际会议：\textit{The accelerated reactor fitter and Oscillation analysis for JUNO}。}
   \resumeItemListEnd
 
@@ -192,11 +196,11 @@
 \section{荣誉奖项}
   \resumeSubHeadingListStart
     \resumeProjectHeading
-      {\textbf{国家奖学金}（教育部，研究生 \& 本科共获两次）}{研究生 / 本科}
+      {\textbf{国家奖学金}（教育部，研究生 \& 本科共获两次，Top 0.2\% 顶尖荣誉）}{研究生 / 本科}
     \resumeProjectHeading
       {\textbf{三好学生} \ \& \ \textbf{所长奖学金}（中国科学院大学 / 高能物理研究所）}{研究生}
     \resumeProjectHeading
-      {\textbf{校级“优秀毕业生”} \ \& \ \textbf{校长奖学金提名奖}（全院仅 20 名）}{本科}
+      {\textbf{校级“优秀毕业生”} \ \& \ \textbf{校长奖学金提名奖}（全院仅 20 名，Top 0.2\% 顶尖荣誉）}{本科}
     \resumeProjectHeading
       {\textbf{全国大学生数学竞赛} 省一等奖（连续两届）}{本科}
     \resumeProjectHeading

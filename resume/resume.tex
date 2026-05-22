@@ -108,7 +108,7 @@
     \href{mailto:xuejingqin@ihep.ac.cn}{\underline{xuejingqin@ihep.ac.cn}} $|$
     +86 151-1030-9796 $|$
     中国科学院大学 $\cdot$ 高能物理研究所 $|$
-    求职方向：算法 / 软件开发
+    
 \end{center}
 
 %----------- 教育背景 -----------
@@ -154,7 +154,7 @@
         \resumeItem{\textbf{张量化前向折叠拟合框架的设计与性能优化} \hfill \textbf{\color{MyDarkBlue}[独立设计 / 核心开发 / 第一作者]}}
         \resumeItem{从零设计框架架构，将“反应堆能谱 $\to$ IBD 微分截面 $\to$ 沉积能量谱 $\to$ 探测器响应 $\to$ 重建能谱”的多层卷积链路重构为\textbf{四级张量算子级联}，并将系统误差统一编码为冗余参数嵌入 $\chi^2$，使整条链路在 PyTorch 计算图上端到端可微；张量化重构能谱计算。}
         \resumeItem{基于 Profiling 自顶向下定位热点（信号谱计算占 98.6\%），实施三项优化：\textbf{分层缓存}（静态量预计算 + 函数级 memoization，约 3$\times$）、\textbf{带状稀疏矩阵}（CSR 存储，矩阵-向量乘 $O(N^2)\to O(N\cdot w)$，约 1.5$\times$）、\textbf{分块张量化构造}（块宽 512，临时张量驻留 L2 缓存，约 1.5$\times$）。}
-        \resumeItem{单次拟合耗时由 \textbf{110\,s 降至 15.2\,s}，叠加张量化重构总体加速超一个数量级；双精度基准下相对误差 $< 10^{-6}$，5000 组 Toy-MC 收敛成功率达 100\%。}
+        \resumeItem{JUNO only 拟合单次耗时由 \textbf{110\,s 降至 15.2\,s}；JUNO + DYB 联合拟合单次耗时由 \textbf{50\,min 降至 5\,min}，叠加张量化重构总体加速超一个数量级；双精度基准下相对误差 $< 10^{-6}$，5000 组 Toy-MC 收敛成功率达 100\%。}
         \resumeItem{框架支撑了 \textbf{500 万次拟合}的全量 FC 覆盖率构造，成果发表于 \textbf{\textit{Eur. Phys. J. C} 85 (2025) 1420}（第一作者，IF 4.8，中科院二区），被 JUNO 合作组采纳为基础分析工具，并在第 25 届 JUNO 国际合作会议作主题报告。}
       \resumeItemListEnd
 

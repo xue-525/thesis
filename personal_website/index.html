@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="page.title">薛景秦 · 个人主页</title>
+  <meta name="description" content="薛景秦 (Jingqin Xue) — 中国科学院大学 高能物理研究所 · 粒子物理与原子核物理 · 个人主页" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============== 顶部导航 ============== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#top">
+        <span data-i18n="nav.brand">薛景秦</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#about"        data-i18n="nav.about">关于</a>
+        <a href="#education"    data-i18n="nav.edu">教育</a>
+        <a href="#skills"       data-i18n="nav.skills">技能</a>
+        <a href="#research"     data-i18n="nav.research">科研项目</a>
+        <a href="#publications" data-i18n="nav.pub">学术成果</a>
+        <a href="#honors"       data-i18n="nav.honors">荣誉</a>
+      </nav>
+      <button id="langToggle" class="lang-toggle" aria-label="Switch language">EN</button>
+    </div>
+  </header>
+
+  <!-- ============== Hero ============== -->
+  <section id="top" class="hero">
+    <div class="hero-inner">
+      <div class="hero-photo">
+        <img src="assets/photo.jpg" alt="Jingqin Xue" />
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-name">
+          <span data-i18n="hero.name">薛景秦</span>
+          <span class="hero-name-en">Jingqin Xue</span>
+        </h1>
+        <p class="hero-affil" data-i18n="hero.affil">
+          中国科学院大学 · 中国科学院高能物理研究所<br/>
+          粒子物理与原子核物理 · 硕士研究生
+        </p>
+        <p class="hero-tags" data-i18n="hero.tags">
+          反应堆中微子 · 高性能科学计算 · 张量化建模 · 频率学统计推断
+        </p>
+        <ul class="hero-contact">
+          <li>
+            <span class="ico">✉</span>
+            <a href="mailto:xuejingqin@ihep.ac.cn">xuejingqin@ihep.ac.cn</a>
+          </li>
+          <li>
+            <span class="ico">☎</span>
+            <span>+86 151-1030-9796</span>
+          </li>
+          <li>
+            <span class="ico">⌂</span>
+            <span data-i18n="hero.location">北京 · 玉泉路 19 号</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- ============== About ============== -->
+    <section id="about" class="card">
+      <h2 class="section-title" data-i18n="about.title">关于我</h2>
+      <p data-i18n="about.p1">
+        我是中国科学院大学（高能物理研究所）粒子物理与原子核物理方向的硕士研究生，目前在 JUNO（江门中微子实验）合作组从事反应堆中微子振荡参数测量与高性能科学计算方面的研究。
+      </p>
+      <p data-i18n="about.p2">
+        我的兴趣集中在<strong>把物理分析问题工程化</strong>——从零设计可微的张量化拟合框架、对底层热点函数做剖析与优化、把传统统计方法（如 Feldman–Cousins）改造为可在千核集群上百万次运行的工程系统。我以第一作者身份在 <em>Eur. Phys. J. C</em> 发表了相关方法学论文，相关工作被合作组采纳为基础分析工具，并支持了 JUNO 首篇物理论文（Nature 投稿）。
+      </p>
+    </section>
+
+    <!-- ============== Education ============== -->
+    <section id="education" class="card">
+      <h2 class="section-title" data-i18n="edu.title">教育背景</h2>
+
+      <article class="edu-item">
+        <header class="edu-head">
+          <div>
+            <h3 data-i18n="edu.ucas.school">中国科学院大学（高能物理研究所）</h3>
+            <p class="edu-meta" data-i18n="edu.ucas.degree">硕士 · 粒子物理与原子核物理 · 北京</p>
+          </div>
+          <span class="edu-date">2023.09 – Present</span>
+        </header>
+        <ul>
+          <li data-i18n="edu.ucas.l1"><strong>GPA：3.2 / 4.0</strong>　|　<strong>主要荣誉：</strong>三好学生、国家奖学金、所长奖学金</li>
+          <li data-i18n="edu.ucas.l2"><strong>一作论文：</strong>发表于 <em>Eur. Phys. J. C</em> 85 (2025) 1420（IF 4.8，中科院二区）</li>
+          <li data-i18n="edu.ucas.l3"><strong>英语水平：</strong>CET-4 / CET-6</li>
+        </ul>
+      </article>
+
+      <article class="edu-item">
+        <header class="edu-head">
+          <div>
+            <h3 data-i18n="edu.nuc.school">中北大学（半导体与物理学院）</h3>
+            <p class="edu-meta" data-i18n="edu.nuc.degree">本科 · 应用物理学 · 太原，山西</p>
+          </div>
+          <span class="edu-date">2019.09 – 2023.06</span>
+        </header>
+        <ul>
+          <li data-i18n="edu.nuc.l1"><strong>GPA：4.30 / 5.0</strong>　|　<strong>专业排名：1 / 100（Top 1%）</strong>　|　<strong>保送研究生</strong></li>
+          <li data-i18n="edu.nuc.l2">校级"优秀毕业生"、校长奖学金提名奖（全院仅 20 名）、国家奖学金</li>
+          <li data-i18n="edu.nuc.l3">连续两届全国大学生数学竞赛省一等奖、全国大学生数学建模竞赛省二等奖、美赛 H 奖</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ============== Skills ============== -->
+    <section id="skills" class="card">
+      <h2 class="section-title" data-i18n="skills.title">个人技能</h2>
+      <div class="skills-grid">
+        <div class="skill-block">
+          <h4 data-i18n="skills.lang.h">编程语言</h4>
+          <p data-i18n="skills.lang.p"><strong>C/C++</strong>（熟练，掌握内存管理与底层优化）、Python、PyTorch、Shell 脚本、LaTeX</p>
+        </div>
+        <div class="skill-block">
+          <h4 data-i18n="skills.hpc.h">高性能计算（HPC）</h4>
+          <p data-i18n="skills.hpc.p"><strong>PyTorch (autograd)</strong> 张量化建模与批处理、算法<strong>张量化表示</strong>重构、多核 / 集群并行、分布式作业提交</p>
+        </div>
+        <div class="skill-block">
+          <h4 data-i18n="skills.perf.h">性能调优</h4>
+          <p data-i18n="skills.perf.p">Linux <code>perf</code>、Hotspot 性能剖析；热点函数级底层优化</p>
+        </div>
+        <div class="skill-block">
+          <h4 data-i18n="skills.tools.h">工程工具</h4>
+          <p data-i18n="skills.tools.p">Linux 开发环境、Git 协同开发、CMake / Makefile 构建系统、Claude Code 等 Agentic 编程工具</p>
+        </div>
+        <div class="skill-block">
+          <h4 data-i18n="skills.data.h">数据与统计</h4>
+          <p data-i18n="skills.data.p">大规模蒙特卡洛模拟、Feldman–Cousins 统计方法、核数据库处理与谱构建</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== Research / Projects ============== -->
+    <section id="research" class="card">
+      <h2 class="section-title" data-i18n="research.title">科研与项目经历</h2>
+
+      <!-- 项目 1 -->
+      <article class="proj-item">
+        <header class="proj-head">
+          <h3 data-i18n="proj1.title">高性能前向折叠能谱拟合框架的开发与加速实现</h3>
+          <span class="proj-date">2023.09 – Present</span>
+        </header>
+        <p class="proj-role" data-i18n="proj1.role">独立设计 · 核心开发 · 第一作者</p>
+        <ul class="proj-list">
+          <li data-i18n="proj1.l1">从零设计框架架构，将"反应堆能谱 → IBD 微分截面 → 沉积能量谱 → 探测器响应 → 重建能谱"的多层卷积链路重构为<strong>四级张量算子级联</strong>，系统误差统一编码为冗余参数嵌入 <em>χ²</em>，整条链路在 PyTorch 计算图上端到端可微分。</li>
+          <li data-i18n="proj1.l2">基于 Profiling 自顶向下定位热点（信号谱计算占 98.6%），实施三项优化：<strong>分层缓存</strong>（静态预计算 + 函数级 memoization，约 3×）、<strong>带状稀疏矩阵</strong>（CSR 存储，O(N²) → O(N·w)，约 1.5×）、<strong>分块张量化构造</strong>（块宽 512，临时张量驻留 L2，约 1.5×）。</li>
+          <li data-i18n="proj1.l3">JUNO only 拟合单次耗时由 <strong>110 s → 15.2 s</strong>；JUNO + DYB 联合拟合单次耗时由 <strong>50 min → 5 min</strong>，叠加张量化重构总体加速超一个数量级；双精度基准下相对误差 &lt; 10⁻⁶，5000 组 Toy-MC 收敛成功率 100%。</li>
+          <li data-i18n="proj1.l4">框架支撑了 <strong>500 万次拟合</strong> 的全量 FC 覆盖率构造，成果发表于 <strong><em>Eur. Phys. J. C</em> 85 (2025) 1420</strong>，被 JUNO 合作组采纳为基础分析工具，并在第 25 届 JUNO 国际合作会议作主题报告。</li>
+        </ul>
+        <p class="proj-stack" data-i18n="proj1.stack"><strong>技术栈：</strong>Python · PyTorch · NumPy · Linux Profiling · CSR Sparse · Tiling · LRU Cache · CPU 缓存局部性</p>
+      </article>
+
+      <!-- 项目 2 -->
+      <article class="proj-item">
+        <header class="proj-head">
+          <h3 data-i18n="proj2.title">大规模 Monte Carlo 模拟与能谱分箱策略研究</h3>
+          <span class="proj-date">2024.01 – 2024.12</span>
+        </header>
+        <p class="proj-role" data-i18n="proj2.role">核心开发</p>
+        <ul class="proj-list">
+          <li data-i18n="proj2.l1">搭建支持 5,000–10,000 个伪实验的自动化 Toy-MC 流水线，覆盖 56–560 bins 多种配置；以分位数（第 16/84 百分位）非参数化定义偏差指标，规避高斯近似假设。</li>
+          <li data-i18n="proj2.l2">将重建能谱 bin 宽由 20 keV 调整至 <strong>100 keV</strong> 后，关键参数统计偏差由 0.8σ 降至 <strong>&lt; 0.2σ</strong>；模型能谱在约 300 keV 段宽处模型依赖系统误差最小（<strong>&lt; 0.3%</strong>）。</li>
+          <li data-i18n="proj2.l3">分箱与分段策略被 JUNO 首篇物理论文采纳（Nature 投稿，arXiv:2511.14593）。</li>
+        </ul>
+        <p class="proj-stack" data-i18n="proj2.stack"><strong>技术栈：</strong>Python · NumPy · SciPy · 大规模 Monte Carlo · 协方差矩阵分析 · 参数化降维</p>
+      </article>
+
+      <!-- 项目 3 -->
+      <article class="proj-item">
+        <header class="proj-head">
+          <h3 data-i18n="proj3.title">Feldman–Cousins 统计推断框架的工程化与集群部署</h3>
+          <span class="proj-date">2024.06 – 2025.06</span>
+        </header>
+        <p class="proj-role" data-i18n="proj3.role">核心开发 · 统计推断方案负责人</p>
+        <ul class="proj-list">
+          <li data-i18n="proj3.l1">将 FC 构造分解为 50 网格点 × 5,000 伪实验 × 20 多起始点 = <strong>500 万次独立拟合</strong>，在 1,000+ 核 HPC 集群上并行编排；针对似然面多极小值采用多起始点全局优化。</li>
+          <li data-i18n="proj3.l2">由经验 Δχ² 分布提取临界值 <strong>Δχ² ≈ 1.57</strong>（显著高于渐近近似 1.0），定量证实 Wilks 定理在低统计量下失效；约 8% 伪实验出现不连续置信区间。</li>
+          <li data-i18n="proj3.l3">相关统计策略建议被 JUNO 首篇物理论文采纳（Nature 投稿，arXiv:2511.14593）。</li>
+        </ul>
+        <p class="proj-stack" data-i18n="proj3.stack"><strong>技术栈：</strong>Python · PyTorch · HPC 集群调度 · 分布式并行 · 似然比检验</p>
+      </article>
+
+      <!-- 项目 4 -->
+      <article class="proj-item">
+        <header class="proj-head">
+          <h3 data-i18n="proj4.title">OMILREC 事例重建算法的加速实现</h3>
+          <span class="proj-date">2024.06 – 2024.12</span>
+        </header>
+        <p class="proj-role" data-i18n="proj4.role">核心开发 · 性能优化负责人</p>
+        <ul class="proj-list">
+          <li data-i18n="proj4.l1">基于 Linux <code>perf</code> + Hotspot 在生产负载下进行性能剖析，定位关键热点函数并实施底层优化。</li>
+          <li data-i18n="proj4.l2">引入<strong>稀疏化计算</strong>，按事例信息筛选有效 PMT、跳过无贡献 PMT；通过<strong>多核并行</strong>与几何计算<strong>向量化</strong>进一步压缩单事例耗时。</li>
+          <li data-i18n="proj4.l3">将与拟合参数无关的几何量<strong>移出 Minuit 似然循环</strong>，预计算后复用，消除迭代中的重复开销。</li>
+          <li data-i18n="proj4.l4">最终<strong>速度提升约 3 倍</strong>，输出与原算法逐事例一致（相对误差 ≲ 10⁻⁹），并在第 26 届 JUNO 国际合作会议作主题报告。</li>
+        </ul>
+        <p class="proj-stack" data-i18n="proj4.stack"><strong>技术栈：</strong>C++ · Linux perf · Hotspot · Minuit · CMake</p>
+      </article>
+
+    </section>
+
+    <!-- ============== Publications & Talks ============== -->
+    <section id="publications" class="card">
+      <h2 class="section-title" data-i18n="pub.title">学术成果与会议报告</h2>
+      <ul class="pub-list">
+        <li>
+          <span class="badge badge-first" data-i18n="pub.badge.first">期刊一作</span>
+          <span data-i18n="pub.p1">J. Xue, X. Ding, et al., "High-Performance Statistical Methods for Reactor Neutrino Oscillations," <em>Eur. Phys. J. C</em> <strong>85</strong> (2025) 1420.</span>
+        </li>
+        <li>
+          <span class="badge badge-first" data-i18n="pub.badge.conf">会议一作</span>
+          <span data-i18n="pub.p2">J. Xue, "The accelerated reactor neutrino fitter and oscillation analysis of JUNO," <em>PoS</em>.</span>
+        </li>
+        <li>
+          <span class="badge" data-i18n="pub.badge.collab">合作组</span>
+          <span data-i18n="pub.p3">JUNO Collaboration, "First measurement of reactor neutrino oscillations at JUNO," arXiv:2511.14593.</span>
+        </li>
+        <li>
+          <span class="badge" data-i18n="pub.badge.collab2">合作组</span>
+          <span data-i18n="pub.p4">JUNO Collaboration, "Initial performance results of the JUNO detector," <em>Chinese Physics C</em> (2026).</span>
+        </li>
+        <li>
+          <span class="badge badge-talk" data-i18n="pub.badge.talk">主题报告</span>
+          <span data-i18n="pub.p5">第 25 届江门中微子国际合作会议：<em>The accelerated reactor fitter</em>。</span>
+        </li>
+        <li>
+          <span class="badge badge-talk" data-i18n="pub.badge.talk2">主题报告</span>
+          <span data-i18n="pub.p6">第 26 届江门中微子国际合作会议：<em>Reducing Bias in Low Exposure: Poisson Method and Binning Strategies</em>。</span>
+        </li>
+        <li>
+          <span class="badge badge-talk" data-i18n="pub.badge.talk3">主题报告</span>
+          <span data-i18n="pub.p7">第 26 届江门中微子国际合作会议：<em>Speedup of OMILREC</em>。</span>
+        </li>
+        <li>
+          <span class="badge badge-poster" data-i18n="pub.badge.poster">Poster</span>
+          <span data-i18n="pub.p8">TAUP 2025 国际会议：<em>The accelerated reactor fitter and Oscillation analysis for JUNO</em>。</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============== Honors ============== -->
+    <section id="honors" class="card">
+      <h2 class="section-title" data-i18n="honors.title">荣誉奖项</h2>
+      <ul class="honor-list">
+        <li data-i18n="honors.l1"><strong>国家奖学金</strong>（教育部，研究生 &amp; 本科共获两次，Top 0.2% 顶尖荣誉）</li>
+        <li data-i18n="honors.l2"><strong>三好学生 &amp; 所长奖学金</strong>（中国科学院大学 / 高能物理研究所）</li>
+        <li data-i18n="honors.l3"><strong>校级"优秀毕业生" &amp; 校长奖学金提名奖</strong>（全院仅 20 名，Top 0.2%）</li>
+        <li data-i18n="honors.l4"><strong>全国大学生数学竞赛</strong> 省一等奖（连续两届）</li>
+        <li data-i18n="honors.l5"><strong>美国大学生数学建模竞赛 (MCM/ICM)</strong> H 奖 &amp; <strong>全国大学生数学建模竞赛</strong> 省二等奖</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>
+      <span data-i18n="footer.copy">© 2026 薛景秦 · Built with HTML/CSS/JS</span>
+      　·
+      <a href="mailto:xuejingqin@ihep.ac.cn">xuejingqin@ihep.ac.cn</a>
+    </p>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
